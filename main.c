@@ -7,7 +7,7 @@ int	all_spaces(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] > 8 && str[i] < 14 || str[i] == 32)
+		if ((str[i] > 8 && str[i] < 14) || str[i] == 32)
 			i++;
 		else
 			return (0);
@@ -38,12 +38,13 @@ int	not_words(char *str, int i)
 		return (0);
 }
 
-void save_tokens(char *str, t_token *lst)
+void save_tokens(char *str, t_token **lst)
 {
 	int	i;
 	int	start;
 	int j;
 	char	*word;
+    char *separator;
 
 	i = 0;
 	start = 0;
@@ -56,9 +57,9 @@ void save_tokens(char *str, t_token *lst)
 	{
 		if (not_words(str, i))
 		{
-			if (i != start)
+            if (i != start)
 			{
-				word = malloc(sizeof(char) * (i - start + 2));
+				word = malloc(sizeof(char) * (i - start + 1));
 				j = 0;
 				while (start < i)
 				{
@@ -67,22 +68,52 @@ void save_tokens(char *str, t_token *lst)
 					j++;
 				}
 				word[j] = '\0';
-				lst_add_back(&lst, lst_create(word, WORD));
+                if (word[0] == '$')
+                    lst_add_back(lst, lst_create(word, VAR));
+                else
+				    lst_add_back(lst, lst_create(word, WORD));
+                free(word);
 			}
-			lst_add_back(&lst, lst_create(NULL, not_words(str, i)));
+            separator = malloc(sizeof(char) * 2);
+            separator[0] = str[i];
+            separator[1] = '\0';
+			lst_add_back(lst, lst_create(separator, not_words(str, i)));
+            free(separator);
 			start = i + 1;
 		}
 		i++;
 	}
+    if (i != start)
+    {
+        word = malloc(sizeof(char) * (i - start + 1)); 
+        j = 0;
+        while (start < i)
+        {
+            word[j++] = str[start++];
+        }
+        word[j] = '\0';
+        if (word[0] == '$')
+            lst_add_back(lst, lst_create(word, VAR));
+        else
+		   lst_add_back(lst, lst_create(word, WORD));
+    }
+    lst_add_back(lst, lst_create("\0", DONE));
+    free(word);
 }
 
-void	ft_lstiter(t_token *lst)
+void	free_lst(t_token **lst)
 {
-	while (lst)
+	t_token	*head;
+
+	if (!lst || !(*lst))
+		return ;
+	while ((*lst)->next != NULL)
 	{
-		printf("%s : %i\n", lst->txt, lst->type);
-		lst = lst->next;
+		head = (*lst)->next;
+		free(*lst);
+		*lst = head;
 	}
+	free(*lst);
 }
 
 int	main()
@@ -90,15 +121,16 @@ int	main()
 	char	*input;
 	t_token	*token_lst;
 
-	token_lst = NULL;
+	
 	while (1)
-	{
+	{token_lst = NULL;
 		input = readline("minishell> ");
 		if (parsing(input))
-			save_tokens(input, token_lst);
+            save_tokens(input, &token_lst);
+        print_list(token_lst);
 		free(input);
+        free_lst(&token_lst);
 	}
-	ft_lstiter(token_lst);
+	
 	return (0);
 }
-

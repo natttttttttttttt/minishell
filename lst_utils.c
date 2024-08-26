@@ -4,7 +4,7 @@ t_token	*lst_create(char *str, t_type type)
 {
 	t_token	*new;
 
-	new = malloc(sizeof(t_token));
+	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
 	new->txt = ft_strdup(str);
@@ -26,20 +26,18 @@ t_token	*ft_lstlast(t_token *lst)
 
 void lst_add_back(t_token **lst, t_token *new)
 {
-	t_token *last;
-
     if (new)
-    {
-        if (*lst)
-        {
-            last = ft_lstlast(*lst);
-            last->next = new;
-            new->prev = last;
-        }
-        else
-            *lst = new;
-    }
+	{
+		if (*lst)
+		{
+			new->prev = ft_lstlast(*lst);
+			ft_lstlast(*lst)->next = new;
+		}
+		else
+			*lst = new;
+	}
 }
+
 char	*ft_strdup(char *src)
 {
 	char	*str;
@@ -60,4 +58,16 @@ char	*ft_strdup(char *src)
 	}
 	str[i] = '\0';
 	return (str);
+}
+
+void	print_list(t_token *lst)
+{
+	t_token	*node;
+
+	node = lst;
+	while (node != NULL)
+	{
+		printf("%d\n", (node->type));
+		node = node->next;
+	}
 }

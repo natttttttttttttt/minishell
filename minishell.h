@@ -37,4 +37,5 @@ t_token	*ft_lstlast(t_token *lst);
 t_token	*lst_create(char *str, t_type type);
 void	lst_add_back(t_token **lst, t_token *new);
 char	*ft_strdup(char *src);
+void	print_list(t_token *lst);
 #endif
