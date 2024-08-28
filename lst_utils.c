@@ -24,9 +24,9 @@ t_token	*ft_lstlast(t_token *lst)
 	return (lst);
 }
 
-void lst_add_back(t_token **lst, t_token *new)
+void	lst_add_back(t_token **lst, t_token *new)
 {
-    if (new)
+	if (new)
 	{
 		if (*lst)
 		{
@@ -38,28 +38,6 @@ void lst_add_back(t_token **lst, t_token *new)
 	}
 }
 
-char	*ft_strdup(char *src)
-{
-	char	*str;
-	int		i;
-
-	
-    if (!src)
-        return NULL;
-	i = 0;
-	while (src[i])
-		i++;
-	str = malloc((i + 1) * sizeof(char));
-	i = 0;
-	while (src[i])
-	{
-		str[i] = src[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
 void	print_list(t_token *lst)
 {
 	t_token	*node;
@@ -67,7 +45,22 @@ void	print_list(t_token *lst)
 	node = lst;
 	while (node != NULL)
 	{
-		printf("%d\n", (node->type));
+		printf("%s\n", (node->txt));
 		node = node->next;
 	}
+}
+
+void	free_lst(t_token **lst)
+{
+	t_token	*head;
+
+	if (!lst || !(*lst))
+		return ;
+	while ((*lst)->next != NULL)
+	{
+		head = (*lst)->next;
+		free(*lst);
+		*lst = head;
+	}
+	free(*lst);
 }
