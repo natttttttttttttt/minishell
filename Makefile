@@ -1,5 +1,5 @@
 NAME = minishell
-CC = gcc 
+CC = cc 
 CFLAGS = -g 
 LDFLAGS = -lreadline -lncurses  
 RM = rm -rf

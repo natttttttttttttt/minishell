@@ -8,11 +8,11 @@ int	not_words(char *str, int i)
 		return (PIPE);
 	else if (str[i] == '<' && str[i + 1] == '<')
 		return (HEREDOC);
-	else if (str[i] == '<' && str[i - 1] != '<')
+	else if (str[i] == '<')
 		return (INPUT);
 	else if (str[i] == '>' && str[i + 1] == '>')
 		return (APPEND);
-	else if (str[i] == '>' && str[i - 1] != '>')
+	else if (str[i] == '>')
 		return (OUTPUT);
 	else if (str[i] == '\0')
 		return (DONE);
@@ -20,7 +20,7 @@ int	not_words(char *str, int i)
 		return (0);
 }
 
-void	save_word(t_token **lst, char *str, int i, int start)
+void	save_word(t_token **lst, char *str, int i, int start, int q)
 {
 	char	*word;
 	int		j;
@@ -32,7 +32,7 @@ void	save_word(t_token **lst, char *str, int i, int start)
 		word[j++] = str[start++];
 	}
 	word[j] = '\0';
-	if (word[0] == '$')
+	if (ft_strchr(word, '$') && q != 1)
 		lst_add_back(lst, lst_create(word, VAR));
 	else
 		lst_add_back(lst, lst_create(word, WORD));
@@ -60,6 +60,32 @@ void	save_sep(t_token **lst, char *str, int i, int type)
 	free(separator);
 }
 
+void find_quotes(char *str, int *i, int *quotes)
+{
+	int tmp;
+
+	tmp = *i;
+	if (str[*i] == '\'')
+		{
+			(*i)++;
+			while (str[*i] != '\'')
+				(*i)++;
+			if (str[*i] != '\0')
+				{*quotes = 1;}
+			else
+				*i = tmp;
+		}
+	if (str[*i] == '\"')
+		{
+			(*i)++;
+			while (str[*i] != '\"')
+				(*i)++;
+			if (str[*i] != '\0')
+				{*quotes = 2;}
+			else
+				*i = tmp;
+		}
+}
 void	save_tokens(char *str, t_token **lst)
 {
 	int	i;
@@ -78,37 +104,29 @@ void	save_tokens(char *str, t_token **lst)
 	}
 	while (str[i])
 	{
-		if (str[i] == '\'' && !quotes)
-		{
-			if (!quotes)
-				quotes = 1;
-			else
-				quotes = 0;
-		}
-		if (str[i] == '\"')
-		{
-			if (!quotes)
-				quotes = 2;
-			else
-				quotes = 0;
-		}
+		find_quotes(str, &i, &quotes);
 		sep = not_words(str, i);
 		if (sep)
 		{
 			if (i != start)
-				save_word(lst, str, i, start);
+				{
+					if (quotes)
+					{
+						save_word(lst, str, i - 1, ++start, quotes);
+						quotes = 0;
+					}
+					else
+						save_word(lst, str, i, start, quotes);
+				}
 			if (sep != SPACES)
 				save_sep(lst, str, i, sep);
 			if (sep == HEREDOC || sep == APPEND)
-			{
 				i++;
-				start++;
-			}
 			start = i + 1;
 		}
 		i++;
 	}
 	if (i != start)
-		save_word(lst, str, i, start);
+		save_word(lst, str, i, start, quotes);
 	lst_add_back(lst, lst_create("\0", DONE));
 }

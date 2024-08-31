@@ -45,7 +45,7 @@ void	print_list(t_token *lst)
 	node = lst;
 	while (node != NULL)
 	{
-		printf("%s\n", (node->txt));
+		printf("%s %i\n", (node->txt), node->type);
 		node = node->next;
 	}
 }

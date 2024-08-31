@@ -26,9 +26,42 @@ int	parsing(char *str)
 	return (1);
 }
 
-
-
-
+void	substitute_vars(t_token *lst)
+{
+	int i;
+	int start;
+	char *s;
+	char *v;
+	
+	s = NULL;
+	i = 0;
+	start = 0;
+	while(lst)
+	{
+		if (lst->type == VAR)
+		{printf("dkcvwjkws\n");
+			while((lst->txt)[i])
+			{
+				if ((lst->txt)[i] == '$')
+				{
+					if (i != start)
+						s = ft_strjoin(s, ft_strcpy(lst->txt, start, i - 1));
+					start = ++i;
+					while((lst->txt)[i] && !(ft_isalnum((lst->txt)[i]) || (lst->txt)[i] == '_'))
+						i++;
+					i--;
+					v = ft_strcpy((lst->txt), start, i);
+					s = ft_strjoin(s, getenv(v));
+					start = i + 1;
+				}
+				i++;
+			}
+			lst->txt = ft_strdup(s);
+			
+		}
+		lst = lst->next;
+	}
+}
 
 int	main()
 {
@@ -41,6 +74,7 @@ int	main()
 		input = readline("minishell> ");
 		if (parsing(input))
 			save_tokens(input, &token_lst);
+		substitute_vars(token_lst);
 		print_list(token_lst);
 		free(input);
 		free_lst(&token_lst);
