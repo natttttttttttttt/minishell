@@ -26,42 +26,60 @@ int	parsing(char *str)
 	return (1);
 }
 
-void	substitute_vars(t_token *lst)
+void	substitute_vars(t_token *lst, int i, int start)
 {
-	int i;
-	int start;
-	char *s;
-	char *v;
+	char	*s;
+	char	*v;
+	char	*tmp;
+	char 	*env_val;
 	
-	s = NULL;
-	i = 0;
-	start = 0;
-	while(lst)
+	while (lst)
 	{
 		if (lst->type == VAR)
-		{printf("dkcvwjkws\n");
-			while((lst->txt)[i])
+		{
+			s = ft_strdup("");
+			i = 0;
+			start = 0;
+			while ((lst->txt)[i])
 			{
 				if ((lst->txt)[i] == '$')
 				{
 					if (i != start)
+					{
+						tmp = s;
 						s = ft_strjoin(s, ft_strcpy(lst->txt, start, i - 1));
-					start = ++i;
-					while((lst->txt)[i] && !(ft_isalnum((lst->txt)[i]) || (lst->txt)[i] == '_'))
-						i++;
-					i--;
-					v = ft_strcpy((lst->txt), start, i);
-					s = ft_strjoin(s, getenv(v));
+						free(tmp);
+					}
 					start = i + 1;
+					i++;
+					while ((lst->txt)[i] && (ft_isalnum((lst->txt)[i]) || (lst->txt)[i] == '_'))
+						i++;
+					v = ft_strcpy((lst->txt), start, i - 1);
+					env_val = getenv(v);
+					free(v);
+					if (env_val)
+					{
+						tmp = s;
+						s = ft_strjoin(s, env_val);
+						free(tmp);
+					}
+					else 
+						printf("var not found\n");
+					start = i;
 				}
 				i++;
 			}
+			tmp = s;
+			s = ft_strjoin(s, ft_strcpy(lst->txt, start, i - 1));
+			free(tmp);
+			free(lst->txt);
 			lst->txt = ft_strdup(s);
-			
+			free(s);
 		}
 		lst = lst->next;
 	}
 }
+
 
 int	main()
 {
@@ -74,7 +92,7 @@ int	main()
 		input = readline("minishell> ");
 		if (parsing(input))
 			save_tokens(input, &token_lst);
-		substitute_vars(token_lst);
+		substitute_vars(token_lst, 0, 0);
 		print_list(token_lst);
 		free(input);
 		free_lst(&token_lst);
