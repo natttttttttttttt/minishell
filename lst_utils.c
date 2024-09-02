@@ -43,7 +43,7 @@ void	print_list(t_token *lst)
 	t_token	*node;
 
 	node = lst;
-	while (node != NULL)
+	while (node->type != DONE)
 	{
 		printf("%s %i\n", (node->txt), node->type);
 		node = node->next;
