@@ -32,14 +32,16 @@ t_cmd *parse_tokens(t_token *tokens)
 	arg_count = 0;
 	current_cmd = NULL;
 	head = NULL;
+	if (tokens)
+	{
+		if (tokens->type == PIPE || tokens->type == HEREDOC)
+			printf("no.\n");
+		current_cmd = cmd_new();
+		if (!head)
+			head = current_cmd;
+	}
 	while (tokens)
 	{
-		if (!current_cmd)
-			{
-				current_cmd = cmd_new();
-				if (!head)
-					head = current_cmd;
-			}
 		if (tokens->type == WORD)
 		{
 			
@@ -48,36 +50,42 @@ t_cmd *parse_tokens(t_token *tokens)
 		}
 		else if (tokens->type == INPUT)
 		{
+			if (tokens->next->type != WORD)
+				printf("no.\n");
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				current_cmd->input = ft_strdup(tokens->txt);
 		}
 		else if (tokens->type == OUTPUT)
 		{
+			if (tokens->next->type != WORD)
+				printf("no.\n");
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				current_cmd->output = ft_strdup(tokens->txt);
 		}
 		else if (tokens->type == APPEND)
 		{
-			tokens = tokens->next;
+			if (tokens->next->type != WORD)
+				printf("no.\n");tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				current_cmd->append = ft_strdup(tokens->txt);
 
 		}
 		else if (tokens->type == HEREDOC)
 		{
+			if (tokens->next->type != WORD)
+				printf("no.\n");
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				current_cmd->delimiter = ft_strdup(tokens->txt);
 		}
 		else if (tokens->type == PIPE)
 		{
-			if (current_cmd)
-			{
-				current_cmd->next = cmd_new();
+			if (tokens->next->type == DONE || tokens->next->type == PIPE) 
+				printf("no.\n");
+			current_cmd->next = cmd_new();
 				current_cmd = current_cmd->next;
-			}
 		}
 		tokens = tokens->next;
 	}
