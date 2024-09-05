@@ -46,8 +46,16 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_cmd;
 
+typedef struct s_data
+{
+	char	*input;
+	char	*env_path;
+	char	**paths;
+	int		pipes;
+}	t_data;
 
 t_token	*ft_lstlast(t_token *lst);
+void cmd_to_path(t_cmd *cmd_lst, t_data data);
 char	*ft_strdup(char *src);
 void	free_lst(t_token **lst);
 t_token	*lst_create(char *str, t_type type);
@@ -65,8 +73,9 @@ void	save_word(t_token **lst, char *word, int q);
 void	save_sep(t_token **lst, char *str, int i, int type);
 void	save_tokens(char *str, t_token **lst);
 void add_cmd_arg(t_cmd *cmd, char *arg);
-t_cmd *parse_tokens(t_token *tokens) ;
+t_cmd *parse_tokens(t_token *tokens, t_data *data) ;
 t_cmd *cmd_new();
+char	**ft_split(const char *s, char c);
 
 
 #endif

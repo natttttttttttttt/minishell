@@ -14,18 +14,7 @@ t_cmd *cmd_new()
 	return (cmd);
 }
 
-void	free_arr(char **arr)
-{
-	int i;
 
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
 
 void	add_cmd_arg(t_cmd *cmd, char *arg)
 {
@@ -74,13 +63,11 @@ void	add_cmd_arg(t_cmd *cmd, char *arg)
 	}
 }
 
-t_cmd *parse_tokens(t_token *tokens) 
+t_cmd *parse_tokens(t_token *tokens, t_data *data) 
 {
 	t_cmd	*head;
 	t_cmd	*current_cmd;
-	int		arg_count;
 
-	arg_count = 0;
 	current_cmd = NULL;
 	head = NULL;
 	if (tokens)
@@ -94,10 +81,7 @@ t_cmd *parse_tokens(t_token *tokens)
 	while (tokens)
 	{
 		if (tokens->type == WORD)
-		{
 			add_cmd_arg(current_cmd, tokens->txt);
-			arg_count++;
-		}
 		else if (tokens->type == INPUT)
 		{
 			if (tokens->next->type != WORD)
@@ -135,6 +119,7 @@ t_cmd *parse_tokens(t_token *tokens)
 		{
 			if (tokens->next->type == DONE || tokens->next->type == PIPE) 
 				printf("no.\n");
+			data->pipes++;
 			current_cmd->next = cmd_new();
 				current_cmd = current_cmd->next;
 		}

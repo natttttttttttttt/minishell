@@ -82,7 +82,7 @@ void	substitute_vars(t_token *lst, int i, int start)
 
 #include <stdio.h>
 
-void print_cmd_lst(t_cmd*cmd_lst) {
+void print_cmd_lst(t_cmd *cmd_lst) {
     t_cmd *current_cmd = cmd_lst;
 
     while (current_cmd) {
@@ -124,24 +124,38 @@ void print_cmd_lst(t_cmd*cmd_lst) {
     }
 }
 
-
-int	main()
+void data_init(t_data *data)
 {
-	char	*input;
+	data->pipes = 0;
+	data->env_path = getenv("PATH");
+	data->paths = ft_split(data->env_path, ':');
+}
+int	main(int argc, char **argv, char **envp)
+{
 	t_token	*token_lst;
 	t_cmd	*cmd_lst;
+	t_data	data;
+	
 
+	data_init(&data);
+	
+	
 	while (1)
 	{
 		token_lst = NULL;
-		input = readline("minishell> ");
-		if (parsing(input))
-			save_tokens(input, &token_lst);
+		data.input = readline("minishell> ");
+		if (parsing(data.input))
+			save_tokens(data.input, &token_lst);
 		substitute_vars(token_lst, 0, 0);
 		//print_list(token_lst);
-		cmd_lst = parse_tokens(token_lst);
+		cmd_lst = parse_tokens(token_lst, &data);
+		cmd_to_path(cmd_lst, data);
 		print_cmd_lst(cmd_lst);
-		free(input);
+		if (data.pipes == 0)
+			if (execve(cmd_lst->args[0], cmd_lst->args, envp) == -1) {
+    perror("execve failed");
+}
+		free(data.input);
 		free_lst(&token_lst);
 	}
 	return (0);
