@@ -63,7 +63,7 @@ void	add_cmd_arg(t_cmd *cmd, char *arg)
 	}
 }
 
-t_cmd *parse_tokens(t_token *tokens, t_data *data) 
+t_cmd *parse_tokens(t_token *tokens, t_info *info) 
 {
 	t_cmd	*head;
 	t_cmd	*current_cmd;
@@ -119,7 +119,7 @@ t_cmd *parse_tokens(t_token *tokens, t_data *data)
 		{
 			if (tokens->next->type == DONE || tokens->next->type == PIPE) 
 				printf("no.\n");
-			data->pipes++;
+			info->pipes++;
 			current_cmd->next = cmd_new();
 				current_cmd = current_cmd->next;
 		}

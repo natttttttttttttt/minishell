@@ -80,7 +80,7 @@ void	substitute_vars(t_token *lst, int i, int start)
 	}
 }
 
-#include <stdio.h>
+
 
 void print_cmd_lst(t_cmd *cmd_lst) {
     t_cmd *current_cmd = cmd_lst;
@@ -124,39 +124,39 @@ void print_cmd_lst(t_cmd *cmd_lst) {
     }
 }
 
-void data_init(t_data *data)
+void info_init(t_info *info)
 {
-	data->pipes = 0;
-	data->env_path = getenv("PATH");
-	data->paths = ft_split(data->env_path, ':');
+
+	info->env_path = getenv("PATH");
+	info->paths = ft_split(info->env_path, ':');
 }
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	*token_lst;
 	t_cmd	*cmd_lst;
-	t_data	data;
+	t_info	info;
 	
 
-	data_init(&data);
+	info_init(&info);
 	
 	
 	while (1)
 	{
 		token_lst = NULL;
-		data.input = readline("minishell> ");
-		if (parsing(data.input))
-			save_tokens(data.input, &token_lst);
+		info.input = readline("minishell> ");
+		if (parsing(info.input))
+			save_tokens(info.input, &token_lst);
 		substitute_vars(token_lst, 0, 0);
 		//print_list(token_lst);
-		cmd_lst = parse_tokens(token_lst, &data);
-		cmd_to_path(cmd_lst, data);
+		cmd_lst = parse_tokens(token_lst, &info);
+		cmd_to_path(cmd_lst, info);
 		print_cmd_lst(cmd_lst);
-		if (data.pipes == 0)
-			if (execve(cmd_lst->args[0], cmd_lst->args, envp) == -1) {
-    perror("execve failed");
-}
-		free(data.input);
-		free_lst(&token_lst);
-	}
+		execute_commands(cmd_lst, token_lst, envp);
+		free(info.input);
+		free_token_lst(token_lst);
+		free_command_list(cmd_lst);
+
+	}	
+	free_arr(info.paths);
 	return (0);
 }
