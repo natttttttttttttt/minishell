@@ -34,7 +34,8 @@ void cmd_to_path(t_cmd *cmd_lst, t_info info)
     }
 }
 
-void execute_commands(t_cmd *cmd, t_token *token, char **envp) {
+void execute_commands(t_cmd *cmd, char **envp)
+{
     int fd_in;
 	int fd_out;
     int pipe_fd[2];

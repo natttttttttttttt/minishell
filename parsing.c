@@ -98,7 +98,7 @@ void	save_tokens(char *str, t_token **lst)
 	start = 0;
 	quotes = 0;
 
-	while (str[i] > 8 && str[i] < 14 || str[i] == 32)
+	while ((str[i] > 8 && str[i] < 14) || str[i] == 32)
 	{
 		i++;
 		start++;

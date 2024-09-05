@@ -55,7 +55,7 @@ typedef struct s_info
 }	t_info;
 
 t_token	*ft_lstlast(t_token *lst);
-void execute_commands(t_cmd *cmd, t_token *token, char **envp);
+void execute_commands(t_cmd *cmd, char **envp);
 void cmd_to_path(t_cmd *cmd_lst, t_info info);
 char	*ft_strdup(char *src);
 void	free_lst(t_token **lst);
@@ -74,7 +74,7 @@ void	save_word(t_token **lst, char *word, int q);
 void	save_sep(t_token **lst, char *str, int i, int type);
 void	save_tokens(char *str, t_token **lst);
 void add_cmd_arg(t_cmd *cmd, char *arg);
-t_cmd *parse_tokens(t_token *tokens, t_info *info) ;
+t_cmd *parse_tokens(t_token *tokens) ;
 t_cmd *cmd_new();
 char	**ft_split(const char *s, char c);
 void	free_arr(char **arr);

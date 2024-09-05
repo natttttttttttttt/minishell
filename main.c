@@ -130,13 +130,27 @@ void info_init(t_info *info)
 	info->env_path = getenv("PATH");
 	info->paths = ft_split(info->env_path, ':');
 }
+void sigint_handler(int signum)
+{
+    (void)signum; // Avoid unused parameter warning
+    // Print a newline and display a new prompt
+    printf("\n");
+    rl_on_new_line(); // Tell readline that we're starting a new line
+    rl_replace_line("", 0); // Clear the current line
+    //rl_redisplay(); // Redisplay the prompt
+}
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	*token_lst;
 	t_cmd	*cmd_lst;
 	t_info	info;
-	
-
+	(void)argc;
+	(void)argv;
+	struct sigaction sa;
+    sa.sa_handler = sigint_handler; // Set our handler function
+    sa.sa_flags = SA_RESTART;       // Restart interrupted system calls
+    sigemptyset(&sa.sa_mask);       // No signals are blocked during the handler
+    sigaction(SIGINT, &sa, NULL); 
 	info_init(&info);
 	
 	
@@ -144,18 +158,24 @@ int	main(int argc, char **argv, char **envp)
 	{
 		token_lst = NULL;
 		info.input = readline("minishell> ");
-		if (parsing(info.input))
+		if (!info.input) {
+            printf("exit\n");
+            break;
+        }
+		else if (parsing(info.input))
+		{
+			add_history(info.input);
 			save_tokens(info.input, &token_lst);
-		substitute_vars(token_lst, 0, 0);
-		//print_list(token_lst);
-		cmd_lst = parse_tokens(token_lst, &info);
-		cmd_to_path(cmd_lst, info);
-		print_cmd_lst(cmd_lst);
-		execute_commands(cmd_lst, token_lst, envp);
-		free(info.input);
-		free_token_lst(token_lst);
-		free_command_list(cmd_lst);
-
+			substitute_vars(token_lst, 0, 0);
+			//print_list(token_lst);
+			cmd_lst = parse_tokens(token_lst);
+			cmd_to_path(cmd_lst, info);
+			print_cmd_lst(cmd_lst);
+			execute_commands(cmd_lst, envp);
+			free(info.input);
+			free_token_lst(token_lst);
+			free_command_list(cmd_lst);
+		}
 	}	
 	free_arr(info.paths);
 	return (0);

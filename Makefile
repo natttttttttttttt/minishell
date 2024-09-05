@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc 
-CFLAGS = -g 
+CFLAGS = -Wall -Wextra -Werror -g 
 LDFLAGS = -lreadline -lncurses  
 RM = rm -rf
 
