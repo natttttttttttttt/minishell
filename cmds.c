@@ -11,6 +11,7 @@ t_cmd *cmd_new()
 	cmd->append = NULL;
 	cmd->delimiter = NULL;
 	cmd->next = NULL;
+	cmd->builtin = 0;
 	return (cmd);
 }
 

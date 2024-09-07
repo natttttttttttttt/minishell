@@ -22,16 +22,33 @@ static char	*get_cmd(char **paths, char *cmd)
 	return (NULL);
 }
 
+static int is_builtin(t_cmd *cmd)
+{
+    if (strcmp(cmd->args[0], "pwd") == 0)
+    {
+        cmd->builtin = 1; 
+        printf ("dfcvsedfc\n");
+        return (1);
+    }
+    return (0);
+}
 void cmd_to_path(t_cmd *cmd_lst, t_info info)
 {
     char	*tmp;
 	while (cmd_lst)
     {
-        tmp = cmd_lst->args[0]; 
-        cmd_lst->args[0] = get_cmd(info.paths, tmp);
-		free(tmp);
+        if (!is_builtin(cmd_lst))
+        {    
+            if (access(cmd_lst->args[0], X_OK) != 0)
+            {
+                tmp = cmd_lst->args[0]; 
+                cmd_lst->args[0] = get_cmd(info.paths, tmp);
+                free(tmp);
+                
+            }
+        }
         cmd_lst = cmd_lst->next;
-    }
+    }  
 }
 
 void execute_commands(t_cmd *cmd, char **envp)
@@ -96,9 +113,9 @@ void execute_commands(t_cmd *cmd, char **envp)
         if (pid == 0)
 		{
             if (fd_in != 0)
-			{
+            {
                 if (dup2(fd_in, 0) == -1)
-				{
+                {
                     perror("dup2");
                     //error
                 }
@@ -106,35 +123,42 @@ void execute_commands(t_cmd *cmd, char **envp)
             }
 
             if (fd_out != 1)
-			{
+            {
                 if (dup2(fd_out, 1) == -1)
-				{
+                {
                     perror("dup2");
                     //error
                 }
                 close(fd_out);
             }
-
-            execve(cmd->args[0], cmd->args, envp);
-            perror("execve");
-            //error
+            close(pipe_fd[0]);
+            if (cmd->builtin)
+            {
+                pwd_builtin(fd_out);
+                close(fd_out);
+                exit (0);
+            }
+            else
+            {
+                execve(cmd->args[0], cmd->args, envp);
+                perror("execve");
+                //error
+            }
         }
-
-        if (!cmd->next)
-            waitpid(pid, NULL, 0);
+       
+        // if (!cmd->next)
+        //     waitpid(pid, NULL, 0);
 
         if (fd_in != 0)
 			close(fd_in);
         if (fd_out != 1)
 			close(fd_out);
-
+        close(pipe_fd[1]);
         if (cmd->next)
-		{
-            close(pipe_fd[1]);
 			fd_in = pipe_fd[0];
-        }
         cmd = cmd->next;
     }
 
-    while (wait(NULL) > 0);
+    while (wait(NULL) > 0); 
+    
 }

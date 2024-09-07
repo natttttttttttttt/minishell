@@ -44,6 +44,7 @@ typedef struct s_command
 	char				*output;
 	char				*append;
 	char				*delimiter;
+	int					builtin;
 	struct s_command	*next;
 }	t_cmd;
 
@@ -82,6 +83,6 @@ void	free_arr(char **arr);
 void free_command_list(t_cmd *head);
 void free_token_lst(t_token *head);
 void free_all(t_cmd *cmd, t_token *token);
-
+void pwd_builtin(int fd);
 
 #endif
