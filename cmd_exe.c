@@ -26,8 +26,7 @@ static int is_builtin(t_cmd *cmd)
 {
     if (strcmp(cmd->args[0], "pwd") == 0)
     {
-        cmd->builtin = 1; 
-        printf ("dfcvsedfc\n");
+        cmd->builtin = 1;
         return (1);
     }
     return (0);
@@ -131,7 +130,8 @@ void execute_commands(t_cmd *cmd, char **envp)
                 }
                 close(fd_out);
             }
-            close(pipe_fd[0]);
+            if (cmd->next)
+                close(pipe_fd[0]);
             if (cmd->builtin)
             {
                 pwd_builtin(fd_out);
@@ -145,17 +145,17 @@ void execute_commands(t_cmd *cmd, char **envp)
                 //error
             }
         }
-       
-        // if (!cmd->next)
-        //     waitpid(pid, NULL, 0);
 
         if (fd_in != 0)
 			close(fd_in);
         if (fd_out != 1)
 			close(fd_out);
-        close(pipe_fd[1]);
+        
         if (cmd->next)
-			fd_in = pipe_fd[0];
+            {
+                close(pipe_fd[1]);
+			    fd_in = pipe_fd[0];
+            }
         cmd = cmd->next;
     }
 
