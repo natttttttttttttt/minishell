@@ -73,6 +73,20 @@ int	ft_isalnum(int c)
 	return (0);
 }
 
+int	all_digits(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	free_arr(char **arr)
 {
 	int i;
@@ -171,4 +185,30 @@ char	**ft_split(const char *s, char c)
 	}
 	res[k] = NULL;
 	return (res);
+}
+
+int	ft_atoi(char *str)
+{
+	int	i;
+	int	n;
+	int	sign;
+
+	i = 0;
+	n = 0;
+	sign = 1;
+	while ((str[i] == 32) || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (str[i] != '\0' && (str[i] >= '0' && str[i] <= '9'))
+	{
+		n *= 10;
+		n += str[i] - '0';
+		i++;
+	}
+	return (n * sign);
 }

@@ -22,15 +22,7 @@ static char	*get_cmd(char **paths, char *cmd)
 	return (NULL);
 }
 
-static int is_builtin(t_cmd *cmd)
-{
-    if (strcmp(cmd->args[0], "pwd") == 0)
-    {
-        cmd->builtin = 1;
-        return (1);
-    }
-    return (0);
-}
+
 void cmd_to_path(t_cmd *cmd_lst, t_info info)
 {
     char	*tmp;
@@ -50,6 +42,16 @@ void cmd_to_path(t_cmd *cmd_lst, t_info info)
     }  
 }
 
+void run_builtin(t_cmd *cmd)
+{
+    if (is_builtin(cmd) == BUILTIN_PWD)
+        pwd_builtin();
+    else if (is_builtin(cmd) == BUILTIN_CD)
+        cd_builtin(cmd->args);
+    else if (is_builtin(cmd) == BUILTIN_EXIT)
+        exit_builtin(cmd->args);
+}
+
 void execute_commands(t_cmd *cmd, char **envp)
 {
     int fd_in;
@@ -61,7 +63,6 @@ void execute_commands(t_cmd *cmd, char **envp)
     while (cmd != NULL)
 	{
         fd_out = 1;
-
         if (cmd->input)
 		{
             fd_in = open(cmd->input, O_RDONLY);
@@ -71,7 +72,6 @@ void execute_commands(t_cmd *cmd, char **envp)
 				return;
             }
         }
-
         if (cmd->output)
 		{
             fd_out = open(cmd->output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -90,7 +90,6 @@ void execute_commands(t_cmd *cmd, char **envp)
                 //error
             }
         }
-
         if (cmd->next)
 		{
             if (pipe(pipe_fd) == -1)
@@ -101,64 +100,62 @@ void execute_commands(t_cmd *cmd, char **envp)
             if (!cmd->output)
 				fd_out = pipe_fd[1];
         }
-
-        pid = fork();
-        if (pid == -1)
-		{
-            perror("fork");
-            //error
-        }
-
-        if (pid == 0)
-		{
-            if (fd_in != 0)
+        if (cmd->builtin && cmd->next == NULL && cmd->prev == NULL)
+            run_builtin(cmd);
+        else
+        {      
+            pid = fork();
+            if (pid == -1)
             {
-                if (dup2(fd_in, 0) == -1)
-                {
-                    perror("dup2");
-                    //error
-                }
-                close(fd_in);
-            }
-
-            if (fd_out != 1)
-            {
-                if (dup2(fd_out, 1) == -1)
-                {
-                    perror("dup2");
-                    //error
-                }
-                close(fd_out);
-            }
-            if (cmd->next)
-                close(pipe_fd[0]);
-            if (cmd->builtin)
-            {
-                pwd_builtin(fd_out);
-                close(fd_out);
-                exit (0);
-            }
-            else
-            {
-                execve(cmd->args[0], cmd->args, envp);
-                perror("execve");
+                perror("fork");
                 //error
             }
+            if (pid == 0)
+            {
+                if (fd_in != 0)
+                {
+                    if (dup2(fd_in, 0) == -1)
+                    {
+                        perror("dup2");
+                        //error
+                    }
+                    close(fd_in);
+                }
+                if (fd_out != 1)
+                {
+                    if (dup2(fd_out, 1) == -1)
+                    {
+                        perror("dup2");
+                        //error
+                    }
+                    close(fd_out);
+                }
+                if (cmd->next)
+                    close(pipe_fd[0]);
+                if (cmd->builtin)
+                {
+                    run_builtin(cmd);
+                    //close(fd_out);
+                    exit (0);
+                }
+                else
+                {
+                    execve(cmd->args[0], cmd->args, envp);
+                    perror("execve");
+                    //error
+                }
+            }
         }
-
         if (fd_in != 0)
 			close(fd_in);
         if (fd_out != 1)
-			close(fd_out);
-        
+			close(fd_out);      
         if (cmd->next)
-            {
-                close(pipe_fd[1]);
-			    fd_in = pipe_fd[0];
-            }
+        {
+            close(pipe_fd[1]);
+			fd_in = pipe_fd[0];
+        }
         cmd = cmd->next;
     }
-
     while (wait(NULL) > 0); 
-    
 }

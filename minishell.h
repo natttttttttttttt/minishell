@@ -29,6 +29,17 @@ typedef enum e_type
 	DONE
 }	t_type;
 
+typedef enum e_builtin
+{
+	BUILTIN_PWD = 1,
+	BUILTIN_CD,
+	BUILTIN_ECHO,
+	BUILTIN_EXIT,
+	BUILTIN_ENV,
+	BUILTIN_UNSET,
+	BUILTIN_EXPORT
+}	t_builtin;
+
 typedef struct s_token
 {
 	char			*txt;
@@ -46,6 +57,7 @@ typedef struct s_command
 	char				*delimiter;
 	int					builtin;
 	struct s_command	*next;
+	struct s_command	*prev;
 }	t_cmd;
 
 typedef struct s_info
@@ -83,6 +95,11 @@ void	free_arr(char **arr);
 void free_command_list(t_cmd *head);
 void free_token_lst(t_token *head);
 void free_all(t_cmd *cmd, t_token *token);
-void pwd_builtin(int fd);
-
+void pwd_builtin();
+int is_builtin(t_cmd *cmd);
+void cd_builtin(char **args);
+void exit_builtin(char **args);
+int	all_digits(char *str);
+int	ft_atoi(char *str);
+void run_builtin(t_cmd *cmd);
 #endif

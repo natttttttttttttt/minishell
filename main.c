@@ -83,42 +83,42 @@ void	substitute_vars(t_token *lst, int i, int start)
 
 
 void print_cmd_lst(t_cmd *cmd_lst) {
-    t_cmd *current_cmd = cmd_lst;
+    t_cmd *cmd = cmd_lst;
 
-    while (current_cmd) {
+    while (cmd) {
         // Print the command and its arguments
         printf("Command:\n");
-        if (current_cmd->args) {
-            for (int i = 0; current_cmd->args[i]; i++) {
-                printf("  Arg[%d]: %s\n", i, current_cmd->args[i]);
+        if (cmd->args) {
+            for (int i = 0; cmd->args[i]; i++) {
+                printf("  Arg[%d]: %s\n", i, cmd->args[i]);
             }
         }
 
         // Print input redirection
-        if (current_cmd->input) {
-            printf("  Input File: %s\n", current_cmd->input);
+        if (cmd->input) {
+            printf("  Input File: %s\n", cmd->input);
         }
 
         // Print output redirection
-        if (current_cmd->output) {
-            printf("  Output File: %s\n", current_cmd->output);
+        if (cmd->output) {
+            printf("  Output File: %s\n", cmd->output);
         }
 
         // Print append redirection
-        if (current_cmd->append) {
-            printf("  Append File: %s\n", current_cmd->append);
+        if (cmd->append) {
+            printf("  Append File: %s\n", cmd->append);
         }
 
         // Print heredoc delimiter
-        if (current_cmd->delimiter) {
-            printf("  Heredoc Delimiter: %s\n", current_cmd->delimiter);
+        if (cmd->delimiter) {
+            printf("  Heredoc Delimiter: %s\n", cmd->delimiter);
         }
 
         // Move to the next command in the pipeline
-        current_cmd = current_cmd->next;
+        cmd = cmd->next;
         
         // Print a separator if there is another command in the pipeline
-        if (current_cmd) {
+        if (cmd) {
             printf("  |\n");
         }
     }
@@ -170,7 +170,7 @@ int	main(int argc, char **argv, char **envp)
 			//print_list(token_lst);
 			cmd_lst = parse_tokens(token_lst);
 			cmd_to_path(cmd_lst, info);
-			print_cmd_lst(cmd_lst);
+			//print_cmd_lst(cmd_lst);
 			execute_commands(cmd_lst, envp);
 			free(info.input);
 			free_token_lst(token_lst);
