@@ -40,14 +40,16 @@ static char **split_for_export(char *s)
     }
     else
     {
-        res[0] = ft_strabcpy(s, 0, ft_strlen(s) - 2);
-        res[1] = NULL;
+       if (s[ft_strlen(s) - 1] == '=')
+            res[0] = ft_strabcpy(s, 0, ft_strlen(s) - 2);
+        else
+            res[0] = ft_strdup(s);
     }
     return (res);
 }
 int main()
 {
-    char *s = "aaaaa";
+    char *s = "aaa=";
     char **ar = split_for_export(s);
     int i = 0;
     while(ar[i])
