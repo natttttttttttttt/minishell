@@ -42,17 +42,17 @@ void cmd_to_path(t_cmd *cmd_lst, t_info info)
     }  
 }
 
-void run_builtin(t_cmd *cmd)
+void run_builtin(t_cmd *cmd, t_info info)
 {
     if (is_builtin(cmd) == BUILTIN_PWD)
         pwd_builtin();
     else if (is_builtin(cmd) == BUILTIN_CD)
-        cd_builtin(cmd->args);
+        cd_builtin(cmd->args, info);
     else if (is_builtin(cmd) == BUILTIN_EXIT)
         exit_builtin(cmd->args);
 }
 
-void execute_commands(t_cmd *cmd, char **envp)
+void execute_commands(t_cmd *cmd, t_info info)
 {
     int fd_in;
 	int fd_out;
@@ -101,7 +101,7 @@ void execute_commands(t_cmd *cmd, char **envp)
 				fd_out = pipe_fd[1];
         }
         if (cmd->builtin && cmd->next == NULL && cmd->prev == NULL)
-            run_builtin(cmd);
+            run_builtin(cmd, info);
         else
         {      
             pid = fork();
@@ -134,13 +134,13 @@ void execute_commands(t_cmd *cmd, char **envp)
                     close(pipe_fd[0]);
                 if (cmd->builtin)
                 {
-                    run_builtin(cmd);
+                    run_builtin(cmd, info);
                     //close(fd_out);
                     exit (0);
                 }
                 else
                 {
-                    execve(cmd->args[0], cmd->args, envp);
+                    execve(cmd->args[0], cmd->args, info.my_envp);
                     perror("execve");
                     //error
                 }

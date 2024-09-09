@@ -80,9 +80,10 @@ int	all_digits(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (!(str[i] >= '0' && str[i] <= '9'))
+		if (str[i] >= '0' && str[i] <= '9')
+			i++;
+		else
 			return (0);
-		i++;
 	}
 	return (1);
 }
@@ -211,4 +212,22 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (n * sign);
+}
+
+int	ft_strncmp(char *str1, char *str2, size_t n)
+{
+	unsigned char	*s1;
+	unsigned char	*s2;
+
+	s1 = (unsigned char *)str1;
+	s2 = (unsigned char *)str2;
+	while ((*s1 || *s2) && *s1 == *s2 && n - 1 > 0)
+	{
+		n--;
+		s1++;
+		s2++;
+	}
+	if (n != 0)
+		return (*s1 - *s2);
+	return (0);
 }

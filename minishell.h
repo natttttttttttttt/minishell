@@ -64,17 +64,17 @@ typedef struct s_info
 {
 	char	*input;
 	char	*env_path;
+	char	**my_envp;
 	char	**paths;
 }	t_info;
 
 t_token	*ft_lstlast(t_token *lst);
-void execute_commands(t_cmd *cmd, char **envp);
+void execute_commands(t_cmd *cmd, t_info info);
 void cmd_to_path(t_cmd *cmd_lst, t_info info);
 char	*ft_strdup(char *src);
 void	free_lst(t_token **lst);
 t_token	*lst_create(char *str, t_type type);
 void	lst_add_back(t_token **lst, t_token *new);
-char	*ft_strdup(char *src);
 void	print_list(t_token *lst);
 char	*ft_strchr(char *str, int c);
 size_t	ft_strlen(const char *str);
@@ -97,9 +97,12 @@ void free_token_lst(t_token *head);
 void free_all(t_cmd *cmd, t_token *token);
 void pwd_builtin();
 int is_builtin(t_cmd *cmd);
-void cd_builtin(char **args);
+void cd_builtin(char **args, t_info info);
 void exit_builtin(char **args);
 int	all_digits(char *str);
 int	ft_atoi(char *str);
-void run_builtin(t_cmd *cmd);
+void run_builtin(t_cmd *cmd, t_info info);
+char **copy_envp(char **envp);
+int	ft_strncmp(char *str1, char *str2, size_t n);
+char *ft_getenv(char **my_envp, char *var);
 #endif
