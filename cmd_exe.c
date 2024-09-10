@@ -56,6 +56,8 @@ void run_builtin(t_cmd *cmd, t_info *info)
         export_builtin(cmd->args, info);
     else if (is_builtin(cmd) == BUILTIN_UNSET)
         unset_builtin(cmd->args, info);
+    else if (is_builtin(cmd) == BUILTIN_ECHO)
+        echo_builtin(cmd->args);
 }
 
 void execute_commands(t_cmd *cmd, t_info *info)
