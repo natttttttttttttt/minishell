@@ -42,7 +42,7 @@ void cmd_to_path(t_cmd *cmd_lst, t_info info)
     }  
 }
 
-void run_builtin(t_cmd *cmd, t_info info)
+void run_builtin(t_cmd *cmd, t_info *info)
 {
     if (is_builtin(cmd) == BUILTIN_PWD)
         pwd_builtin();
@@ -50,9 +50,15 @@ void run_builtin(t_cmd *cmd, t_info info)
         cd_builtin(cmd->args, info);
     else if (is_builtin(cmd) == BUILTIN_EXIT)
         exit_builtin(cmd->args);
+    else if (is_builtin(cmd) == BUILTIN_ENV)
+        builtin_env(info->my_envp);
+    else if (is_builtin(cmd) == BUILTIN_EXPORT)
+        export_builtin(cmd->args, info);
+    else if (is_builtin(cmd) == BUILTIN_UNSET)
+        unset_builtin(cmd->args, info);
 }
 
-void execute_commands(t_cmd *cmd, t_info info)
+void execute_commands(t_cmd *cmd, t_info *info)
 {
     int fd_in;
 	int fd_out;
@@ -140,7 +146,7 @@ void execute_commands(t_cmd *cmd, t_info info)
                 }
                 else
                 {
-                    execve(cmd->args[0], cmd->args, info.my_envp);
+                    execve(cmd->args[0], cmd->args, info->my_envp);
                     perror("execve");
                     //error
                 }

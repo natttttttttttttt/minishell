@@ -21,9 +21,9 @@ char	*ft_strdup(char *src)
 	return (str);
 }
 
-size_t	ft_strlen(const char *str)
+int	ft_strlen(const char *str)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -230,4 +230,20 @@ int	ft_strncmp(char *str1, char *str2, size_t n)
 	if (n != 0)
 		return (*s1 - *s2);
 	return (0);
+}
+
+void ft_strncpy(char *dest, char *src, int size)
+{
+	int	i;
+
+	i = 0;
+	if (size != 0)
+	{
+		while (src[i] != '\0' && i < size - 1)
+		{
+			dest[i] = src[i];
+			i++;
+		}
+		dest[i] = '\0';
+	}
 }

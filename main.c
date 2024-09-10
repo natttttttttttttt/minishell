@@ -138,12 +138,33 @@ int	main(int argc, char **argv, char **envp)
 	t_cmd	*cmd_lst;
 	t_info	info;
 	(void)argc;
-	(void)argv;
-
+	//(void)argv;
 	info_init(&info, envp);
-	while (1)
+	if (argv[1])
+	{		
+		info.input = ft_strdup(argv[2]);
+		token_lst = NULL;
+		
+		if (parsing(info.input))
+		{
+			add_history(info.input);
+			save_tokens(info.input, &token_lst);
+			substitute_vars(token_lst, 0, 0, info);
+			//print_list(token_lst);
+			cmd_lst = parse_tokens(token_lst);
+			cmd_to_path(cmd_lst, info);
+			//print_cmd_lst(cmd_lst);
+			execute_commands(cmd_lst, &info);
+			free(info.input);
+			free_token_lst(token_lst);
+			free_command_list(cmd_lst);
+		}
+	}
+	else
+		while (1)
 	{
 		token_lst = NULL;
+		
 		info.input = readline("minishell> ");
 		if (!info.input) {
             printf("exit\n");
@@ -157,13 +178,14 @@ int	main(int argc, char **argv, char **envp)
 			//print_list(token_lst);
 			cmd_lst = parse_tokens(token_lst);
 			cmd_to_path(cmd_lst, info);
-			//print_cmd_lst(cmd_lst);
-			execute_commands(cmd_lst, info);
+			print_cmd_lst(cmd_lst);
+			execute_commands(cmd_lst, &info);
 			free(info.input);
 			free_token_lst(token_lst);
 			free_command_list(cmd_lst);
 		}
 	}	
 	free_arr(info.paths);
+	free_arr(info.my_envp);
 	return (0);
 }

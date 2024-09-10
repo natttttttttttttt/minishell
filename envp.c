@@ -50,45 +50,77 @@ char *ft_getenv(char **my_envp, char *var)
     return (NULL);
 }
 
-void update_env(const char *name, const char *value, char ***envp)
+int find_env_var(char **my_envp, char *var)
 {
-    int i = 0;
-    size_t name_len = strlen(name);
-    size_t value_len = strlen(value);
-    size_t new_entry_len = name_len + value_len + 2; // +2 for '=' and '\0'
+    int i;
+    int len;
+    
+    i = 0;
+    len = ft_strlen(var);
+    
+    while (my_envp[i])
+    {
+        if (ft_strncmp(my_envp[i], var, len) == 0 && my_envp[i][len] == '=')
+            return (i);
+        i++;
+    }
+    return (-1);
+}
 
-    // Create the new entry in the form of "NAME=value"
-    char *new_entry = malloc(new_entry_len);
-    if (!new_entry)
+void update_env(char *var, char *value, char ***my_envp)
+{
+    int i;
+    int var_i;
+    char *s;
+    char **new_envp;
+    
+    s = malloc(sizeof(char) * (ft_strlen(var) + ft_strlen(value) + 2));
+    if (!s)
     {
         perror("malloc");
         return;
     }
-    snprintf(new_entry, new_entry_len, "%s=%s", name, value);
-
-    // Search for the environment variable
-    while ((*envp)[i] != NULL)
+    i = 0;
+    while (i < ft_strlen(var))
     {
-        if (strncmp((*envp)[i], name, name_len) == 0 && (*envp)[i][name_len] == '=')
-        {
-            // Variable found, update its value
-            free((*envp)[i]);
-            (*envp)[i] = new_entry;
-            return;
-        }
+        s[i] = var[i];
         i++;
     }
-
-    // Variable not found, add it to the end of the array
-    char **new_envp = realloc(*envp, (i + 2) * sizeof(char *));
-    if (!new_envp)
+    s[i++] = '=';
+    while (i < ft_strlen(var) + ft_strlen(value) + 1)
     {
-        perror("realloc");
-        free(new_entry);
-        return;
+        s[i] = value[i - ft_strlen(var) - 1];
+        i++;
     }
-    new_envp[i] = new_entry;
-    new_envp[i + 1] = NULL;
-    *envp = new_envp;
+    s[i] = '\0';
+    var_i = find_env_var(*my_envp, var);
+    if (var_i != -1)
+    {
+        free((*my_envp)[var_i]);
+        (*my_envp)[var_i] = s;
+    }
+    else
+    {
+        i = 0;
+        while ((*my_envp)[i])
+            i++;
+        new_envp = malloc((i + 2) * sizeof(char *));
+        if (!new_envp)
+        {
+            perror("malloc"); 
+            return;
+        }
+        var_i = 0; //cause i can't have more vars (it's just j)
+        while (var_i < i)
+        {
+            new_envp[var_i] = (*my_envp)[var_i];
+            var_i++;
+        }
+        new_envp[i] = ft_strdup(s);
+        new_envp[i + 1] = NULL;
+        
+        free(*my_envp);
+        *my_envp = new_envp;
+    }
 }
 

@@ -69,7 +69,7 @@ typedef struct s_info
 }	t_info;
 
 t_token	*ft_lstlast(t_token *lst);
-void execute_commands(t_cmd *cmd, t_info info);
+void execute_commands(t_cmd *cmd, t_info *info);
 void cmd_to_path(t_cmd *cmd_lst, t_info info);
 char	*ft_strdup(char *src);
 void	free_lst(t_token **lst);
@@ -77,7 +77,7 @@ t_token	*lst_create(char *str, t_type type);
 void	lst_add_back(t_token **lst, t_token *new);
 void	print_list(t_token *lst);
 char	*ft_strchr(char *str, int c);
-size_t	ft_strlen(const char *str);
+int	ft_strlen(const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strabcpy(char *src, int a, int b);
 int		ft_isalnum(int c);
@@ -97,12 +97,18 @@ void free_token_lst(t_token *head);
 void free_all(t_cmd *cmd, t_token *token);
 void pwd_builtin();
 int is_builtin(t_cmd *cmd);
-void cd_builtin(char **args, t_info info);
+void cd_builtin(char **args, t_info *info);
 void exit_builtin(char **args);
 int	all_digits(char *str);
 int	ft_atoi(char *str);
-void run_builtin(t_cmd *cmd, t_info info);
+void run_builtin(t_cmd *cmd, t_info *info);
 char **copy_envp(char **envp);
 int	ft_strncmp(char *str1, char *str2, size_t n);
 char *ft_getenv(char **my_envp, char *var);
+void update_env(char *var, char *value, char ***my_envp);
+void builtin_env(char **my_env);
+void export_builtin(char **args, t_info *info);
+void ft_strncpy(char *dest, char *src, int size);
+void unset_builtin(char **args, t_info *info);
+int find_env_var(char **my_envp, char *var);
 #endif
