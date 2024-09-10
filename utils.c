@@ -47,7 +47,7 @@ char	*ft_strchr(char *str, int c)
 	return (NULL);
 }
 
-char*	ft_strabcpy(char *src, int a, int b)
+char	*ft_strabcpy(char *src, int a, int b)
 {
 	int		i;
 	char	*dest;
@@ -75,9 +75,13 @@ int	ft_isalnum(int c)
 
 int	all_digits(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (str[i] == '\0')
+		return (0);
 	while (str[i])
 	{
 		if (str[i] >= '0' && str[i] <= '9')
@@ -90,7 +94,7 @@ int	all_digits(char *str)
 
 void	free_arr(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arr[i])
@@ -237,9 +241,10 @@ void ft_strncpy(char *dest, char *src, int size)
 	int	i;
 
 	i = 0;
+	dest = malloc(sizeof(char) * size + 1);
 	if (size != 0)
 	{
-		while (src[i] != '\0' && i < size - 1)
+		while (src[i] != '\0' && i < size)
 		{
 			dest[i] = src[i];
 			i++;

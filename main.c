@@ -46,34 +46,40 @@ void	substitute_vars(t_token *lst, int i, int start, t_info info)
 				{
 					if (i != start)
 					{
-						tmp = s;
-						s = ft_strjoin(s, ft_strabcpy(lst->txt, start, i - 1));
+						tmp = NULL;
+						ft_strncpy(lst->txt + start, tmp, i - start);
+						s = ft_strjoin(s, tmp);
 						free(tmp);
 					}
-					start = i + 1;
-					i++;
-					while ((lst->txt)[i] && (ft_isalnum((lst->txt)[i]) || (lst->txt)[i] == '_'))
+					start = ++i;
+					while ((lst->txt)[i] && (ft_isalnum((lst->txt)[i])
+							|| (lst->txt)[i] == '_'))
 						i++;
-					v = ft_strabcpy((lst->txt), start, i - 1);
+					v = NULL;
+					ft_strncpy(lst->txt + start, v, i - start);
 					env_val = ft_getenv(info.my_envp, v);
 					free(v);
+					tmp = s;
 					if (env_val)
-					{
-						tmp = s;
 						s = ft_strjoin(s, env_val);
-						free(tmp);
-					}
-					else
-						printf("var not found\n");
+					free(tmp);
 					start = i;
 				}
-				i++;
+				else
+					i++;
 			}
-			tmp = s;
-			s = ft_strjoin(s, ft_strabcpy(lst->txt, start, i - 1));
-			free(tmp);
+			if (i != start)
+			{
+				tmp = NULL;
+				ft_strncpy(lst->txt + start, tmp, i - start);
+				s = ft_strjoin(s, tmp);
+				free(tmp);
+			}
 			free(lst->txt);
-			lst->txt = ft_strdup(s);
+			if (!env_val)
+				lst->txt = ft_strdup("");
+			else
+				lst->txt = ft_strdup(s);
 			free(s);
 			lst->type = WORD;
 		}
@@ -83,50 +89,39 @@ void	substitute_vars(t_token *lst, int i, int start, t_info info)
 
 
 
-void print_cmd_lst(t_cmd *cmd_lst) {
-    t_cmd *cmd = cmd_lst;
 
-    while (cmd) {
-        // Print the command and its arguments
-        printf("Command:\n");
-        if (cmd->args) {
-            for (int i = 0; cmd->args[i]; i++) {
-                printf("  Arg[%d]: %s\n", i, cmd->args[i]);
-            }
-        }
+void	print_cmd_lst(t_cmd *cmd_lst)
+{
+	t_cmd	*cmd;
+	int		i;
 
-        // Print input redirection
-        if (cmd->input) {
-            printf("  Input File: %s\n", cmd->input);
-        }
-
-        // Print output redirection
-        if (cmd->output) {
-            printf("  Output File: %s\n", cmd->output);
-        }
-
-        // Print append redirection
-        if (cmd->append) {
-            printf("  Append File: %s\n", cmd->append);
-        }
-
-        // Print heredoc delimiter
-        if (cmd->delimiter) {
-            printf("  Heredoc Delimiter: %s\n", cmd->delimiter);
-        }
-
-        // Move to the next command in the pipeline
-        cmd = cmd->next;
-        
-        // Print a separator if there is another command in the pipeline
-        if (cmd) {
-            printf("  |\n");
-        }
-    }
+	cmd = cmd_lst;
+	i = 0;
+	while (cmd)
+	{
+		printf("Command:\n");
+		while (cmd->args[i])
+		{
+			printf("  Arg[%d]: %s\n", i, cmd->args[i]);
+			i++;
+		}
+		if (cmd->input)
+			printf("  Input File: %s\n", cmd->input);
+		if (cmd->output)
+			printf("  Output File: %s\n", cmd->output);
+		if (cmd->append)
+			printf("  Append File: %s\n", cmd->append);
+		if (cmd->delimiter)
+			printf("  Heredoc Delimiter: %s\n", cmd->delimiter);
+		cmd = cmd->next;
+		if (cmd)
+			printf("  |\n");
+	}
 }
 
-void info_init(t_info *info, char **envp)
+void	info_init(t_info *info, char **envp)
 {
+	info->input = NULL;
 	info->my_envp = copy_envp(envp);
 	info->env_path = getenv("PATH");
 	info->paths = ft_split(info->env_path, ':');
@@ -137,54 +132,37 @@ int	main(int argc, char **argv, char **envp)
 	t_token	*token_lst;
 	t_cmd	*cmd_lst;
 	t_info	info;
+
 	(void)argc;
-	//(void)argv;
+	(void)argv;
 	info_init(&info, envp);
-	if (argv[1])
-	{		
-		info.input = ft_strdup(argv[2]);
-		token_lst = NULL;
-		
-		if (parsing(info.input))
-		{
-			add_history(info.input);
-			save_tokens(info.input, &token_lst);
-			substitute_vars(token_lst, 0, 0, info);
-			//print_list(token_lst);
-			cmd_lst = parse_tokens(token_lst);
-			cmd_to_path(cmd_lst, info);
-			//print_cmd_lst(cmd_lst);
-			execute_commands(cmd_lst, &info);
-			free(info.input);
-			free_token_lst(token_lst);
-			free_command_list(cmd_lst);
-		}
-	}
-	else
-		while (1)
+	while (1)
 	{
 		token_lst = NULL;
-		
 		info.input = readline("minishell> ");
-		if (!info.input) {
-            printf("exit\n");
-            break;
-        }
+		if (!info.input)
+		{
+			printf("exit\n");
+			break ;
+		}
 		else if (parsing(info.input))
 		{
 			add_history(info.input);
 			save_tokens(info.input, &token_lst);
-			substitute_vars(token_lst, 0, 0, info);
-			//print_list(token_lst);
-			cmd_lst = parse_tokens(token_lst);
-			cmd_to_path(cmd_lst, info);
-			print_cmd_lst(cmd_lst);
-			execute_commands(cmd_lst, &info);
-			free(info.input);
-			free_token_lst(token_lst);
-			free_command_list(cmd_lst);
+			if (token_lst)
+			{
+				substitute_vars(token_lst, 0, 0, info);
+				//print_list(token_lst);
+				cmd_lst = parse_tokens(token_lst);
+				cmd_to_path(cmd_lst, info);
+				//print_cmd_lst(cmd_lst);
+				execute_commands(cmd_lst, &info);
+				free(info.input);
+				free_token_lst(token_lst);
+				free_command_list(cmd_lst);
+			}
 		}
-	}	
+	}
 	free_arr(info.paths);
 	free_arr(info.my_envp);
 	return (0);

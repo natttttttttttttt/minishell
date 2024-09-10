@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-t_cmd *cmd_new()
+t_cmd	*cmd_new()
 {
-	t_cmd *cmd;
-	
+	t_cmd	*cmd;
+
 	cmd = malloc(sizeof(t_cmd));
 	cmd->args = NULL;
 	cmd->input = NULL;
@@ -23,7 +23,7 @@ void	add_cmd_arg(t_cmd *cmd, char *arg)
 	char	**tmp;
 	int		i;
 	int		j;
-	
+
 	i = 0;
 	j = 0;
 	if (cmd->args)
@@ -34,7 +34,7 @@ void	add_cmd_arg(t_cmd *cmd, char *arg)
 		if (!tmp)
 			return ;
 		while (j < i)
-		{	
+		{
 			tmp[j] = cmd->args[j];
 			j++;
 		}
@@ -46,7 +46,7 @@ void	add_cmd_arg(t_cmd *cmd, char *arg)
 			return ;
 		}
 		j = 0;
-		while ( j < i)
+		while (j < i)
 		{
 			cmd->args[j] = tmp[j];
 			j++;
@@ -65,7 +65,7 @@ void	add_cmd_arg(t_cmd *cmd, char *arg)
 	}
 }
 
-t_cmd *parse_tokens(t_token *tokens) 
+t_cmd	*parse_tokens(t_token *tokens)
 {
 	t_cmd	*head;
 	t_cmd	*cmd;

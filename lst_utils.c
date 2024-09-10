@@ -50,47 +50,51 @@ void	print_list(t_token *lst)
 	}
 }
 
-void free_token_lst(t_token *head) {
-    t_token *node = head;
-    t_token *next;
+void	free_token_lst(t_token *head)
+{
+	t_token	*node;
+	t_token	*next;
 
-    while (node != NULL) {
-        next = node->next; // Save the next node
-        free(node->txt);        // Free the duplicated string
-        free(node);             // Free the node node
-        node = next;       // Move to the next node
-    }
+	node = head;
+	while (node != NULL)
+	{
+		next = node->next;
+		free(node->txt);
+		free(node);
+		node = next;
+	}
 }
 
-void free_command_list(t_cmd *head) {
-    t_cmd *node = head;
-    t_cmd *next;
+void	free_command_list(t_cmd *head)
+{
+	t_cmd	*node;
+	t_cmd	*next;
+	char	**arg;
 
-    while (node != NULL) {
-        next = node->next; // Save the next node
-        
-        // Free args
-        if (node->args != NULL) {
-            char **arg = node->args;
-            while (*arg != NULL) {
-                free(*arg); // Free each string in the args array
-                arg++;
-            }
-            free(node->args); // Free the args array itself
-        }
-
-        // Free other fields
-        free(node->input);
-        free(node->output);
-        free(node->append);
-        free(node->delimiter);
-        
-        free(node); // Free the node node
-        node = next; // Move to the next node
-    }
+	node = head;
+	while (node != NULL)
+	{
+		next = node->next;
+		if (node->args != NULL)
+		{
+			arg = node->args;
+			while (*arg != NULL)
+			{
+				free(*arg);
+				arg++;
+			}
+			free(node->args);
+		}
+		free(node->input);
+		free(node->output);
+		free(node->append);
+		free(node->delimiter);
+		free(node);
+		node = next;
+	}
 }
 
-void free_all(t_cmd *cmd, t_token *token)
+void	free_all(t_cmd *cmd, t_token *token)
 {
 	free_token_lst(token);
 	free_command_list(cmd);

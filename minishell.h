@@ -109,7 +109,7 @@ void update_env(char *var, char *value, char ***my_envp);
 void builtin_env(char **my_env);
 void export_builtin(char **args, t_info *info);
 void ft_strncpy(char *dest, char *src, int size);
-void unset_builtin(char **args, t_info *info);
+void unset_builtin(char **args, t_info *info, int i, int j);
 int find_env_var(char **my_envp, char *var);
 void echo_builtin(char **args);
 #endif
