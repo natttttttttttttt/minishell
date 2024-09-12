@@ -46,8 +46,8 @@ void	substitute_vars(t_token *lst, int i, int start, t_info info)
 				{
 					if (i != start)
 					{
-						tmp = NULL;
-						ft_strncpy(lst->txt + start, tmp, i - start);
+						tmp = malloc(sizeof(char) * (i - start + 1));;
+						ft_strncpy(tmp, lst->txt + start, i - start);
 						s = ft_strjoin(s, tmp);
 						free(tmp);
 					}
@@ -55,13 +55,13 @@ void	substitute_vars(t_token *lst, int i, int start, t_info info)
 					while ((lst->txt)[i] && (ft_isalnum((lst->txt)[i])
 							|| (lst->txt)[i] == '_'))
 						i++;
-					v = NULL;
-					ft_strncpy(lst->txt + start, v, i - start);
+					v = malloc(sizeof(char) * (i - start + 1));
+					ft_strncpy(v, lst->txt + start, i - start);
 					env_val = ft_getenv(info.my_envp, v);
 					free(v);
 					tmp = s;
 					if (env_val)
-						s = ft_strjoin(s, env_val);
+						s = ft_strjoin(tmp, env_val);
 					free(tmp);
 					start = i;
 				}
@@ -70,8 +70,8 @@ void	substitute_vars(t_token *lst, int i, int start, t_info info)
 			}
 			if (i != start)
 			{
-				tmp = NULL;
-				ft_strncpy(lst->txt + start, tmp, i - start);
+				tmp = malloc(sizeof(char) * (i - start + 1));
+				ft_strncpy(tmp, lst->txt + start, i - start);
 				s = ft_strjoin(s, tmp);
 				free(tmp);
 			}

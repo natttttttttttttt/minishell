@@ -241,7 +241,7 @@ void ft_strncpy(char *dest, char *src, int size)
 	int	i;
 
 	i = 0;
-	dest = malloc(sizeof(char) * size + 1);
+	//dest = malloc(sizeof(char) * (size + 1));
 	if (size != 0)
 	{
 		while (src[i] != '\0' && i < size)

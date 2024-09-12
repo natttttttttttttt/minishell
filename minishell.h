@@ -101,7 +101,7 @@ void cd_builtin(char **args, t_info *info);
 void exit_builtin(char **args);
 int	all_digits(char *str);
 int	ft_atoi(char *str);
-void run_builtin(t_cmd *cmd, t_info *info);
+void run_builtin(t_cmd *cmd, t_info *info, int fd_out);
 char **copy_envp(char **envp);
 int	ft_strncmp(char *str1, char *str2, size_t n);
 char *ft_getenv(char **my_envp, char *var);
@@ -111,5 +111,5 @@ void export_builtin(char **args, t_info *info);
 void ft_strncpy(char *dest, char *src, int size);
 void unset_builtin(char **args, t_info *info, int i, int j);
 int find_env_var(char **my_envp, char *var);
-void echo_builtin(char **args);
+void echo_builtin(char **args, int fd_out);
 #endif

@@ -124,11 +124,12 @@ static char	**split_for_export(char *s)
 	if (s[i] == '=')
 	{
 		res[0] = malloc(sizeof(char) * (i + 1));
-		strncpy(res[0], s, i);
-		res[0][i] = '\0'; 
-		res[1] = malloc(sizeof(char) * (l - i + 1));
-		ft_strncpy(res[1], s + i + 1, l - i);
-		res[1][l - i] = '\0'; 
+		ft_strncpy(res[0], s, i);
+		if (s[i + 1])
+		{
+			res[1] = malloc(sizeof(char) * (l - i));
+			ft_strncpy(res[1], s + i + 1, l - i - 1);
+		}
 	}
 	else
 	{
@@ -149,6 +150,7 @@ void	export_builtin(char **args, t_info *info)
 	while (args[i])
 	{
 		split = split_for_export(args[i]);
+		printf("var:%s value:%s\n", split[0], split[1]);
 		var = split[0];
 		if (split[1] != NULL)
 			value = split[1];
@@ -229,7 +231,7 @@ void	unset_builtin(char **args, t_info *info, int i, int j)
 	info->my_envp = new_env;
 }
 
-void	echo_builtin(char **args)
+void	echo_builtin(char **args, int fd_out)
 {
 	int	i;
 	int	n;
@@ -243,11 +245,11 @@ void	echo_builtin(char **args)
 	}
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		write(fd_out, args[i], ft_strlen(args[i]));
 		if (args[i + 1])
-			printf(" ");
+			write(fd_out, " ", 1);
 		i++;
 	}
 	if (n)
-		printf("\n");
+		write(fd_out, "\n", 1);
 }

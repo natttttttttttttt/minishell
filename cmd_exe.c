@@ -42,7 +42,7 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info info)
 	}
 }
 
-void	run_builtin(t_cmd *cmd, t_info *info)
+void	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 {
 	if (is_builtin(cmd) == BUILTIN_PWD)
 		pwd_builtin();
@@ -57,7 +57,7 @@ void	run_builtin(t_cmd *cmd, t_info *info)
 	else if (is_builtin(cmd) == BUILTIN_UNSET)
 		unset_builtin(cmd->args, info, 1, 0);
 	else if (is_builtin(cmd) == BUILTIN_ECHO)
-		echo_builtin(cmd->args);
+		echo_builtin(cmd->args, fd_out);
 }
 
 void	execute_commands(t_cmd *cmd, t_info *info)
@@ -105,11 +105,11 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 				perror("pipe");
 				//error
 			}
-			if (!cmd->output)
+			if (!cmd->output && !cmd->append)
 				fd_out = pipe_fd[1];
 		}
 		if (cmd->builtin && cmd->next == NULL && cmd->prev == NULL)
-			run_builtin(cmd, info);
+			run_builtin(cmd, info, fd_out);
 		else
 		{
 			pid = fork();
@@ -144,7 +144,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					close(pipe_fd[0]);
 				if (cmd->builtin)
 				{
-					run_builtin(cmd, info);
+					run_builtin(cmd, info, 1);
 					//close(fd_out);
 					exit (0);
 				}
