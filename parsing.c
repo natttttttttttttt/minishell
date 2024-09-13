@@ -75,7 +75,7 @@ void	find_quotes(char *str, int *i, int *quotes)
 		else
 		{
 			printf("unexpected EOF while looking for matching \'\n");
-			printf("syntax error: unexpected end of file\n");
+			printf("syntax error: unexpected end of file\n"); //code 2
 			*quotes = -1;
 		}
 	}
@@ -95,7 +95,7 @@ void	find_quotes(char *str, int *i, int *quotes)
 	}
 }
 
-void	save_tokens(char *str, t_token **lst)
+int	save_tokens(char *str, t_token **lst, t_info *info)
 {
 	int	i;
 	int	start;
@@ -116,8 +116,8 @@ void	save_tokens(char *str, t_token **lst)
 		find_quotes(str, &i, &quotes);
 		if (quotes == -1)
 		{
-			free_token_lst(*lst);
-			return ;
+			info->exit_code = 2;
+			return (0);
 		}
 		sep = not_words(str, i);
 		if (sep)
@@ -151,4 +151,5 @@ void	save_tokens(char *str, t_token **lst)
 			save_word(lst, copy_word(str, i, start), quotes);
 	}
 	lst_add_back(lst, lst_create("\0", DONE));
+	return (1);
 }

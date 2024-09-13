@@ -66,6 +66,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	int		fd_out;
 	int		pipe_fd[2];
 	pid_t	pid;
+	int 	status;
 
 	fd_in = 0;
 	while (cmd != NULL)
@@ -145,7 +146,6 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 				if (cmd->builtin)
 				{
 					run_builtin(cmd, info, 1);
-					//close(fd_out);
 					exit (0);
 				}
 				else
@@ -153,6 +153,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					execve(cmd->args[0], cmd->args, info->my_envp);
 					perror("execve");
 					//error
+					exit(127);
 				}
 			}
 		}
@@ -167,6 +168,11 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 		}
 		cmd = cmd->next;
 	}
-	while (wait(NULL) > 0)
-		;
+	while (wait(&status) > 0)
+	{
+		if (WIFEXITED(status))
+			info->exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			info->exit_code = 128 + WTERMSIG(status);
+	}
 }

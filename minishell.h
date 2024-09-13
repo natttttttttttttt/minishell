@@ -66,6 +66,7 @@ typedef struct s_info
 	char	*env_path;
 	char	**my_envp;
 	char	**paths;
+	int		exit_code;
 }	t_info;
 
 t_token	*ft_lstlast(t_token *lst);
@@ -85,7 +86,7 @@ char	*copy_word(char *str, int i, int start);
 int		not_words(char *str, int i);
 void	save_word(t_token **lst, char *word, int q);
 void	save_sep(t_token **lst, char *str, int i, int type);
-void	save_tokens(char *str, t_token **lst);
+int	save_tokens(char *str, t_token **lst, t_info *info);
 void add_cmd_arg(t_cmd *cmd, char *arg);
 t_cmd *parse_tokens(t_token *tokens) ;
 t_cmd *cmd_new();
@@ -112,4 +113,5 @@ void ft_strncpy(char *dest, char *src, int size);
 void unset_builtin(char **args, t_info *info, int i, int j);
 int find_env_var(char **my_envp, char *var);
 void echo_builtin(char **args, int fd_out);
+char	*ft_itoa(int n);
 #endif

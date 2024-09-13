@@ -37,6 +37,15 @@ void	substitute_vars(t_token *lst, int i, int start, t_info info)
 	{
 		if (lst->type == VAR)
 		{
+			if (ft_strncmp(lst->txt, "$?", 2) == 0)
+			{
+				
+				free(lst->txt);
+				lst->txt = ft_itoa(info.exit_code);
+				lst->type = WORD;
+				lst = lst->next;
+				continue ;
+			}
 			s = ft_strdup("");
 			i = 0;
 			start = 0;
@@ -125,6 +134,7 @@ void	info_init(t_info *info, char **envp)
 	info->my_envp = copy_envp(envp);
 	info->env_path = getenv("PATH");
 	info->paths = ft_split(info->env_path, ':');
+	info->exit_code = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -148,19 +158,18 @@ int	main(int argc, char **argv, char **envp)
 		else if (parsing(info.input))
 		{
 			add_history(info.input);
-			save_tokens(info.input, &token_lst);
-			if (token_lst)
+			if (save_tokens(info.input, &token_lst, &info))
 			{
 				substitute_vars(token_lst, 0, 0, info);
-				//print_list(token_lst);
+				print_list(token_lst);
 				cmd_lst = parse_tokens(token_lst);
 				cmd_to_path(cmd_lst, info);
-				//print_cmd_lst(cmd_lst);
+				print_cmd_lst(cmd_lst);
 				execute_commands(cmd_lst, &info);
 				free(info.input);
-				free_token_lst(token_lst);
 				free_command_list(cmd_lst);
 			}
+			free_token_lst(token_lst);
 		}
 	}
 	free_arr(info.paths);

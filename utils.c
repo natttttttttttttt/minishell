@@ -241,7 +241,6 @@ void ft_strncpy(char *dest, char *src, int size)
 	int	i;
 
 	i = 0;
-	//dest = malloc(sizeof(char) * (size + 1));
 	if (size != 0)
 	{
 		while (src[i] != '\0' && i < size)
@@ -251,4 +250,49 @@ void ft_strncpy(char *dest, char *src, int size)
 		}
 		dest[i] = '\0';
 	}
+}
+
+static int	ft_len(int n)
+{
+	int	l;
+
+	l = 1;
+	if (n < 0)
+	{
+		n *= -1;
+		l++;
+	}
+	while (n / 10 > 0)
+	{
+		l++;
+		n = n / 10;
+	}
+	return (l);
+}
+
+char	*ft_itoa(int n)
+{
+	char	*res;
+	int		l;
+
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
+	l = ft_len(n);
+	res = (char *)malloc((l + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
+	res[l] = '\0';
+	l--;
+	if (n < 0)
+	{
+		n = -1 * n;
+		res[0] = '-';
+	}
+	while (l >= 0 && res[l] != '-')
+	{
+		res[l] = (n % 10) + '0';
+		n = n / 10;
+		l--;
+	}
+	return (res);
 }
