@@ -119,5 +119,6 @@ void	update_env(char *var, char *value, char ***my_envp)
 		new_envp[i + 1] = NULL;
 		free(*my_envp);
 		*my_envp = new_envp;
+		free(s);
 	}
 }

@@ -47,22 +47,6 @@ char	*ft_strchr(char *str, int c)
 	return (NULL);
 }
 
-char	*ft_strabcpy(char *src, int a, int b)
-{
-	int		i;
-	char	*dest;
-
-	i = 0;
-	dest = (char *)malloc(sizeof(char) * (b - a + 2));
-	while (a <= b)
-	{
-		dest[i] = src[a];
-		i++;
-		a++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
 
 int	ft_isalnum(int c)
 {

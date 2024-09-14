@@ -42,26 +42,26 @@ void	save_word(t_token **lst, char *word, int q)
 	free (word);
 }
 
-void	save_sep(t_token **lst, char *str, int i, int type)
-{
-	char	*separator;
+// void	save_sep(t_token **lst,  int type)
+// {
+// 	// char	*separator;
 
-	if (type == APPEND || type == HEREDOC)
-	{
-		separator = malloc(sizeof(char) * 3);
-		separator[0] = str[i];
-		separator[1] = str[i + 1];
-		separator[2] = '\0';
-	}
-	else
-	{
-		separator = malloc(sizeof(char) * 2);
-		separator[0] = str[i];
-		separator[1] = '\0';
-	}
-	lst_add_back(lst, lst_create(separator, type));
-	free(separator);
-}
+// 	// if (type == APPEND || type == HEREDOC)
+// 	// {
+// 	// 	separator = malloc(sizeof(char) * 3);
+// 	// 	separator[0] = str[i];
+// 	// 	separator[1] = str[i + 1];
+// 	// 	separator[2] = '\0';
+// 	// }
+// 	// else
+// 	// {
+// 	// 	separator = malloc(sizeof(char) * 2);
+// 	// 	separator[0] = str[i];
+// 	// 	separator[1] = '\0';
+// 	// }
+// 	lst_add_back(lst, lst_create(NULL, type));
+// 	//free(separator);
+// }
 
 void	find_quotes(char *str, int *i, int *quotes)
 {
@@ -133,7 +133,7 @@ int	save_tokens(char *str, t_token **lst, t_info *info)
 					save_word(lst, copy_word(str, i, start), quotes);
 			}
 			if (sep != SPACES)
-				save_sep(lst, str, i, sep);
+				lst_add_back(lst, lst_create(NULL, sep));
 			if (sep == HEREDOC || sep == APPEND)
 				i++;
 			start = i + 1;
@@ -150,6 +150,6 @@ int	save_tokens(char *str, t_token **lst, t_info *info)
 		else
 			save_word(lst, copy_word(str, i, start), quotes);
 	}
-	lst_add_back(lst, lst_create("\0", DONE));
+	lst_add_back(lst, lst_create(NULL, DONE));
 	return (1);
 }

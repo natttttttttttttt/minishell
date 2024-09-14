@@ -161,10 +161,10 @@ int	main(int argc, char **argv, char **envp)
 			if (save_tokens(info.input, &token_lst, &info))
 			{
 				substitute_vars(token_lst, 0, 0, info);
-				print_list(token_lst);
+				//print_list(token_lst);
 				cmd_lst = parse_tokens(token_lst);
 				cmd_to_path(cmd_lst, info);
-				print_cmd_lst(cmd_lst);
+				//print_cmd_lst(cmd_lst);
 				execute_commands(cmd_lst, &info);
 				free(info.input);
 				free_command_list(cmd_lst);
