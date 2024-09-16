@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_cmd	*cmd_new()
+t_cmd	*cmd_new(void)
 {
 	t_cmd	*cmd;
 
