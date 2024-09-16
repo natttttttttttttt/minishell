@@ -162,13 +162,17 @@ int	main(int argc, char **argv, char **envp)
 			{
 				substitute_vars(token_lst, 0, 0, info);
 				//print_list(token_lst);
+				cmd_lst = NULL;
 				cmd_lst = parse_tokens(token_lst);
-				cmd_to_path(cmd_lst, info);
-				//print_cmd_lst(cmd_lst);
-				execute_commands(cmd_lst, &info);
-				free(info.input);
-				free_command_list(cmd_lst);
+				if (cmd_lst)
+				{
+					cmd_to_path(cmd_lst, info);
+				//	print_cmd_lst(cmd_lst);
+					execute_commands(cmd_lst, &info);
+					free_command_list(cmd_lst);
+				}
 			}
+			free(info.input);
 			free_token_lst(token_lst);
 		}
 	}

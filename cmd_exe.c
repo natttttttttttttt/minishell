@@ -29,13 +29,16 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info info)
 
 	while (cmd_lst)
 	{
-		if (!is_builtin(cmd_lst))
+		if (cmd_lst->args)
 		{
-			if (access(cmd_lst->args[0], X_OK) != 0)
+			if (!is_builtin(cmd_lst))
 			{
-				tmp = cmd_lst->args[0];
-				cmd_lst->args[0] = get_cmd(info.paths, tmp);
-				free(tmp);
+				if (access(cmd_lst->args[0], X_OK) != 0)
+				{
+					tmp = cmd_lst->args[0];
+					cmd_lst->args[0] = get_cmd(info.paths, tmp);
+					free(tmp);
+				}
 			}
 		}
 		cmd_lst = cmd_lst->next;
@@ -66,7 +69,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	int		fd_out;
 	int		pipe_fd[2];
 	pid_t	pid;
-	int 	status;
+	int		status;
 
 	fd_in = 0;
 	while (cmd != NULL)
@@ -77,8 +80,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			fd_in = open(cmd->input, O_RDONLY);
 			if (fd_in == -1)
 			{
-				perror("input");
-				return ;
+				perror(cmd->input);
 			}
 		}
 		if (cmd->output)
@@ -86,7 +88,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			fd_out = open(cmd->output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd_out == -1)
 			{
-				perror("output");
+				perror(cmd->output);
 				//error
 			}
 		}
@@ -95,7 +97,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			fd_out = open(cmd->append, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd_out == -1)
 			{
-				perror("append");
+				perror(cmd->append);
 				//error
 			}
 		}
@@ -121,7 +123,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			}
 			if (pid == 0)
 			{
-				if (cmd->args[0] == NULL)
+				if (!cmd->args || cmd->args[0][0] == '\0')
 					exit (1);
 				if (fd_in != 0)
 				{

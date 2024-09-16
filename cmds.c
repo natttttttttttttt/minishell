@@ -74,11 +74,13 @@ t_cmd	*parse_tokens(t_token *tokens)
 	head = NULL;
 	if (tokens)
 	{
-		if (tokens->type == PIPE || tokens->type == HEREDOC)
-			printf("no.\n");
+		if (tokens->type == PIPE)
+		{
+			printf("syntax error near unexpected token |\n");
+			return (NULL);
+		}
 		cmd = cmd_new();
-		if (!head)
-			head = cmd;
+		head = cmd;
 	}
 	while (tokens)
 	{
@@ -87,7 +89,10 @@ t_cmd	*parse_tokens(t_token *tokens)
 		else if (tokens->type == INPUT)
 		{
 			if (tokens->next->type != WORD)
-				printf("no.\n");
+			{
+				printf("syntax error near unexpected token\n");
+				return (NULL);
+			}
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				cmd->input = ft_strdup(tokens->txt);
@@ -95,7 +100,10 @@ t_cmd	*parse_tokens(t_token *tokens)
 		else if (tokens->type == OUTPUT)
 		{
 			if (tokens->next->type != WORD)
-				printf("no.\n");
+			{
+				printf("syntax error near unexpected token\n");
+				return (NULL);
+			}
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				cmd->output = ft_strdup(tokens->txt);
@@ -103,7 +111,10 @@ t_cmd	*parse_tokens(t_token *tokens)
 		else if (tokens->type == APPEND)
 		{
 			if (tokens->next->type != WORD)
-				printf("no.\n");
+			{
+				printf("syntax error near unexpected token\n");
+				return (NULL);
+			}
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				cmd->append = ft_strdup(tokens->txt);
@@ -112,15 +123,21 @@ t_cmd	*parse_tokens(t_token *tokens)
 		else if (tokens->type == HEREDOC)
 		{
 			if (tokens->next->type != WORD)
-				printf("no.\n");
+			{
+				printf("syntax error near unexpected token\n");
+				return (NULL);
+			}
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				cmd->delimiter = ft_strdup(tokens->txt);
 		}
 		else if (tokens->type == PIPE)
 		{
-			if (tokens->next->type == DONE || tokens->next->type == PIPE) 
-				printf("no.\n");
+			if (tokens->next->type == DONE || tokens->next->type == PIPE)
+			{
+				printf("syntax error near unexpected token\n");
+				return (NULL);
+			}
 			cmd->next = cmd_new();
 			cmd->next->prev = cmd;
 			cmd = cmd->next;
