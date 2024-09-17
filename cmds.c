@@ -65,7 +65,7 @@ void	add_cmd_arg(t_cmd *cmd, char *arg)
 	}
 }
 
-t_cmd	*parse_tokens(t_token *tokens)
+t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 {
 	t_cmd	*head;
 	t_cmd	*cmd;
@@ -77,6 +77,7 @@ t_cmd	*parse_tokens(t_token *tokens)
 		if (tokens->type == PIPE)
 		{
 			printf("syntax error near unexpected token |\n");
+			info->exit_code = 2;
 			return (NULL);
 		}
 		cmd = cmd_new();
@@ -90,6 +91,7 @@ t_cmd	*parse_tokens(t_token *tokens)
 		{
 			if (tokens->next->type != WORD)
 			{
+				info->exit_code = 2;
 				printf("syntax error near unexpected token\n");
 				return (NULL);
 			}
@@ -101,6 +103,7 @@ t_cmd	*parse_tokens(t_token *tokens)
 		{
 			if (tokens->next->type != WORD)
 			{
+				info->exit_code = 2;
 				printf("syntax error near unexpected token\n");
 				return (NULL);
 			}
@@ -112,6 +115,7 @@ t_cmd	*parse_tokens(t_token *tokens)
 		{
 			if (tokens->next->type != WORD)
 			{
+				info->exit_code = 2;
 				printf("syntax error near unexpected token\n");
 				return (NULL);
 			}
@@ -124,6 +128,7 @@ t_cmd	*parse_tokens(t_token *tokens)
 		{
 			if (tokens->next->type != WORD)
 			{
+				info->exit_code = 2;
 				printf("syntax error near unexpected token\n");
 				return (NULL);
 			}
@@ -135,6 +140,7 @@ t_cmd	*parse_tokens(t_token *tokens)
 		{
 			if (tokens->next->type == DONE || tokens->next->type == PIPE)
 			{
+				info->exit_code = 2;
 				printf("syntax error near unexpected token\n");
 				return (NULL);
 			}
