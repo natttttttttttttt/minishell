@@ -2,46 +2,43 @@
 
 int	is_builtin(t_cmd *cmd)
 {
-	cmd->builtin = 1;
-	if (strcmp(cmd->args[0], "pwd") == 0)
+	if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
 		return (BUILTIN_PWD);
-	else if (strcmp(cmd->args[0], "cd") == 0)
+	else if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 		return (BUILTIN_CD);
-	else if (strcmp(cmd->args[0], "echo") == 0)
+	else if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 		return (BUILTIN_ECHO);
-	else if (strcmp(cmd->args[0], "exit") == 0)
+	else if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
 		return (BUILTIN_EXIT);
-	else if (strcmp(cmd->args[0], "export") == 0)
+	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
 		return (BUILTIN_EXPORT);
-	else if (strcmp(cmd->args[0], "env") == 0)
+	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
 		return (BUILTIN_ENV);
-	else if (strcmp(cmd->args[0], "unset") == 0)
+	else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
 		return (BUILTIN_UNSET);
 	else
-	{
-		cmd->builtin = 0;
 		return (0);
-	}
 }
 
-void	pwd_builtin(void)
+int	pwd_builtin(void)
 {
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
 	if (cwd)
 	{
-
-		write(1, cwd, ft_strlen(cwd));
-		write(1, "\n", 1);
+		printf("%s\n", cwd);
 		free(cwd);
-		return ;
+		return (0);
 	}
 	else
+	{
 		perror("pwd");
+		return (errno);
+	}
 }
 
-void	cd_builtin(char **args, t_info *info)
+int	cd_builtin(char **args, t_info *info)
 {
 	char	*oldpwd;
 	char	*newpwd;
@@ -55,21 +52,22 @@ void	cd_builtin(char **args, t_info *info)
 	if (chdir(dir) != 0)
 	{
 		perror("chdir");
-		return ;
+		return (errno);
 	}
 	newpwd = getcwd(NULL, 0);
 	if (newpwd == NULL || oldpwd == NULL)
 	{
 		perror("getcwd");
-		return ;
+		return (errno);
 	}
 	update_env("OLDPWD", oldpwd, &info->my_envp);
 	update_env("PWD", newpwd, &info->my_envp);
 	free(oldpwd);
 	free(newpwd);
+	return (0);
 }
 
-void	exit_builtin(char **args)
+void	exit_builtin(char **args, t_info *info)
 {
 	int	code;
 
@@ -82,10 +80,20 @@ void	exit_builtin(char **args)
 		{
 			printf("exit\n");
 			printf("exit: %s: numeric argument required\n", args[1]);
+			free_command_list(info->cmds);
+			free_token_lst(info->tokens);
+			free(info->input);
+			free_arr(info->paths);
+			free_arr(info->my_envp);
 			exit (1);
 		}
 	}
 	printf("exit\n");
+	free_command_list(info->cmds);
+	free_token_lst(info->tokens);
+	free(info->input);
+	free_arr(info->paths);
+	free_arr(info->my_envp);
 	exit(code);
 }
 
@@ -117,6 +125,11 @@ static char	**split_for_export(char *s)
 
 	l = ft_strlen(s);
 	res = malloc(sizeof(char *) * 3);
+	if (!res)
+	{
+		perror("malloc");
+		return (NULL);
+	}
 	res[2] = NULL;
 	i = 0;
 	while (s[i] && s[i] != '=')
@@ -124,10 +137,20 @@ static char	**split_for_export(char *s)
 	if (s[i] == '=')
 	{
 		res[0] = malloc(sizeof(char) * (i + 1));
+		if (!res[0])
+		{
+			perror("malloc");
+			return (NULL);
+		}
 		ft_strncpy(res[0], s, i);
 		if (s[i + 1])
 		{
 			res[1] = malloc(sizeof(char) * (l - i));
+			if (!res[1])
+			{
+				perror("malloc");
+				return (NULL);
+			}
 			ft_strncpy(res[1], s + i + 1, l - i - 1);
 		}
 	}
@@ -139,18 +162,19 @@ static char	**split_for_export(char *s)
 	return (res);
 }
 
-void	export_builtin(char **args, t_info *info)
+int	export_builtin(char **args, t_info *info, int i)
 {
 	char	**split;
 	char	*var;
 	char	*value;
-	int		i;
+	int		f;
 
-	i = 1;
+	f = 0;
 	while (args[i])
 	{
 		split = split_for_export(args[i]);
-		printf("var:%s value:%s\n", split[0], split[1]);
+		if (!split)
+			return (12);
 		var = split[0];
 		if (split[1] != NULL)
 			value = split[1];
@@ -162,16 +186,20 @@ void	export_builtin(char **args, t_info *info)
 				update_env(var, value, &(info->my_envp));
 		}
 		else
+		{
 			printf("export: %s: not a valid identifier\n", var);
+			f = 1;
+		}
 		free(split[0]);
 		if (split[1])
 			free(split[1]);
 		free(split);
 		i++;
 	}
+	return (f);
 }
 
-void	builtin_env(char **my_envp)
+int	builtin_env(char **my_envp)
 {
 	int	i;
 
@@ -181,9 +209,10 @@ void	builtin_env(char **my_envp)
 		printf("%s\n", my_envp[i]);
 		i++;
 	}
+	return (0);
 }
 
-void	unset_builtin(char **args, t_info *info, int i, int j)
+int	unset_builtin(char **args, t_info *info, int i, int j)
 {
 	int		n;
 	int		k;
@@ -191,7 +220,7 @@ void	unset_builtin(char **args, t_info *info, int i, int j)
 	char	**new_env;
 
 	if (args[1] == NULL)
-		return ;
+		return (0);
 	while (args[i] && find_env_var(info->my_envp, args[i]) != -1)
 	{
 		j++;
@@ -204,7 +233,7 @@ void	unset_builtin(char **args, t_info *info, int i, int j)
 	if (!new_env)
 	{
 		perror("malloc");
-		return ;
+		return (errno);
 	}
 	i = 0;
 	j = 0;
@@ -229,9 +258,10 @@ void	unset_builtin(char **args, t_info *info, int i, int j)
 	new_env[j] = NULL;
 	free(info->my_envp);
 	info->my_envp = new_env;
+	return (0);
 }
 
-void	echo_builtin(char **args, int fd_out)
+int	echo_builtin(char **args, int fd_out)
 {
 	int	i;
 	int	n;
@@ -252,4 +282,5 @@ void	echo_builtin(char **args, int fd_out)
 	}
 	if (n)
 		write(fd_out, "\n", 1);
+	return (0);
 }

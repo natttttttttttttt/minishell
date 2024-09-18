@@ -236,6 +236,31 @@ void ft_strncpy(char *dest, char *src, int size)
 	}
 }
 
+char	*ft_substr(char *s, int start, int len)
+{
+	int	size;
+	char	*res;
+	int	i;
+
+	if (start >= ft_strlen(s))
+		return (NULL);
+	size = ft_strlen(s) - start;
+	if (size < len)
+		len = size;
+	res = (char *)malloc((len + 1) * sizeof(char));
+	if (!s || !res)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		res[i] = s[i + start];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}
+
+
 static int	ft_len(int n)
 {
 	int	l;
@@ -259,6 +284,8 @@ char	*ft_itoa(int n)
 	char	*res;
 	int		l;
 
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
 	l = ft_len(n);

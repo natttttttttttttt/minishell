@@ -1,13 +1,15 @@
 #include "minishell.h"
 
-static char	*get_cmd(char **paths, char *cmd)
+static char	*get_cmd(t_info *info, char *cmd)
 {
 	char	*try;
 	char	*tmp;
+	int		i;
 
-	while (*paths)
+	i = 0;
+	while (info->paths[i])
 	{
-		tmp = ft_strjoin(*paths, "/");
+		tmp = ft_strjoin(info->paths[i], "/");
 		try = ft_strjoin(tmp, cmd);
 		if (access(try, X_OK) == 0)
 		{
@@ -16,14 +18,14 @@ static char	*get_cmd(char **paths, char *cmd)
 		}
 		free(try);
 		free(tmp);
-		paths++;
+		i++;
 	}
 	printf("%s: command not found\n", cmd);
 	return (ft_strdup(""));
 }
 
 
-void	cmd_to_path(t_cmd *cmd_lst, t_info info)
+void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 {
 	char	*tmp;
 
@@ -36,7 +38,7 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info info)
 				if (access(cmd_lst->args[0], X_OK) != 0)
 				{
 					tmp = cmd_lst->args[0];
-					cmd_lst->args[0] = get_cmd(info.paths, tmp);
+					cmd_lst->args[0] = get_cmd(info, tmp);
 					free(tmp);
 				}
 			}
@@ -45,22 +47,23 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info info)
 	}
 }
 
-void	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
+int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 {
 	if (is_builtin(cmd) == BUILTIN_PWD)
-		pwd_builtin();
+		return (pwd_builtin());
 	else if (is_builtin(cmd) == BUILTIN_CD)
-		cd_builtin(cmd->args, info);
+		return (cd_builtin(cmd->args, info));
 	else if (is_builtin(cmd) == BUILTIN_EXIT)
-		exit_builtin(cmd->args);
+		exit_builtin(cmd->args, info);
 	else if (is_builtin(cmd) == BUILTIN_ENV)
-		builtin_env(info->my_envp);
+		return (builtin_env(info->my_envp));
 	else if (is_builtin(cmd) == BUILTIN_EXPORT)
-		export_builtin(cmd->args, info);
+		return (export_builtin(cmd->args, info, 1));
 	else if (is_builtin(cmd) == BUILTIN_UNSET)
-		unset_builtin(cmd->args, info, 1, 0);
+		return (unset_builtin(cmd->args, info, 1, 0));
 	else if (is_builtin(cmd) == BUILTIN_ECHO)
-		echo_builtin(cmd->args, fd_out);
+		return (echo_builtin(cmd->args, fd_out));
+	return (0);
 }
 
 void	execute_commands(t_cmd *cmd, t_info *info)
@@ -81,6 +84,24 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (fd_in == -1)
 			{
 				perror(cmd->input);
+				fd_in = 0;
+				info->exit_code = 2;
+				cmd = cmd->next;
+				continue ;
+			}
+		}
+		if (cmd->delimiter)
+		{
+			heredoc(cmd->delimiter);
+			fd_in = open("heredoc.tmp", O_RDONLY);
+			unlink("heredoc.tmp");
+			if (fd_in == -1)
+			{
+				perror("heredoc.tmp");
+				fd_in = 0;
+				info->exit_code = 2;
+				cmd = cmd->next;
+				continue ;
 			}
 		}
 		if (cmd->output)
@@ -89,7 +110,9 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (fd_out == -1)
 			{
 				perror(cmd->output);
-				//error
+				info->exit_code = 2;
+				cmd = cmd->next;
+				continue ;
 			}
 		}
 		else if (cmd->append)
@@ -98,7 +121,9 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (fd_out == -1)
 			{
 				perror(cmd->append);
-				//error
+				info->exit_code = 2;
+				cmd = cmd->next;
+				continue ;
 			}
 		}
 		if (cmd->next)
@@ -111,8 +136,8 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (!cmd->output && !cmd->append)
 				fd_out = pipe_fd[1];
 		}
-		if (cmd->builtin && cmd->next == NULL && cmd->prev == NULL)
-			run_builtin(cmd, info, fd_out);
+		if (is_builtin(cmd) && cmd->next == NULL && cmd->prev == NULL)
+			info->exit_code = run_builtin(cmd, info, fd_out);
 		else
 		{
 			pid = fork();
@@ -124,7 +149,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (pid == 0)
 			{
 				if (!cmd->args || cmd->args[0][0] == '\0')
-					exit (1);
+					exit (127);
 				if (fd_in != 0)
 				{
 					if (dup2(fd_in, 0) == -1)
@@ -145,16 +170,15 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 				}
 				if (cmd->next)
 					close(pipe_fd[0]);
-				if (cmd->builtin)
+				if (is_builtin(cmd))
 				{
-					run_builtin(cmd, info, 1);
-					exit (0);
+					info->exit_code = run_builtin(cmd, info, 1);
+					exit (info->exit_code);
 				}
 				else
 				{
 					execve(cmd->args[0], cmd->args, info->my_envp);
 					perror("execve");
-					//error
 					exit(127);
 				}
 			}
@@ -174,7 +198,5 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	{
 		if (WIFEXITED(status))
 			info->exit_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			info->exit_code = 128 + WTERMSIG(status);
 	}
 }

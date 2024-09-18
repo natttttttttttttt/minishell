@@ -12,7 +12,6 @@ t_cmd	*cmd_new(void)
 	cmd->delimiter = NULL;
 	cmd->next = NULL;
 	cmd->prev = NULL;
-	cmd->builtin = 0;
 	return (cmd);
 }
 
