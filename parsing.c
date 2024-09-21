@@ -42,27 +42,6 @@ void	save_word(t_token **lst, char *word, int q)
 	free (word);
 }
 
-// void	save_sep(t_token **lst,  int type)
-// {
-// 	// char	*separator;
-
-// 	// if (type == APPEND || type == HEREDOC)
-// 	// {
-// 	// 	separator = malloc(sizeof(char) * 3);
-// 	// 	separator[0] = str[i];
-// 	// 	separator[1] = str[i + 1];
-// 	// 	separator[2] = '\0';
-// 	// }
-// 	// else
-// 	// {
-// 	// 	separator = malloc(sizeof(char) * 2);
-// 	// 	separator[0] = str[i];
-// 	// 	separator[1] = '\0';
-// 	// }
-// 	lst_add_back(lst, lst_create(NULL, type));
-// 	//free(separator);
-// }
-
 void	find_quotes(char *str, int *i, int *quotes)
 {
 	if (str[*i] == '\'')
@@ -75,7 +54,7 @@ void	find_quotes(char *str, int *i, int *quotes)
 		else
 		{
 			printf("unexpected EOF while looking for matching \'\n");
-			printf("syntax error: unexpected end of file\n"); //code 2
+			printf("syntax error: unexpected end of file\n");
 			*quotes = -1;
 		}
 	}

@@ -18,7 +18,7 @@ void heredoc(char *delimiter)
 		if (!line)
 		{
 			printf("warning: here-document delimited by end-of-file");
-			printf("wanted '%s')\n", delimiter);
+			printf(" (wanted '%s')\n", delimiter);
 			break ;
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)

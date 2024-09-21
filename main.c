@@ -26,7 +26,7 @@ int	parsing(char *str)
 	return (1);
 }
 
-void	substitute_vars(t_token *lst, int i, int start, t_info info)
+void	vars_to_value(t_token *lst, int i, int start, t_info info)
 {
 	char	*s;
 	char	*v;
@@ -95,37 +95,34 @@ void	substitute_vars(t_token *lst, int i, int start, t_info info)
 	}
 }
 
+// void	print_cmd_lst(t_cmd *cmd_lst)
+// {
+// 	t_cmd	*cmd;
+// 	int		i;
 
-
-
-void	print_cmd_lst(t_cmd *cmd_lst)
-{
-	t_cmd	*cmd;
-	int		i;
-
-	cmd = cmd_lst;
-	i = 0;
-	while (cmd)
-	{
-		printf("Command:\n");
-		while (cmd->args[i])
-		{
-			printf("  Arg[%d]: %s\n", i, cmd->args[i]);
-			i++;
-		}
-		if (cmd->input)
-			printf("  Input File: %s\n", cmd->input);
-		if (cmd->output)
-			printf("  Output File: %s\n", cmd->output);
-		if (cmd->append)
-			printf("  Append File: %s\n", cmd->append);
-		if (cmd->delimiter)
-			printf("  Heredoc Delimiter: %s\n", cmd->delimiter);
-		cmd = cmd->next;
-		if (cmd)
-			printf("  |\n");
-	}
-}
+// 	cmd = cmd_lst;
+// 	i = 0;
+// 	while (cmd)
+// 	{
+// 		printf("Command:\n");
+// 		while (cmd->args[i])
+// 		{
+// 			printf("  Arg[%d]: %s\n", i, cmd->args[i]);
+// 			i++;
+// 		}
+// 		if (cmd->input)
+// 			printf("  Input File: %s\n", cmd->input);
+// 		if (cmd->output)
+// 			printf("  Output File: %s\n", cmd->output);
+// 		if (cmd->append)
+// 			printf("  Append File: %s\n", cmd->append);
+// 		if (cmd->delimiter)
+// 			printf("  Heredoc Delimiter: %s\n", cmd->delimiter);
+// 		cmd = cmd->next;
+// 		if (cmd)
+// 			printf("  |\n");
+// 	}
+// }
 
 void	info_init(t_info *info, char **envp)
 {
@@ -163,19 +160,17 @@ int	main(int argc, char **argv, char **envp)
 			if (save_tokens(info.input, &token_lst, &info))
 			{
 				info.tokens = token_lst;
-				substitute_vars(token_lst, 0, 0, info);
-				//print_list(token_lst);
+				vars_to_value(token_lst, 0, 0, info);
 				cmd_lst = NULL;
 				cmd_lst = parse_tokens(token_lst, &info);
 				info.cmds = cmd_lst;
 				if (cmd_lst)
 				{
 					cmd_to_path(cmd_lst, &info);
-				//	print_cmd_lst(cmd_lst);
 					execute_commands(cmd_lst, &info);
 					free_command_list(cmd_lst);
 				}
-			free_token_lst(token_lst);
+				free_token_lst(token_lst);
 			}
 			free(info.input);
 		}

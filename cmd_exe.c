@@ -72,7 +72,6 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	int		fd_out;
 	int		pipe_fd[2];
 	pid_t	pid;
-	int		status;
 
 	fd_in = 0;
 	while (cmd != NULL)
@@ -85,7 +84,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			{
 				perror(cmd->input);
 				fd_in = 0;
-				info->exit_code = 2;
+				info->exit_code = errno;
 				cmd = cmd->next;
 				continue ;
 			}
@@ -110,7 +109,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (fd_out == -1)
 			{
 				perror(cmd->output);
-				info->exit_code = 2;
+				info->exit_code = errno;
 				cmd = cmd->next;
 				continue ;
 			}
@@ -121,7 +120,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (fd_out == -1)
 			{
 				perror(cmd->append);
-				info->exit_code = 2;
+				info->exit_code = errno;
 				cmd = cmd->next;
 				continue ;
 			}
@@ -131,7 +130,12 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (pipe(pipe_fd) == -1)
 			{
 				perror("pipe");
-				//error
+				info->exit_code = errno;
+				if (fd_in != 0)
+					close(fd_in);
+				if (fd_out != 1)
+					close(fd_out);
+				return ;
 			}
 			if (!cmd->output && !cmd->append)
 				fd_out = pipe_fd[1];
@@ -144,7 +148,12 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (pid == -1)
 			{
 				perror("fork");
-				//error
+				info->exit_code = errno;
+				if (fd_in != 0)
+					close(fd_in);
+				if (fd_out != 1)
+					close(fd_out);
+				return ;
 			}
 			if (pid == 0)
 			{
@@ -155,7 +164,8 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					if (dup2(fd_in, 0) == -1)
 					{
 						perror("dup2");
-						//error
+						info->exit_code = errno;
+						exit (errno);
 					}
 					close(fd_in);
 				}
@@ -164,7 +174,8 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					if (dup2(fd_out, 1) == -1)
 					{
 						perror("dup2");
-						//error
+						info->exit_code = errno;
+						exit (errno);
 					}
 					close(fd_out);
 				}
@@ -179,7 +190,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 				{
 					execve(cmd->args[0], cmd->args, info->my_envp);
 					perror("execve");
-					exit(127);
+					exit(errno);
 				}
 			}
 		}
@@ -194,9 +205,6 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 		}
 		cmd = cmd->next;
 	}
-	while (wait(&status) > 0)
-	{
-		if (WIFEXITED(status))
-			info->exit_code = WEXITSTATUS(status);
-	}
+	while (wait(NULL) > 0)
+		;
 }
