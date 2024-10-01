@@ -52,12 +52,16 @@ int	cd_builtin(char **args, t_info *info)
 	if (chdir(dir) != 0)
 	{
 		perror("chdir");
+		free(oldpwd);
 		return (errno);
 	}
 	newpwd = getcwd(NULL, 0);
 	if (newpwd == NULL || oldpwd == NULL)
 	{
 		perror("getcwd");
+		free(oldpwd);
+		if (newpwd)
+			free(newpwd);
 		return (errno);
 	}
 	update_env("OLDPWD", oldpwd, &info->my_envp);
@@ -65,6 +69,15 @@ int	cd_builtin(char **args, t_info *info)
 	free(oldpwd);
 	free(newpwd);
 	return (0);
+}
+
+static void	free_before_exit(t_info *info)
+{
+	free_command_list(info->cmds);
+	free_token_lst(info->tokens);
+	free(info->input);
+	free_arr(info->paths);
+	free_arr(info->my_envp);
 }
 
 void	exit_builtin(char **args, t_info *info)
@@ -80,20 +93,12 @@ void	exit_builtin(char **args, t_info *info)
 		{
 			printf("exit\n");
 			printf("exit: %s: numeric argument required\n", args[1]);
-			free_command_list(info->cmds);
-			free_token_lst(info->tokens);
-			free(info->input);
-			free_arr(info->paths);
-			free_arr(info->my_envp);
+			free_before_exit(info);
 			exit (1);
 		}
 	}
 	printf("exit\n");
-	free_command_list(info->cmds);
-	free_token_lst(info->tokens);
-	free(info->input);
-	free_arr(info->paths);
-	free_arr(info->my_envp);
+	free_before_exit(info);
 	exit(code);
 }
 

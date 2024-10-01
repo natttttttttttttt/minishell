@@ -8,23 +8,30 @@ char	*ft_strdup(char *src)
 	if (!src)
 		return (NULL);
 	i = 0;
-	while (src[i])
-		i++;
-	str = malloc((i + 1) * sizeof(char));
-	i = 0;
-	while (src[i])
+	if (src[0] == '\0')
+		str = malloc(1);
+	else
 	{
-		str[i] = src[i];
-		i++;
+		while (src[i])
+			i++;
+		str = malloc((i + 1) * sizeof(char));
+		i = 0;
+		while (src[i])
+		{
+			str[i] = src[i];
+			i++;
+		}
 	}
 	str[i] = '\0';
 	return (str);
 }
 
-int	ft_strlen(const char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 		i++;
@@ -89,7 +96,7 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*res;
 	size_t	len;
@@ -103,12 +110,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	res = (char *)malloc((len + 1) * sizeof(char));
 	if (!res)
 		return (NULL);
-	while (s1[i])
+	while (s1 && s1[i])
 	{
 		res[i] = s1[i];
 		i++;
 	}
-	while (s2[j])
+	while (s2 && s2[j])
 	{
 		res[i + j] = s2[j];
 		j++;

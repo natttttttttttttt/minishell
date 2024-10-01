@@ -79,8 +79,8 @@ t_token	*lst_create(char *str, t_type type);
 void	lst_add_back(t_token **lst, t_token *new);
 void	print_list(t_token *lst);
 char	*ft_strchr(char *str, int c);
-int	ft_strlen(const char *str);
-char	*ft_strjoin(char const *s1, char const *s2);
+int	ft_strlen(char *str);
+char	*ft_strjoin(char *s1, char *s2);
 int		ft_isalnum(int c);
 char	*copy_word(char *str, int i, int start);
 int		not_words(char *str, int i);
@@ -115,4 +115,5 @@ int find_env_var(char **my_envp, char *var);
 int echo_builtin(char **args, int fd_out);
 char	*ft_itoa(int n);
 void heredoc(char *delimiter);
+void	vars_to_value(t_token *lst, int i, int start, t_info info);
 #endif
