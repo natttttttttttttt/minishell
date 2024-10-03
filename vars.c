@@ -1,110 +1,104 @@
-
 #include "minishell.h"
 
-// static void	save_part(int i, int start, char *str, char **s)
-// {
-// 	char	*tmp;
+static char	*extract_variable(const char *txt, int *i)
+{
+	int		start;
+	char	*var;
 
-// 	if (i != start)
-// 	{
-// 		tmp = malloc(sizeof(char) * (i - start + 1));
-// 		ft_strncpy(tmp, str, i - start);
-// 		*s = ft_strjoin(*s, tmp);
-// 		free(tmp);
-// 	}
-// }
+	start = *i;
+	while (txt[*i] && (ft_isalnum(txt[*i]) || txt[*i] == '_'))
+		(*i)++;
+	var = malloc(sizeof(char) * (*i - start + 1));
+	ft_strncpy(var, txt + start, *i - start);
+	return (var);
+}
 
-// static void	replace_txt(t_token *lst, char **s, char *env_val)
-// {
-// 	if (!env_val)
-// 		lst->txt = ft_strdup("");
-// 	else
-// 		lst->txt = ft_strdup(*s);
-// 	lst->type = WORD;
-// }
+static void	handle_special_var(t_token *lst, t_info info)
+{
+	if (ft_strncmp(lst->txt, "$?", 3) == 0)
+	{
+		free(lst->txt);
+		lst->txt = ft_itoa(info.exit_code);
+		lst->type = WORD;
+	}
+}
 
-// static void	get_exit_code(t_token *lst, t_info info)
-// {
-// 	free(lst->txt);
-// 	lst->txt = ft_itoa(info.exit_code);
-// 	lst->type = WORD;
-// 	lst = lst->next;
-// }
+static char	*append_substring(char *s, const char *txt, int start, int end)
+{
+	char	*tmp;
+	char	*res;
 
-void	vars_to_value(t_token *lst, int i, int start, t_info info)
+	tmp = malloc(sizeof(char) * (end - start + 1));
+	ft_strncpy(tmp, txt + start, end - start);
+	res = ft_strjoin(s, tmp);
+	free(s);
+	free(tmp);
+	return (res);
+}
+
+static char	*append_env_value(char *s, const char *env_val)
+{
+	char	*res;
+
+	if (!env_val)
+		env_val = "";
+	if (s)
+	{
+		res = ft_strjoin(s, env_val);
+		free(s);
+	}
+	else
+		res = ft_strdup(env_val);
+	return (res);
+}
+
+static char	*replace_env_vars(const char *txt, t_info info, int i, int start)
 {
 	char	*s;
-	char	*v;
-	char	*tmp;
+	char	*var;
 	char	*env_val;
+
+	s = NULL;
+	while (txt[i])
+	{
+		if (txt[i] == '$')
+		{
+			if (i != start)
+				s = append_substring(s, txt, start, i);
+			i++;
+			var = extract_variable(txt, &i);
+			env_val = ft_getenv(info.my_envp, var);
+			s = append_env_value(s, env_val);
+			free(var);
+			start = i;
+		}
+		else
+			i++;
+	}
+	if (i != start)
+		s = append_substring(s, txt, start, i);
+	// if (s == NULL)
+	// 	return (ft_strdup(""));
+	return (s);
+}
+
+
+void vars_to_value(t_token *lst, t_info info)
+{
+	char	*s;
 
 	while (lst)
 	{
 		if (lst->type == VAR)
 		{
-			if (ft_strncmp(lst->txt, "$?", 3) == 0)
+			handle_special_var(lst, info);
+			if (lst->type != WORD)
 			{
+				s = replace_env_vars(lst->txt, info, 0, 0);
 				free(lst->txt);
-				lst->txt = ft_itoa(info.exit_code);
+				lst->txt = s;
 				lst->type = WORD;
-				lst = lst->next;
-				continue ;
 			}
-			s = NULL;
-			tmp = NULL;
-			i = 0;
-			start = 0;
-			while ((lst->txt)[i])
-			{
-				if ((lst->txt)[i] == '$')
-				{
-					if (i != start)
-					{
-						tmp = malloc(sizeof(char) * (i - start + 1));
-						ft_strncpy(tmp, lst->txt + start, i - start);
-						s = ft_strjoin(s, tmp);
-						free(tmp);
-					}
-					start = ++i;
-					while ((lst->txt)[i] && (ft_isalnum((lst->txt)[i])
-							|| (lst->txt)[i] == '_'))
-						i++;
-					v = malloc(sizeof(char) * (i - start + 1));
-					ft_strncpy(v, lst->txt + start, i - start);
-					env_val = ft_getenv(info.my_envp, v);
-					free(v);
-					if (s)
-						tmp = ft_strdup(s);
-					if (env_val && s)
-					{
-						free(s);
-						s = ft_strjoin(tmp, env_val);
-					}
-					else if (env_val)
-						s = ft_strdup(env_val);
-					start = i;
-					if (tmp)
-						free(tmp);
-				}
-				else
-					i++;
-			}
-			if (i != start)
-			{
-				tmp = malloc(sizeof(char) * (i - start + 1));
-				ft_strncpy(tmp, lst->txt + start, i - start);
-				
-				s = ft_strjoin(s, tmp);
-				free(tmp);
-			}
-			free(lst->txt);
-			if (!s)
-				lst->txt = ft_strdup("");
-			else
-				lst->txt = ft_strdup(s);
-			if (s)
-				free(s);
-			lst->type = WORD;
 		}
 		lst = lst->next;
 	}

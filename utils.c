@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*ft_strdup(char *src)
+char	*ft_strdup(const char *src)
 {
 	char	*str;
 	int		i;
@@ -26,7 +26,7 @@ char	*ft_strdup(char *src)
 	return (str);
 }
 
-int	ft_strlen(char *str)
+int	ft_strlen(const char *str)
 {
 	int	i;
 
@@ -96,7 +96,7 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, const char *s2)
 {
 	char	*res;
 	size_t	len;
@@ -227,7 +227,7 @@ int	ft_strncmp(char *str1, char *str2, size_t n)
 	return (0);
 }
 
-void ft_strncpy(char *dest, char *src, int size)
+void ft_strncpy(char *dest, const char *src, int size)
 {
 	int	i;
 

@@ -102,7 +102,7 @@ void	exit_builtin(char **args, t_info *info)
 	exit(code);
 }
 
-static int	valid_var_name(char *s)
+int	valid_var_name(char *s)
 {
 	int	i;
 
