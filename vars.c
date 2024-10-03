@@ -6,8 +6,11 @@ static char	*extract_variable(const char *txt, int *i)
 	char	*var;
 
 	start = *i;
-	while (txt[*i] && (ft_isalnum(txt[*i]) || txt[*i] == '_'))
-		(*i)++;
+	if (!(txt[*i] >= '0' && txt[*i] <='9'))
+		while (txt[*i] && (ft_isalnum(txt[*i]) || txt[*i] == '_'))
+			(*i)++;
+	if (*i == start)
+		return (NULL);
 	var = malloc(sizeof(char) * (*i - start + 1));
 	ft_strncpy(var, txt + start, *i - start);
 	return (var);
@@ -15,6 +18,8 @@ static char	*extract_variable(const char *txt, int *i)
 
 static void	handle_special_var(t_token *lst, t_info info)
 {
+	if (ft_strncmp(lst->txt, "$", 2) == 0)
+		lst->type = WORD;
 	if (ft_strncmp(lst->txt, "$?", 3) == 0)
 	{
 		free(lst->txt);
@@ -67,9 +72,12 @@ static char	*replace_env_vars(const char *txt, t_info info, int i, int start)
 				s = append_substring(s, txt, start, i);
 			i++;
 			var = extract_variable(txt, &i);
-			env_val = ft_getenv(info.my_envp, var);
-			s = append_env_value(s, env_val);
-			free(var);
+			if (var)
+			{
+				env_val = ft_getenv(info.my_envp, var);
+				s = append_env_value(s, env_val);
+				free(var);
+			}
 			start = i;
 		}
 		else
@@ -77,8 +85,6 @@ static char	*replace_env_vars(const char *txt, t_info info, int i, int start)
 	}
 	if (i != start)
 		s = append_substring(s, txt, start, i);
-	// if (s == NULL)
-	// 	return (ft_strdup(""));
 	return (s);
 }
 
