@@ -314,3 +314,17 @@ char	*ft_itoa(int n)
 	}
 	return (res);
 }
+
+char	*ft_strrchr(const char *str, int c)
+{
+	int	l;
+
+	l = (int)ft_strlen((char *)str);
+	while (l >= 0)
+	{
+		if (str[l] == (char)c)
+			return ((char *)(str + l));
+		l--;
+	}
+	return (NULL);
+}

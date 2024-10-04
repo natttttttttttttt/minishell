@@ -116,5 +116,6 @@ int find_env_var(char **my_envp, char *var);
 int echo_builtin(char **args, int fd_out);
 char	*ft_itoa(int n);
 void heredoc(char *delimiter);
+char	*ft_strrchr(const char *str, int c);
 void	vars_to_value(t_token *lst, t_info info);
 #endif

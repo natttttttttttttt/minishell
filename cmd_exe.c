@@ -158,7 +158,10 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (pid == 0)
 			{
 				if (!cmd->args || cmd->args[0][0] == '\0')
+				{
+					info->exit_code = 127;
 					exit (127);
+				}
 				if (fd_in != 0)
 				{
 					if (dup2(fd_in, 0) == -1)

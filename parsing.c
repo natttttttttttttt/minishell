@@ -28,18 +28,49 @@ char	*copy_word(char *str, int i, int start)
 	word = malloc(sizeof(char) * (i - start + 1));
 	j = 0;
 	while (start < i)
-		word[j++] = str[start++];
+			word[j++] = str[start++];
 	word[j] = '\0';
 	return (word);
 }
 
+static char *deal_with_quotes(char *s, int q)
+{
+	char *res;
+	int l;
+	int j;
+	int i;
+
+	l = ft_strlen(s);
+	if (q == 1 || (q == 2 && !(ft_strchr(s, '$'))))
+		l = l - 2;
+	else if (q == 2 && ft_strchr(s, '$'))
+		l--;
+	res = malloc(l + 1);
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if ((q == 1 && s[i] == '\'')
+				|| (q == 2 && (((ft_strchr(s, '$')) && (ft_strchr(s, '\"') == &s[i]))
+				|| (!(ft_strchr(s, '$')) && s[i] == '\"'))))
+			i++;
+		else
+			res[j++] = s[i++]; 
+	}
+	res[j] = '\0';
+	return (res);
+}
 void	save_word(t_token **lst, char *word, int q)
 {
+	char	*tmp;
+
+	tmp = deal_with_quotes(word, q);
 	if (ft_strchr(word, '$') && q != 1)
-		lst_add_back(lst, lst_create(word, VAR));
+		lst_add_back(lst, lst_create(tmp, VAR));
 	else
-		lst_add_back(lst, lst_create(word, WORD));
+		lst_add_back(lst, lst_create(tmp, WORD));
 	free (word);
+	free(tmp);
 }
 
 void	find_quotes(char *str, int *i, int *quotes)
@@ -58,7 +89,7 @@ void	find_quotes(char *str, int *i, int *quotes)
 			*quotes = -1;
 		}
 	}
-	if (str[*i] == '\"')
+	else if (str[*i] == '\"')
 	{
 		(*i)++;
 		while (str[*i] && str[*i] != '\"')
@@ -105,7 +136,7 @@ int	save_tokens(char *str, t_token **lst, t_info *info)
 			{
 				if (quotes)
 				{
-					save_word(lst, copy_word(str, i - 1, ++start), quotes);
+					save_word(lst, copy_word(str, i, start), quotes);
 					quotes = 0;
 				}
 				else
@@ -123,7 +154,7 @@ int	save_tokens(char *str, t_token **lst, t_info *info)
 	{
 		if (quotes)
 		{
-			save_word(lst, copy_word(str, i - 1, ++start), quotes);
+			save_word(lst, copy_word(str, i, start), quotes);
 			quotes = 0;
 		}
 		else

@@ -44,24 +44,33 @@ int	cd_builtin(char **args, t_info *info)
 	char	*newpwd;
 	char	*dir;
 
-	oldpwd = getcwd(NULL, 0);
 	if (!args[1])
-		dir = ft_getenv(info->my_envp, "HOME");
-	else
+			dir = ft_getenv(info->my_envp, "HOME");
+	else if (args[2])
+	{
+		printf("cd: too many arguments\n");
+		return (1);
+	}
+	else 
 		dir = args[1];
+	oldpwd = getcwd(NULL, 0);
+	if (oldpwd == NULL)
+	{
+		perror("getcwd");
+		return(errno);
+	}
+	
 	if (chdir(dir) != 0)
 	{
-		perror("chdir");
+		perror("cd");
 		free(oldpwd);
-		return (errno);
+		return (1);
 	}
 	newpwd = getcwd(NULL, 0);
-	if (newpwd == NULL || oldpwd == NULL)
+	if (newpwd == NULL)
 	{
 		perror("getcwd");
 		free(oldpwd);
-		if (newpwd)
-			free(newpwd);
 		return (errno);
 	}
 	update_env("OLDPWD", oldpwd, &info->my_envp);
@@ -87,6 +96,12 @@ void	exit_builtin(char **args, t_info *info)
 	code = 0;
 	if (args[1] != NULL)
 	{
+		if (args[2] != NULL)
+		{
+			printf("exit: too many arguments\n");
+			free_before_exit(info);
+			exit (1);
+		}
 		if (all_digits(args[1]))
 			code = ft_atoi(args[1]);
 		else
@@ -94,7 +109,7 @@ void	exit_builtin(char **args, t_info *info)
 			printf("exit\n");
 			printf("exit: %s: numeric argument required\n", args[1]);
 			free_before_exit(info);
-			exit (1);
+			exit (2);
 		}
 	}
 	printf("exit\n");
