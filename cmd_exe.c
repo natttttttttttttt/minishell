@@ -35,7 +35,27 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 		{
 			if (!is_builtin(cmd_lst))
 			{
-				if (access(cmd_lst->args[0], X_OK) != 0)
+				if (ft_strchr(cmd_lst->args[0], '/'))
+					{if (chdir(cmd_lst->args[0]) == 0)
+					{
+						printf("%s: is a directory\n", cmd_lst->args[0]);
+						free(cmd_lst->args[0]);
+						cmd_lst->args[0] = ft_strdup("");
+					}
+					else
+					{
+						chdir(cmd_lst->args[0]);
+						perror(cmd_lst->args[0]);
+						free(cmd_lst->args[0]);
+						cmd_lst->args[0] = ft_strdup("");
+					}}
+				else if (ft_strchr(cmd_lst->args[0], '.'))
+				{
+					printf("%s: command not found\n", cmd_lst->args[0]);
+					free(cmd_lst->args[0]);
+					cmd_lst->args[0] = ft_strdup("");
+				}
+				else if (access(cmd_lst->args[0], X_OK) != 0)
 				{
 					tmp = cmd_lst->args[0];
 					cmd_lst->args[0] = get_cmd(info, tmp);
@@ -72,6 +92,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	int		fd_out;
 	int		pipe_fd[2];
 	pid_t	pid;
+	int status;
 
 	fd_in = 0;
 	while (cmd != NULL)
@@ -158,16 +179,12 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (pid == 0)
 			{
 				if (!cmd->args || cmd->args[0][0] == '\0')
-				{
-					info->exit_code = 127;
 					exit (127);
-				}
 				if (fd_in != 0)
 				{
 					if (dup2(fd_in, 0) == -1)
 					{
 						perror("dup2");
-						info->exit_code = errno;
 						exit (errno);
 					}
 					close(fd_in);
@@ -177,7 +194,6 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					if (dup2(fd_out, 1) == -1)
 					{
 						perror("dup2");
-						info->exit_code = errno;
 						exit (errno);
 					}
 					close(fd_out);
@@ -191,11 +207,24 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 				}
 				else
 				{
+					// if (ft_strchr(cmd->args[0], '/'))
+					// {if (chdir(cmd->args[0]) == 0)
+					// {
+					// 	printf("%s: is a directory\n", cmd->args[0]);
+					// 	exit (127);
+					// }
+					// else
+					// {
+					// 	chdir(cmd->args[0]);
+					// 	perror(cmd->args[0]);
+					// 	exit (127);
+					// }}
 					execve(cmd->args[0], cmd->args, info->my_envp);
 					perror("execve");
 					exit(errno);
 				}
 			}
+			
 		}
 		if (fd_in != 0)
 			close(fd_in);
@@ -208,6 +237,9 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 		}
 		cmd = cmd->next;
 	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+            info->exit_code = WEXITSTATUS(status);
 	while (wait(NULL) > 0)
 		;
 }

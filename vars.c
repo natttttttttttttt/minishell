@@ -50,11 +50,22 @@ static char	*append_substring(char *s, const char *txt, int start, int end)
 {
 	char	*tmp;
 	char	*res;
+	char *copy;
+	int i;
 
-	if (txt[ft_strlen(txt) - 1] == '\"' && &txt[start] > ft_strrchr(txt, '$'))
+	i = 0;
+	copy = ft_strdup(&txt[start]);
+	if (ft_strchr(copy, '\"') && ft_strchr(copy, '\"') <= &txt[end])
 	{
 		tmp = malloc(sizeof(char) * (end - start));
-		ft_strncpy(tmp, txt + start, end - start - 1);
+		while (start + 1 <= end)
+		{
+			if (txt[start] == '\"')
+				start++;
+			else
+				tmp[i++] = txt[start++];
+		}
+		tmp[i] = '\0';
 	}
 	else
 	{
@@ -64,6 +75,7 @@ static char	*append_substring(char *s, const char *txt, int start, int end)
 	res = ft_strjoin(s, tmp);
 	free(s);
 	free(tmp);
+	free(copy);
 	return (res);
 }
 

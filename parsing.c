@@ -50,7 +50,7 @@ static char *deal_with_quotes(char *s, int q)
 	j = 0;
 	while (s[i])
 	{
-		if ((q == 1 && s[i] == '\'')
+		if ((q == 1 && s[i] == '\'') || ((q == 2 && s[i] == '\"') && (ft_strchr(s, '$') > &s[i]))
 				|| (q == 2 && (((ft_strchr(s, '$')) && (ft_strchr(s, '\"') == &s[i]))
 				|| (!(ft_strchr(s, '$')) && s[i] == '\"'))))
 			i++;
