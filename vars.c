@@ -34,17 +34,6 @@ static char	*extract_variable(const char *txt, int *i)
 	return (var);
 }
 
-static void	handle_special_var(t_token *lst, t_info info)
-{
-	if (ft_strncmp(lst->txt, "$", 2) == 0)
-		lst->type = WORD;
-	if (ft_strncmp(lst->txt, "$?", 3) == 0)
-	{
-		free(lst->txt);
-		lst->txt = ft_itoa(info.exit_code);
-		lst->type = WORD;
-	}
-}
 
 static char	*append_substring(char *s, const char *txt, int start, int end)
 {
@@ -116,7 +105,7 @@ static char	*replace_env_vars(const char *txt, t_info info, int i, int start)
 					env_val = ft_strdup(var);
 				else if (ft_strncmp(var, "$?", 3) == 0)
 					env_val = ft_itoa(info.exit_code);
-				else 
+				else
 					env_val = ft_getenv(info.my_envp, var);
 				s = append_env_value(s, env_val);
 				free(var);
@@ -140,7 +129,7 @@ void vars_to_value(t_token *lst, t_info info)
 	{
 		if (lst->type == VAR)
 		{
-			handle_special_var(lst, info);
+			//handle_special_var(lst, info);
 			if (lst->type != WORD)
 			{
 				s = replace_env_vars(lst->txt, info, 0, 0);

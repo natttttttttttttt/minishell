@@ -99,3 +99,18 @@ void	free_all(t_cmd *cmd, t_token *token)
 	free_token_lst(token);
 	free_command_list(cmd);
 }
+
+void	del_arg(char **args)
+{
+	int	i;
+
+	if (args == NULL || args[0] == NULL)
+		return ;
+	free(args[0]);
+	i = 0;
+	while (args[i] != NULL)
+	{
+		args[i] = args[i + 1];
+		i++;
+	}
+}

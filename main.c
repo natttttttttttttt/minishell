@@ -76,7 +76,7 @@ void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 		//print_list(token_lst);
 		vars_to_value(token_lst, *info);
 		cmd_lst = parse_tokens(token_lst, info);
-		//print_cmd_lst(cmd_lst);
+		print_cmd_lst(cmd_lst);
 		info->cmds = cmd_lst;
 		if (cmd_lst)
 		{

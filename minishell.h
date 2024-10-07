@@ -118,4 +118,6 @@ char	*ft_itoa(int n);
 void heredoc(char *delimiter);
 char	*ft_strrchr(const char *str, int c);
 void	vars_to_value(t_token *lst, t_info info);
+void	del_arg(char **args);
+void	print_cmd_lst(t_cmd *cmd_lst);
 #endif

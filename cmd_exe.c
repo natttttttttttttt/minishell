@@ -31,7 +31,12 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 
 	while (cmd_lst)
 	{
-		if (cmd_lst->args)
+		if (cmd_lst->args[0][0] == '\0' && cmd_lst->args[1])
+		{
+			del_arg(cmd_lst->args);
+			print_cmd_lst(cmd_lst);
+		}
+		if (cmd_lst->args && cmd_lst->args[0][0] != '\0')
 		{
 			if (!is_builtin(cmd_lst))
 			{
@@ -49,12 +54,12 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 						free(cmd_lst->args[0]);
 						cmd_lst->args[0] = ft_strdup("");
 					}}
-				else if (ft_strchr(cmd_lst->args[0], '.'))
-				{
-					printf("%s: command not found\n", cmd_lst->args[0]);
-					free(cmd_lst->args[0]);
-					cmd_lst->args[0] = ft_strdup("");
-				}
+				// else if (ft_strchr(cmd_lst->args[0], '.'))
+				// {
+				// 	printf("%s: command not found\n", cmd_lst->args[0]);
+				// 	free(cmd_lst->args[0]);
+				// 	cmd_lst->args[0] = ft_strdup("");
+				// }
 				else if (access(cmd_lst->args[0], X_OK) != 0)
 				{
 					tmp = cmd_lst->args[0];
@@ -95,6 +100,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	int status;
 
 	fd_in = 0;
+	pid = -1;
 	while (cmd != NULL)
 	{
 		fd_out = 1;
@@ -224,7 +230,6 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					exit(errno);
 				}
 			}
-			
 		}
 		if (fd_in != 0)
 			close(fd_in);
@@ -237,9 +242,12 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 		}
 		cmd = cmd->next;
 	}
-	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-            info->exit_code = WEXITSTATUS(status);
+	if (pid != -1)
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			info->exit_code = WEXITSTATUS(status);
+	}
 	while (wait(NULL) > 0)
 		;
 }
