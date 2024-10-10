@@ -219,7 +219,7 @@ int	export_builtin(char **args, t_info *info, int i)
 	return (f);
 }
 
-int	builtin_env(char **my_envp)
+int	env_builtin(char **my_envp)
 {
 	int	i;
 

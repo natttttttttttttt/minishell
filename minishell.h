@@ -70,54 +70,64 @@ typedef struct s_info
 	t_cmd	*cmds;
 }	t_info;
 
-t_token	*ft_lstlast(t_token *lst);
-void execute_commands(t_cmd *cmd, t_info *info);
-void cmd_to_path(t_cmd *cmd_lst, t_info *info);
-char	*ft_strdup(const char *src);
-void	free_lst(t_token **lst);
+//list utils
 t_token	*lst_create(char *str, t_type type);
+t_token	*ft_lstlast(t_token *lst);
+void	free_lst(t_token **lst);
 void	lst_add_back(t_token **lst, t_token *new);
-void	print_list(t_token *lst);
+//libft
+char	*ft_itoa(int n);
 char	*ft_strchr(char *str, int c);
-int	ft_strlen(const char *str);
+char	*ft_strdup(const char *src);
 char	*ft_strjoin(char *s1, const char *s2);
+char	*ft_strrchr(const char *str, int c);
+char	*ft_substr(char *s, int start, int len);
+char	**ft_split(const char *s, char c);
+int		all_digits(char *str);
+int		ft_atoi(char *str);
 int		ft_isalnum(int c);
+int		ft_strlen(const char *str);
+int		ft_strncmp(char *str1, char *str2, size_t n);
+void	ft_strncpy(char *dest, const char *src, int size);
+//parsing
 char	*copy_word(char *str, int i, int start);
 int		not_words(char *str, int i);
-void	save_word(t_token **lst, char *word, int q);
 void	save_sep(t_token **lst, char *str, int i, int type);
-int	save_tokens(char *str, t_token **lst, t_info *info);
-void add_cmd_arg(t_cmd *cmd, char *arg);
-t_cmd *parse_tokens(t_token *tokens, t_info *info);
-t_cmd *cmd_new();
-int	valid_var_name(char *s);
-char	**ft_split(const char *s, char c);
-void	free_arr(char **arr);
-char	*ft_substr(char *s, int start, int len);
-void free_command_list(t_cmd *head);
-void free_token_lst(t_token *head);
-void free_all(t_cmd *cmd, t_token *token);
-int pwd_builtin();
-int is_builtin(t_cmd *cmd);
-int cd_builtin(char **args, t_info *info);
-void exit_builtin(char **args, t_info *info);
-int	all_digits(char *str);
-int	ft_atoi(char *str);
-int run_builtin(t_cmd *cmd, t_info *info, int fd_out);
-char **copy_envp(char **envp);
-int	ft_strncmp(char *str1, char *str2, size_t n);
-char *ft_getenv(char **my_envp, char *var);
-void update_env(char *var, char *value, char ***my_envp);
-int builtin_env(char **my_env);
-int export_builtin(char **args, t_info *info, int i);
-void ft_strncpy(char *dest, const char *src, int size);
-int unset_builtin(char **args, t_info *info, int i, int j);
-int find_env_var(char **my_envp, char *var);
-int echo_builtin(char **args, int fd_out);
-char	*ft_itoa(int n);
-void heredoc(char *delimiter);
-char	*ft_strrchr(const char *str, int c);
-void	vars_to_value(t_token *lst, t_info info);
+void	save_word(t_token **lst, char *word, int q);
+int		save_tokens(char *str, t_token **lst, t_info *info);
+//cmds
+t_cmd	*cmd_new(void);
+t_cmd	*parse_tokens(t_token *tokens, t_info *info);
+void	add_cmd_arg(t_cmd *cmd, char *arg);
+void	cmd_to_path(t_cmd *cmd_lst, t_info *info);
 void	del_arg(char **args);
+void	execute_commands(t_cmd *cmd, t_info *info);
+//vars
+int		valid_var_name(char *s);
+void	vars_to_value(t_token *lst, t_info info);
+//builtins
+int		is_builtin(t_cmd *cmd);
+int		run_builtin(t_cmd *cmd, t_info *info, int fd_out);
+int		cd_builtin(char **args, t_info *info);
+int		echo_builtin(char **args, int fd_out);
+int		env_builtin(char **my_env);
+void	exit_builtin(char **args, t_info *info);
+int		export_builtin(char **args, t_info *info, int i);
+int		pwd_builtin(void);
+int		unset_builtin(char **args, t_info *info, int i, int j);
+//cleanup
+void	free_arr(char **arr);
+void	free_command_list(t_cmd *head);
+void	free_token_lst(t_token *head);
+void	free_all(t_cmd *cmd, t_token *token);
+//envp
+char	**copy_envp(char **envp);
+int		find_env_var(char **my_envp, char *var);
+char	*ft_getenv(char **my_envp, char *var);
+void	update_env(char *var, char *value, char ***my_envp);
+//heredoc
+void	heredoc(char *dlmtr);
+//debug
 void	print_cmd_lst(t_cmd *cmd_lst);
+void	print_list(t_token *lst);
 #endif

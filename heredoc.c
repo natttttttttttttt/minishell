@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void heredoc(char *delimiter)
+void heredoc(char *dlmtr)
 {
 	char    *line;
 	int 	fd;
@@ -18,10 +18,10 @@ void heredoc(char *delimiter)
 		if (!line)
 		{
 			printf("warning: here-document delimited by end-of-file");
-			printf(" (wanted '%s')\n", delimiter);
+			printf(" (wanted '%s')\n", dlmtr);
 			break ;
 		}
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
+		if (ft_strncmp(line, dlmtr, ft_strlen(dlmtr) + 1) == 0)
 			break ;
 		write(fd, line, ft_strlen(line));
 		free(line);

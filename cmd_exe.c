@@ -81,7 +81,7 @@ int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 	else if (is_builtin(cmd) == BUILTIN_EXIT)
 		exit_builtin(cmd->args, info);
 	else if (is_builtin(cmd) == BUILTIN_ENV)
-		return (builtin_env(info->my_envp));
+		return (env_builtin(info->my_envp));
 	else if (is_builtin(cmd) == BUILTIN_EXPORT)
 		return (export_builtin(cmd->args, info, 1));
 	else if (is_builtin(cmd) == BUILTIN_UNSET)
@@ -97,7 +97,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	int		fd_out;
 	int		pipe_fd[2];
 	pid_t	pid;
-	int status;
+	int		status;
 
 	fd_in = 0;
 	pid = -1;
@@ -111,7 +111,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			{
 				perror(cmd->input);
 				fd_in = 0;
-				info->exit_code = errno;
+				info->exit_code = 1;
 				cmd = cmd->next;
 				continue ;
 			}

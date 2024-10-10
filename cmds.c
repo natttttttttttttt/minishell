@@ -64,23 +64,30 @@ void	add_cmd_arg(t_cmd *cmd, char *arg)
 	}
 }
 
+static void syntax_error(int check, t_cmd **head, t_info *info)
+{
+	if (check)
+	{
+		printf("syntax error near unexpected token\n");
+		info->exit_code = 2;
+		*head = NULL;
+	}
+}
+
 t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 {
 	t_cmd	*head;
 	t_cmd	*cmd;
+	t_cmd	*copy;
 
 	cmd = NULL;
 	head = NULL;
 	if (tokens)
 	{
-		if (tokens->type == PIPE)
-		{
-			printf("syntax error near unexpected token |\n");
-			info->exit_code = 2;
-			return (NULL);
-		}
 		cmd = cmd_new();
 		head = cmd;
+		copy = cmd;
+		syntax_error(tokens->type == PIPE, &head, info);
 	}
 	while (tokens)
 	{
@@ -88,36 +95,21 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 			add_cmd_arg(cmd, tokens->txt);
 		else if (tokens->type == INPUT)
 		{
-			if (tokens->next->type != WORD)
-			{
-				info->exit_code = 2;
-				printf("syntax error near unexpected token\n");
-				return (NULL);
-			}
+			syntax_error(tokens->next->type != WORD, &head, info);
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				cmd->input = ft_strdup(tokens->txt);
 		}
 		else if (tokens->type == OUTPUT)
 		{
-			if (tokens->next->type != WORD)
-			{
-				info->exit_code = 2;
-				printf("syntax error near unexpected token\n");
-				return (NULL);
-			}
+			syntax_error(tokens->next->type != WORD, &head, info);
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				cmd->output = ft_strdup(tokens->txt);
 		}
 		else if (tokens->type == APPEND)
 		{
-			if (tokens->next->type != WORD)
-			{
-				info->exit_code = 2;
-				printf("syntax error near unexpected token\n");
-				return (NULL);
-			}
+			syntax_error(tokens->next->type != WORD, &head, info);
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				cmd->append = ft_strdup(tokens->txt);
@@ -125,29 +117,21 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 		}
 		else if (tokens->type == HEREDOC)
 		{
-			if (tokens->next->type != WORD)
-			{
-				info->exit_code = 2;
-				printf("syntax error near unexpected token\n");
-				return (NULL);
-			}
+			syntax_error(tokens->next->type != WORD, &head, info);
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
 				cmd->delimiter = ft_strdup(tokens->txt);
 		}
 		else if (tokens->type == PIPE)
 		{
-			if (tokens->next->type == DONE || tokens->next->type == PIPE)
-			{
-				info->exit_code = 2;
-				printf("syntax error near unexpected token\n");
-				return (NULL);
-			}
+			syntax_error(tokens->next->type == DONE || tokens->next->type == PIPE, &head, info);
 			cmd->next = cmd_new();
 			cmd->next->prev = cmd;
 			cmd = cmd->next;
 		}
 		tokens = tokens->next;
 	}
+	if (head == NULL)
+		free_command_list(copy);
 	return (head);
 }
