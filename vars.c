@@ -6,23 +6,17 @@ static char	*extract_variable(const char *txt, int *i)
 	char	*var;
 
 	start = *i;
-	if (!(txt[*i] >= '0' && txt[*i] <='9'))
+	if (!(txt[*i] >= '0' && txt[*i] <= '9'))
 		while (txt[*i] && (ft_isalnum(txt[*i]) || txt[*i] == '_'))
 			(*i)++;
 	if (*i == start)
 	{
 		if (txt[*i] == '\"')
-		{
-			(*i)++;
-			return (ft_strdup("$"));
-		}
+			return ((*i)++, ft_strdup("$"));
 		if (txt[*i] == ' ')
-			return (ft_strdup("$"));
+			return ((*i)++, ft_strdup("$"));
 		if (txt[*i] == '?')
-		{
-			(*i)++;
-			return (ft_strdup("$?"));
-		}
+			return ((*i)++, ft_strdup("$?"));
 		if (!txt[*i])
 			return (ft_strdup("$"));
 		return (NULL);
@@ -34,16 +28,12 @@ static char	*extract_variable(const char *txt, int *i)
 	return (var);
 }
 
-
-static char	*append_substring(char *s, const char *txt, int start, int end)
+static char	*append_substr_norm(char *copy, const char *txt, int start, int end)
 {
 	char	*tmp;
-	char	*res;
-	char *copy;
-	int i;
+	int		i;
 
 	i = 0;
-	copy = ft_strdup(&txt[start]);
 	if (ft_strchr(copy, '\"') && ft_strchr(copy, '\"') <= &txt[end])
 	{
 		tmp = malloc(sizeof(char) * (end - start));
@@ -61,6 +51,19 @@ static char	*append_substring(char *s, const char *txt, int start, int end)
 		tmp = malloc(sizeof(char) * (end - start + 1));
 		ft_strncpy(tmp, txt + start, end - start);
 	}
+	return (tmp);
+}
+
+static char	*append_substring(char *s, const char *txt, int start, int end)
+{
+	char	*tmp;
+	char	*res;
+	char	*copy;
+	int		i;
+
+	i = 0;
+	copy = ft_strdup(&txt[start]);
+	tmp = append_substr_norm(copy, txt, start, end);
 	res = ft_strjoin(s, tmp);
 	free(s);
 	free(tmp);
@@ -84,11 +87,26 @@ static char	*append_env_value(char *s, const char *env_val)
 	return (res);
 }
 
+static void	replace_env_norm(char *var, t_info info, char **s)
+{
+	char	*env_val;
+
+	if (var)
+	{
+		if (ft_strncmp(var, "$", 2) == 0)
+			env_val = ft_strdup(var);
+		else if (ft_strncmp(var, "$?", 3) == 0)
+			env_val = ft_itoa(info.exit_code);
+		else
+			env_val = ft_getenv(info.my_envp, var);
+		*s = append_env_value(*s, env_val);
+	}
+}
+
 static char	*replace_env_vars(const char *txt, t_info info, int i, int start)
 {
 	char	*s;
 	char	*var;
-	char	*env_val;
 
 	s = NULL;
 	while (txt[i])
@@ -99,17 +117,8 @@ static char	*replace_env_vars(const char *txt, t_info info, int i, int start)
 				s = append_substring(s, txt, start, i);
 			i++;
 			var = extract_variable(txt, &i);
-			if (var)
-			{
-				if (ft_strncmp(var, "$", 2) == 0)
-					env_val = ft_strdup(var);
-				else if (ft_strncmp(var, "$?", 3) == 0)
-					env_val = ft_itoa(info.exit_code);
-				else
-					env_val = ft_getenv(info.my_envp, var);
-				s = append_env_value(s, env_val);
-				free(var);
-			}
+			replace_env_norm(&var, info, &s);
+			free(var);
 			start = i;
 		}
 		else
