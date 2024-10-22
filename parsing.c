@@ -28,17 +28,17 @@ char	*copy_word(char *str, int i, int start)
 	word = malloc(sizeof(char) * (i - start + 1));
 	j = 0;
 	while (start < i)
-			word[j++] = str[start++];
+		word[j++] = str[start++];
 	word[j] = '\0';
 	return (word);
 }
 
-static char *deal_with_quotes(char *s, int q)
+static char	*deal_with_quotes(char *s, int q)
 {
-	char *res;
-	int l;
-	int j;
-	int i;
+	char	*res;
+	int		l;
+	int		j;
+	int		i;
 
 	l = ft_strlen(s);
 	if (q == 1 || (q == 2 && !(ft_strchr(s, '$'))))
@@ -50,16 +50,18 @@ static char *deal_with_quotes(char *s, int q)
 	j = 0;
 	while (s[i])
 	{
-		if ((q == 1 && s[i] == '\'') || ((q == 2 && s[i] == '\"') && (ft_strchr(s, '$') > &s[i]))
-				|| (q == 2 && (((ft_strchr(s, '$')) && (ft_strchr(s, '\"') == &s[i]))
-				|| (!(ft_strchr(s, '$')) && s[i] == '\"'))))
+		if ((q == 1 && s[i] == '\'')
+			|| ((q == 2 && s[i] == '\"') && (ft_strchr(s, '$') > &s[i]))
+			|| (q == 2 && (((ft_strchr(s, '$')) && (ft_strchr(s, '\"') == &s[i]))
+					|| (!(ft_strchr(s, '$')) && s[i] == '\"'))))
 			i++;
 		else
-			res[j++] = s[i++]; 
+			res[j++] = s[i++];
 	}
 	res[j] = '\0';
 	return (res);
 }
+
 void	save_word(t_token **lst, char *word, int q)
 {
 	char	*tmp;

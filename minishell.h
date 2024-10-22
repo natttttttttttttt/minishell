@@ -104,6 +104,11 @@ void	del_arg(char **args);
 void	execute_commands(t_cmd *cmd, t_info *info);
 //vars
 int		valid_var_name(char *s);
+char	*replace_env_vars(const char *txt, t_info info, int i, int start);
+char	*extract_variable(const char *txt, int *i);
+char	*append_env_value(char *s, char **env_val, int f);
+char	*append_substring(char *s, const char *txt, int start, int end);
+
 void	vars_to_value(t_token *lst, t_info info);
 //builtins
 int		is_builtin(t_cmd *cmd);
@@ -126,7 +131,7 @@ int		find_env_var(char **my_envp, char *var);
 char	*ft_getenv(char **my_envp, char *var);
 void	update_env(char *var, char *value, char ***my_envp);
 //heredoc
-void	heredoc(char *dlmtr);
+void	heredoc(char *dlmtr, t_info info);
 //debug
 void	print_cmd_lst(t_cmd *cmd_lst);
 void	print_list(t_token *lst);

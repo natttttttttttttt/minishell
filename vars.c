@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char	*extract_variable(const char *txt, int *i)
+char	*extract_variable(const char *txt, int *i)
 {
 	int		start;
 	char	*var;
@@ -54,7 +54,7 @@ static char	*append_substr_norm(char *copy, const char *txt, int start, int end)
 	return (tmp);
 }
 
-static char	*append_substring(char *s, const char *txt, int start, int end)
+char	*append_substring(char *s, const char *txt, int start, int end)
 {
 	char	*tmp;
 	char	*res;
@@ -71,26 +71,33 @@ static char	*append_substring(char *s, const char *txt, int start, int end)
 	return (res);
 }
 
-static char	*append_env_value(char *s, const char *env_val)
+char	*append_env_value(char *s, char **env_val, int f)
 {
 	char	*res;
 
-	if (!env_val)
-		env_val = "";
+	if (!(*env_val))
+	{
+		*env_val = ft_strdup("");
+		f = 1;
+	}
 	if (s)
 	{
-		res = ft_strjoin(s, env_val);
+		res = ft_strjoin(s, *env_val);
 		free(s);
 	}
 	else
-		res = ft_strdup(env_val);
+		res = ft_strdup(*env_val);
+	if (f)
+		free(*env_val);
 	return (res);
 }
 
 static void	replace_env_norm(char *var, t_info info, char **s)
 {
 	char	*env_val;
+	int		f;
 
+	f = 1;
 	if (var)
 	{
 		if (ft_strncmp(var, "$", 2) == 0)
@@ -98,17 +105,21 @@ static void	replace_env_norm(char *var, t_info info, char **s)
 		else if (ft_strncmp(var, "$?", 3) == 0)
 			env_val = ft_itoa(info.exit_code);
 		else
+		{
 			env_val = ft_getenv(info.my_envp, var);
-		*s = append_env_value(*s, env_val);
+			f = 0;
+		}
+		*s = append_env_value(*s, &env_val, f);
 	}
 }
 
-static char	*replace_env_vars(const char *txt, t_info info, int i, int start)
+char	*replace_env_vars(const char *txt, t_info info, int i, int start)
 {
 	char	*s;
 	char	*var;
 
 	s = NULL;
+	var = NULL;
 	while (txt[i])
 	{
 		if (txt[i] == '$')
@@ -117,7 +128,7 @@ static char	*replace_env_vars(const char *txt, t_info info, int i, int start)
 				s = append_substring(s, txt, start, i);
 			i++;
 			var = extract_variable(txt, &i);
-			replace_env_norm(&var, info, &s);
+			replace_env_norm(var, info, &s);
 			free(var);
 			start = i;
 		}
@@ -138,7 +149,6 @@ void vars_to_value(t_token *lst, t_info info)
 	{
 		if (lst->type == VAR)
 		{
-			//handle_special_var(lst, info);
 			if (lst->type != WORD)
 			{
 				s = replace_env_vars(lst->txt, info, 0, 0);

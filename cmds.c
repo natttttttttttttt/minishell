@@ -64,7 +64,7 @@ void	add_cmd_arg(t_cmd *cmd, char *arg)
 	}
 }
 
-static void syntax_error(int check, t_cmd **head, t_info *info)
+static void	syntax_error(int check, t_cmd **head, t_info *info)
 {
 	if (check)
 	{
@@ -124,7 +124,8 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 		}
 		else if (tokens->type == PIPE)
 		{
-			syntax_error(tokens->next->type == DONE || tokens->next->type == PIPE, &head, info);
+			syntax_error(tokens->next->type == DONE
+				|| tokens->next->type == PIPE, &head, info);
 			cmd->next = cmd_new();
 			cmd->next->prev = cmd;
 			cmd = cmd->next;
