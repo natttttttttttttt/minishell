@@ -41,7 +41,8 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 			if (!is_builtin(cmd_lst))
 			{
 				if (ft_strchr(cmd_lst->args[0], '/'))
-					{if (chdir(cmd_lst->args[0]) == 0)
+				{
+					if (chdir(cmd_lst->args[0]) == 0)
 					{
 						printf("%s: is a directory\n", cmd_lst->args[0]);
 						free(cmd_lst->args[0]);
@@ -53,13 +54,8 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 						perror(cmd_lst->args[0]);
 						free(cmd_lst->args[0]);
 						cmd_lst->args[0] = ft_strdup("");
-					}}
-				// else if (ft_strchr(cmd_lst->args[0], '.'))
-				// {
-				// 	printf("%s: command not found\n", cmd_lst->args[0]);
-				// 	free(cmd_lst->args[0]);
-				// 	cmd_lst->args[0] = ft_strdup("");
-				// }
+					}
+				}
 				else if (access(cmd_lst->args[0], X_OK) != 0)
 				{
 					tmp = cmd_lst->args[0];
@@ -112,8 +108,9 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 				perror(cmd->input);
 				fd_in = 0;
 				info->exit_code = 1;
-				cmd = cmd->next;
-				continue ;
+				status = -1;
+				// cmd = cmd->next;
+				// continue ;
 			}
 		}
 		if (cmd->delimiter)
@@ -164,8 +161,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					close(fd_out);
 				return ;
 			}
-			if (!cmd->output && !cmd->append)
-				fd_out = pipe_fd[1];
+			fd_out = pipe_fd[1];
 		}
 		if (is_builtin(cmd) && cmd->next == NULL && cmd->prev == NULL)
 			info->exit_code = run_builtin(cmd, info, fd_out);
@@ -186,6 +182,8 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			{
 				if (!cmd->args || cmd->args[0][0] == '\0')
 					exit (127);
+				if (status == -1)
+					exit(0);
 				if (fd_in != 0)
 				{
 					if (dup2(fd_in, 0) == -1)
@@ -193,7 +191,6 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 						perror("dup2");
 						exit (errno);
 					}
-					close(fd_in);
 				}
 				if (fd_out != 1)
 				{
@@ -202,7 +199,6 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 						perror("dup2");
 						exit (errno);
 					}
-					close(fd_out);
 				}
 				if (cmd->next)
 					close(pipe_fd[0]);
@@ -213,18 +209,6 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 				}
 				else
 				{
-					// if (ft_strchr(cmd->args[0], '/'))
-					// {if (chdir(cmd->args[0]) == 0)
-					// {
-					// 	printf("%s: is a directory\n", cmd->args[0]);
-					// 	exit (127);
-					// }
-					// else
-					// {
-					// 	chdir(cmd->args[0]);
-					// 	perror(cmd->args[0]);
-					// 	exit (127);
-					// }}
 					execve(cmd->args[0], cmd->args, info->my_envp);
 					perror("execve");
 					exit(errno);

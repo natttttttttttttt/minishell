@@ -59,9 +59,7 @@ char	*append_substring(char *s, const char *txt, int start, int end)
 	char	*tmp;
 	char	*res;
 	char	*copy;
-	int		i;
 
-	i = 0;
 	copy = ft_strdup(&txt[start]);
 	tmp = append_substr_norm(copy, txt, start, end);
 	res = ft_strjoin(s, tmp);
