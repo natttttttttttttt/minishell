@@ -75,6 +75,12 @@ void	save_word(t_token **lst, char *word, int q)
 	free(tmp);
 }
 
+static void	quotes_err(int *quotes)
+{
+	printf("unexpected EOF while looking for matching \'\n");
+	*quotes = -1;
+}
+
 void	find_quotes(char *str, int *i, int *quotes)
 {
 	if (str[*i] == '\'')
@@ -85,11 +91,7 @@ void	find_quotes(char *str, int *i, int *quotes)
 		if (str[*i] != '\0')
 			*quotes = 1;
 		else
-		{
-			printf("unexpected EOF while looking for matching \'\n");
-			printf("syntax error: unexpected end of file\n");
-			*quotes = -1;
-		}
+			quotes_err(quotes);
 	}
 	else if (str[*i] == '\"')
 	{
@@ -99,14 +101,23 @@ void	find_quotes(char *str, int *i, int *quotes)
 		if (str[*i] != '\0')
 			*quotes = 2;
 		else
-		{
-			printf("unexpected EOF while looking for matching \"\n");
-			printf("syntax error: unexpected end of file\n");
-			*quotes = -1;
-		}
+			quotes_err(quotes);
 	}
 }
 
+static void	save_tokens_norm(int i, int start, int *quotes, t_token **lst, char *str)
+{
+	if (i != start)
+	{
+		if (*quotes)
+		{
+			save_word(lst, copy_word(str, i, start), *quotes);
+			*quotes = 0;
+		}
+		else
+			save_word(lst, copy_word(str, i, start), *quotes);
+	}
+}
 int	save_tokens(char *str, t_token **lst, t_info *info)
 {
 	int	i;
@@ -117,7 +128,6 @@ int	save_tokens(char *str, t_token **lst, t_info *info)
 	i = 0;
 	start = 0;
 	quotes = 0;
-
 	while ((str[i] > 8 && str[i] < 14) || str[i] == 32)
 	{
 		i++;
@@ -129,21 +139,13 @@ int	save_tokens(char *str, t_token **lst, t_info *info)
 		if (quotes == -1)
 		{
 			info->exit_code = 2;
+			free_token_lst(*lst);
 			return (0);
 		}
 		sep = not_words(str, i);
 		if (sep)
 		{
-			if (i != start)
-			{
-				if (quotes)
-				{
-					save_word(lst, copy_word(str, i, start), quotes);
-					quotes = 0;
-				}
-				else
-					save_word(lst, copy_word(str, i, start), quotes);
-			}
+			save_tokens_norm(i, start, &quotes, lst, str);
 			if (sep != SPACES)
 				lst_add_back(lst, lst_create(NULL, sep));
 			if (sep == HEREDOC || sep == APPEND)
@@ -152,16 +154,7 @@ int	save_tokens(char *str, t_token **lst, t_info *info)
 		}
 		i++;
 	}
-	if (i != start)
-	{
-		if (quotes)
-		{
-			save_word(lst, copy_word(str, i, start), quotes);
-			quotes = 0;
-		}
-		else
-			save_word(lst, copy_word(str, i, start), quotes);
-	}
+	save_tokens_norm(i, start, &quotes, lst, str);
 	lst_add_back(lst, lst_create(NULL, DONE));
 	return (1);
 }

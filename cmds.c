@@ -15,8 +15,6 @@ t_cmd	*cmd_new(void)
 	return (cmd);
 }
 
-
-
 void	add_cmd_arg(t_cmd *cmd, char *arg)
 {
 	char	**tmp;

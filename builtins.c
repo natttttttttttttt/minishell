@@ -59,7 +59,6 @@ int	cd_builtin(char **args, t_info *info)
 		perror("getcwd");
 		return(errno);
 	}
-	
 	if (chdir(dir) != 0)
 	{
 		perror("cd");

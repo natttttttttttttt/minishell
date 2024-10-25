@@ -100,6 +100,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	while (cmd != NULL)
 	{
 		fd_out = 1;
+		status = 0;
 		if (cmd->input)
 		{
 			fd_in = open(cmd->input, O_RDONLY);
@@ -109,8 +110,6 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 				fd_in = 0;
 				info->exit_code = 1;
 				status = -1;
-				// cmd = cmd->next;
-				// continue ;
 			}
 		}
 		if (cmd->delimiter)
