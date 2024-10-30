@@ -33,9 +33,9 @@ void	print_cmd_lst(t_cmd *cmd_lst)
 	int		i;
 
 	cmd = cmd_lst;
-	i = 0;
 	while (cmd)
 	{
+		i = 0;
 		printf("Command:\n");
 		while (cmd->args[i])
 		{
@@ -44,8 +44,12 @@ void	print_cmd_lst(t_cmd *cmd_lst)
 		}
 		if (cmd->input)
 			printf("  Input File: %s\n", cmd->input);
-		if (cmd->output)
-			printf("  Output File: %s\n", cmd->output);
+		i = 0;
+		while (cmd->output[i])
+		{
+			printf("  Output File[%d]: %s\n", i, cmd->output[i]);
+			i++;
+		}
 		if (cmd->append)
 			printf("  Append File: %s\n", cmd->append);
 		if (cmd->delimiter)
@@ -76,7 +80,7 @@ void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 		//print_list(token_lst);
 		vars_to_value(token_lst, *info);
 		cmd_lst = parse_tokens(token_lst, info);
-		//print_cmd_lst(cmd_lst);
+		print_cmd_lst(cmd_lst);
 		info->cmds = cmd_lst;
 		if (cmd_lst)
 		{

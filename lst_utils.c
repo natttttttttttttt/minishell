@@ -69,24 +69,17 @@ void	free_command_list(t_cmd *head)
 {
 	t_cmd	*node;
 	t_cmd	*next;
-	char	**arg;
+	//char	**arg;
 
 	node = head;
 	while (node != NULL)
 	{
 		next = node->next;
-		if (node->args != NULL)
-		{
-			arg = node->args;
-			while (*arg != NULL)
-			{
-				free(*arg);
-				arg++;
-			}
-			free(node->args);
-		}
+		// 
+		free_arr(node->args);
+		free_arr(node->output);
 		free(node->input);
-		free(node->output);
+		//free(node->output);
 		free(node->append);
 		free(node->delimiter);
 		free(node);

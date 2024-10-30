@@ -245,9 +245,9 @@ void ft_strncpy(char *dest, const char *src, int size)
 
 char	*ft_substr(char *s, int start, int len)
 {
-	int	size;
+	int		size;
 	char	*res;
-	int	i;
+	int		i;
 
 	if (start >= ft_strlen(s))
 		return (NULL);

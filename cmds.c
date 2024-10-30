@@ -15,7 +15,7 @@ t_cmd	*cmd_new(void)
 	return (cmd);
 }
 
-void	add_cmd_arg(t_cmd *cmd, char *arg)
+void	add_cmd_arg(char ***arr, char *arg)
 {
 	char	**tmp;
 	int		i;
@@ -23,21 +23,21 @@ void	add_cmd_arg(t_cmd *cmd, char *arg)
 
 	i = 0;
 	j = 0;
-	if (cmd->args)
+	if (*arr)
 	{
-		while (cmd->args[i])
+		while ((*arr)[i])
 			i++;
 		tmp = (char **)malloc(sizeof(char *) * (i + 1));
 		if (!tmp)
 			return ;
 		while (j < i)
 		{
-			tmp[j] = cmd->args[j];
+			tmp[j] = (*arr)[j];
 			j++;
 		}
-		free(cmd->args);
-		cmd->args = (char **)malloc(sizeof(char *) * (i + 2));
-		if (!cmd->args)
+		free(*arr);
+		*arr = (char **)malloc(sizeof(char *) * (i + 2));
+		if (!arr)
 		{
 			free(tmp);
 			return ;
@@ -45,20 +45,20 @@ void	add_cmd_arg(t_cmd *cmd, char *arg)
 		j = 0;
 		while (j < i)
 		{
-			cmd->args[j] = tmp[j];
+			(*arr)[j] = tmp[j];
 			j++;
 		}
-		cmd->args[i] = ft_strdup(arg);
-		cmd->args[i + 1] = NULL;
+		(*arr)[i] = ft_strdup(arg);
+		(*arr)[i + 1] = NULL;
 		free(tmp);
 	}
 	else
 	{
-		cmd->args = (char **)malloc(sizeof(char *) * 2);
-		if (!cmd->args)
+		(*arr) = (char **)malloc(sizeof(char *) * 2);
+		if (!(*arr))
 			return ;
-		cmd->args[0] = ft_strdup(arg);
-		cmd->args[1] = NULL;
+		(*arr)[0] = ft_strdup(arg);
+		(*arr)[1] = NULL;
 	}
 }
 
@@ -71,7 +71,18 @@ static void	syntax_error(int check, t_cmd **head, t_info *info)
 		*head = NULL;
 	}
 }
+// void	save_input(t_cmd *cmd, char *s)
+// {
+// 	if (!cmd->input)
+// 	{
+// 		cmd->input = malloc(sizeof(char **));
+// 		cmd->input[0] = ft_strdup(s);
+// 	}
+// 	else
+// 	{
 
+// 	}
+// }
 t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 {
 	t_cmd	*head;
@@ -90,7 +101,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 	while (tokens)
 	{
 		if (tokens->type == WORD)
-			add_cmd_arg(cmd, tokens->txt);
+			add_cmd_arg(&(cmd->args), tokens->txt);
 		else if (tokens->type == INPUT)
 		{
 			syntax_error(tokens->next->type != WORD, &head, info);
@@ -103,7 +114,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 			syntax_error(tokens->next->type != WORD, &head, info);
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
-				cmd->output = ft_strdup(tokens->txt);
+				add_cmd_arg(&(cmd->output), tokens->txt);
 		}
 		else if (tokens->type == APPEND)
 		{

@@ -43,7 +43,7 @@ int	cd_builtin(char **args, t_info *info)
 	char	*oldpwd;
 	char	*newpwd;
 	char	*dir;
-
+//add -
 	if (!args[1])
 			dir = ft_getenv(info->my_envp, "HOME");
 	else if (args[2])

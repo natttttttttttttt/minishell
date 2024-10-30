@@ -94,6 +94,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	int		pipe_fd[2];
 	pid_t	pid;
 	int		status;
+	int i;
 
 	fd_in = 0;
 	pid = -1;
@@ -128,10 +129,15 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 		}
 		if (cmd->output)
 		{
-			fd_out = open(cmd->output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			i = 0;
+			while (cmd->output[i] != NULL)
+			{
+				fd_out = open(cmd->output[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				i++;
+			}
 			if (fd_out == -1)
 			{
-				perror(cmd->output);
+				perror(cmd->output[i]);
 				info->exit_code = errno;
 				cmd = cmd->next;
 				continue ;
@@ -204,7 +210,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 				if (is_builtin(cmd))
 				{
 					info->exit_code = run_builtin(cmd, info, 1);
-					exit (info->exit_code);
+					exit(info->exit_code);
 				}
 				else
 				{

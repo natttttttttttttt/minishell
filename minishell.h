@@ -52,7 +52,7 @@ typedef struct s_command
 {
 	char				**args;
 	char				*input;
-	char				*output;
+	char				**output;
 	char				*append;
 	char				*delimiter;
 	struct s_command	*next;
@@ -98,7 +98,7 @@ int		save_tokens(char *str, t_token **lst, t_info *info);
 //cmds
 t_cmd	*cmd_new(void);
 t_cmd	*parse_tokens(t_token *tokens, t_info *info);
-void	add_cmd_arg(t_cmd *cmd, char *arg);
+void	add_cmd_arg(char ***arr, char *arg);
 void	cmd_to_path(t_cmd *cmd_lst, t_info *info);
 void	del_arg(char **args);
 void	execute_commands(t_cmd *cmd, t_info *info);
