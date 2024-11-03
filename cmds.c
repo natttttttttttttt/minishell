@@ -121,7 +121,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 			syntax_error(tokens->next->type != WORD, &head, info);
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
-				cmd->append = ft_strdup(tokens->txt);
+				add_cmd_arg(&(cmd->append), tokens->txt);
 
 		}
 		else if (tokens->type == HEREDOC)

@@ -32,10 +32,7 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 	while (cmd_lst)
 	{
 		if (cmd_lst->args[0][0] == '\0' && cmd_lst->args[1])
-		{
 			del_arg(cmd_lst->args);
-			print_cmd_lst(cmd_lst);
-		}
 		if (cmd_lst->args && cmd_lst->args[0][0] != '\0')
 		{
 			if (!is_builtin(cmd_lst))
@@ -145,10 +142,15 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 		}
 		else if (cmd->append)
 		{
-			fd_out = open(cmd->append, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			i = 0;
+			while (cmd->append[i] != NULL)
+			{
+				fd_out = open(cmd->append[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+				i++;
+			}
 			if (fd_out == -1)
 			{
-				perror(cmd->append);
+				perror(cmd->append[i]);
 				info->exit_code = errno;
 				cmd = cmd->next;
 				continue ;

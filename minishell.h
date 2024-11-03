@@ -53,7 +53,7 @@ typedef struct s_command
 	char				**args;
 	char				*input;
 	char				**output;
-	char				*append;
+	char				**append;
 	char				*delimiter;
 	struct s_command	*next;
 	struct s_command	*prev;
