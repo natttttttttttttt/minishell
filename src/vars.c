@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:35:15 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/05 16:37:58 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/05 17:06:26 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*append_env_value(char *s, char **env_val, int f)
 	return (res);
 }
 
-void vars_to_value(t_token *lst, t_info info)
+void	vars_to_value(t_token *lst, t_info info)
 {
 	char	*s;
 

@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:33:43 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/05 16:34:55 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/05 17:06:12 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_strncmp(char *str1, char *str2, size_t n)
 	return (0);
 }
 
-void ft_strncpy(char *dest, const char *src, int size)
+void	ft_strncpy(char *dest, const char *src, int size)
 {
 	int	i;
 
