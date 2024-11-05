@@ -71,18 +71,7 @@ static void	syntax_error(int check, t_cmd **head, t_info *info)
 		*head = NULL;
 	}
 }
-// void	save_input(t_cmd *cmd, char *s)
-// {
-// 	if (!cmd->input)
-// 	{
-// 		cmd->input = malloc(sizeof(char **));
-// 		cmd->input[0] = ft_strdup(s);
-// 	}
-// 	else
-// 	{
 
-// 	}
-// }
 t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 {
 	t_cmd	*head;
@@ -107,7 +96,11 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 			syntax_error(tokens->next->type != WORD, &head, info);
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
+			{
+				if (cmd->input)
+					free(cmd->input);
 				cmd->input = ft_strdup(tokens->txt);
+			}
 		}
 		else if (tokens->type == OUTPUT)
 		{
@@ -129,7 +122,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 			syntax_error(tokens->next->type != WORD, &head, info);
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
-				cmd->delimiter = ft_strdup(tokens->txt);
+				add_cmd_arg(&(cmd->delimiter), tokens->txt);
 		}
 		else if (tokens->type == PIPE)
 		{

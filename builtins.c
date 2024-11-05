@@ -45,19 +45,19 @@ int	cd_builtin(char **args, t_info *info)
 	char	*dir;
 //add -
 	if (!args[1])
-			dir = ft_getenv(info->my_envp, "HOME");
+		dir = ft_getenv(info->my_envp, "HOME");
 	else if (args[2])
 	{
 		printf("cd: too many arguments\n");
 		return (1);
 	}
-	else 
+	else
 		dir = args[1];
 	oldpwd = getcwd(NULL, 0);
 	if (oldpwd == NULL)
 	{
 		perror("getcwd");
-		return(errno);
+		return (errno);
 	}
 	if (chdir(dir) != 0)
 	{
@@ -218,14 +218,15 @@ int	export_builtin(char **args, t_info *info, int i)
 	return (f);
 }
 
-int	env_builtin(char **my_envp)
+int	env_builtin(char **my_envp, int fd_out)
 {
 	int	i;
 
 	i = 0;
 	while (my_envp[i] != NULL)
 	{
-		printf("%s\n", my_envp[i]);
+		write(fd_out, my_envp[i], ft_strlen(my_envp[i]));
+		write(fd_out, "\n", 1);
 		i++;
 	}
 	return (0);

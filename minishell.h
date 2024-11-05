@@ -54,7 +54,7 @@ typedef struct s_command
 	char				*input;
 	char				**output;
 	char				**append;
-	char				*delimiter;
+	char				**delimiter;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_cmd;
@@ -115,7 +115,7 @@ int		is_builtin(t_cmd *cmd);
 int		run_builtin(t_cmd *cmd, t_info *info, int fd_out);
 int		cd_builtin(char **args, t_info *info);
 int		echo_builtin(char **args, int fd_out);
-int		env_builtin(char **my_env);
+int		env_builtin(char **my_env, int fd_out);
 void	exit_builtin(char **args, t_info *info);
 int		export_builtin(char **args, t_info *info, int i);
 int		pwd_builtin(void);
@@ -131,7 +131,7 @@ int		find_env_var(char **my_envp, char *var);
 char	*ft_getenv(char **my_envp, char *var);
 void	update_env(char *var, char *value, char ***my_envp);
 //heredoc
-void	heredoc(char *dlmtr, t_info info);
+void	heredoc(char **dlmtr, t_info info);
 //debug (DELETE later)
 void	print_cmd_lst(t_cmd *cmd_lst);
 void	print_list(t_token *lst);
