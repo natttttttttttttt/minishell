@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 int	is_builtin(t_cmd *cmd)
 {

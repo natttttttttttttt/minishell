@@ -1,4 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 16:10:48 by pibouill          #+#    #+#             */
+/*   Updated: 2024/11/05 16:16:17 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
+
+void	do_heredoc(char **dlmtr, t_info info, int fd)
+{
+	char	*line;
+	char	*s;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+		{
+			printf("warning: here-document delimited by end-of-file");
+			printf(" (wanted '%s')\n", *dlmtr);
+			break ;
+		}
+		if (ft_strncmp(line, *dlmtr, ft_strlen(*dlmtr) + 1) == 0)
+			break ;
+		s = replace_env_vars(line, info, 0, 0);
+		write(fd, s, ft_strlen(s));
+		free(line);
+		free(s);
+		write(fd, "\n", 1);
+	}
+}
 
 void	heredoc(char *dlmtr, t_info info)
 {
@@ -10,24 +46,6 @@ void	heredoc(char *dlmtr, t_info info)
 	if (fd == -1)
 		perror("open");
 	else
-	{
-		while (1)
-		{
-			line = readline("> ");
-			if (!line)
-			{
-				printf("warning: here-document delimited by end-of-file");
-				printf(" (wanted '%s')\n", dlmtr);
-				break ;
-			}
-			if (ft_strncmp(line, dlmtr, ft_strlen(dlmtr) + 1) == 0)
-				break ;
-			s = replace_env_vars(line, info, 0, 0);
-			write(fd, s, ft_strlen(s));
-			free(line);
-			free(s);
-			write(fd, "\n", 1);
-		}
-		close(fd);
-	}
+		do_heredoc(&dlmtr, info, fd);
+	close(fd);
 }
