@@ -1,27 +1,105 @@
-NAME = minishell
-CC = cc 
-CFLAGS = -Wall -Wextra -Werror -g 
-LDFLAGS = -lreadline -lncurses  
-RM = rm -rf
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: visaienk <visaienk@student.42prague.com    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/09/27 11:40:58 by pibouill          #+#    #+#              #
+#    Updated: 2024/11/05 14:42:10 by pibouill         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRCS = main.c lst_utils.c utils.c parsing.c cmds.c cmd_exe.c builtins.c envp.c heredoc.c vars.c
+NAME		:=	minishell
+CC			:=	cc
+RM			:=	rm -rf
+CFLAGS		:=	-Wall -Werror -Wextra -g
+SRC_DIR		:=	src
+INC_DIR		:=	-I ./inc/
+LIB_DIR		:=	lib
+LIBFT_DIR	:=	libft
+LIBFT_INC	:=	-I ./libft/inc/
+BIN_DIR		:=	bin
+LIBFT_CUT	:= $(shell echo $(LIBFT_DIR) | cut -c 4-)
 
-OBJS = $(SRCS:.c=.o)
+################################################################################
+## COLORS
+UNAME		:= $(shell uname)
 
-$(NAME): $(OBJS) 
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS) 
+RED				:=	[38;5;9m
+GREEN			:=	[38;5;10m
+BLUE			:= 	[38;5;14m
+YELLOW			:=	[38;5;226m
+RESET			:=	[38;5;7m
+PREFIX			:=	[$(YELLOW)$(NAME)$(RESET)]\t\t\t\t
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+#ifeq ($(UNAME), Linux)
+	#RED			:= \e[38;5;196m
+	#ORANGE		:= \e[38;5;208m
+	#GREEN		:= \033[0;92m
+	#YELLOW      := \033[0;93m
+	#BLUE        := \033[0;94m
+	#END_COLOR	:= \033[0;39m
+#endif
+#ifeq ($(UNAME), Darwin)
+	#GREEN		:= \033[0;92m
+	#YELLOW      := \033[0;93m
+	#BLUE        := \033[0;94m
+	#RED         := \033[0;91m
+	#END_COLOR   := \033[0m
+#endif
+
+################################################################################
+## SOURCES
+
+SRC_FILES	:=		builtins\
+				   cmd_exe\
+				   cmds\
+				   envp\
+				   heredoc\
+				   lst_utils\
+				   main\
+				   parsing\
+				   utils\
+				   vars
+
+SRC			:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
+OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
+
+################################################################################
+## RULES
 
 all: $(NAME)
 
-fclean: clean
-	$(RM) $(NAME)
+$(NAME): $(OBJ)
+	+@$(CC) $(CFLAGS)  $(OBJ) -o $(NAME) -lreadline -lncurses
+	+@echo ""
+	+@echo "$(PREFIX)$(GREEN)[$(NAME) compiled]$(END_COLOR)"
+	+@echo ""
+
+
+$(BIN_DIR)/%.o: $(SRC_DIR)/%.c Makefile | $(BIN_DIR)
+	+@$(CC) -c $(CFLAGS) $(INC_DIR) $< -o $@
+	+@echo "$(PREFIX)Compiling... $(BLUE)$(notdir $<)$(END_COLOR)"
+
+$(BIN_DIR):
+	+@mkdir $(BIN_DIR)
+	+@echo "$(PREFIX)Created $(BIN_DIR)/"
 
 clean:
-	$(RM) $(OBJS)
+	 +@rm -rf $(BIN_DIR)
+	 +@echo "$(PREFIX)$(NAME) object files cleaned"
+
+fclean: clean
+	+@$(RM) bin $(NAME) 
+	+@echo "$(PREFIX)$(NAME) executable file cleaned"
+	+@echo "$(PREFIX)$(NAME) bin/ cleaned"
 
 re: fclean all
+	+@echo "$(PREFIX)Cleaned all and rebuilt $(NAME) and $(LIBFT_DIR)"
+
+
+################################################################################
+## PHONY
 
 .PHONY: all clean fclean re

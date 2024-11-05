@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 void	heredoc(char *dlmtr, t_info info)
 {
