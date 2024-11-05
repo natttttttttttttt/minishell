@@ -78,7 +78,7 @@ void	free_command_list(t_cmd *head)
 		free_arr(node->output);
 		free(node->input);
 		free_arr(node->append);
-		free(node->delimiter);
+		free_arr(node->delimiter);
 		free(node);
 		node = next;
 	}

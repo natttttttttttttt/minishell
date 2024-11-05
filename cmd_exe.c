@@ -74,7 +74,7 @@ int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 	else if (is_builtin(cmd) == BUILTIN_EXIT)
 		exit_builtin(cmd->args, info);
 	else if (is_builtin(cmd) == BUILTIN_ENV)
-		return (env_builtin(info->my_envp));
+		return (env_builtin(info->my_envp, fd_out), fd_out);
 	else if (is_builtin(cmd) == BUILTIN_EXPORT)
 		return (export_builtin(cmd->args, info, 1));
 	else if (is_builtin(cmd) == BUILTIN_UNSET)
@@ -82,6 +82,31 @@ int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 	else if (is_builtin(cmd) == BUILTIN_ECHO)
 		return (echo_builtin(cmd->args, fd_out));
 	return (0);
+}
+
+void	exe_input(int *fd_in, t_cmd *cmd, int *exit_code, int *status)
+{
+	*fd_in = open(cmd->input, O_RDONLY);
+	if (*fd_in == -1)
+	{
+		perror(cmd->input);
+		*fd_in = 0;
+		*exit_code = 1;
+		*status = -1;
+	}
+}
+void	exe_heredoc(t_cmd *cmd, t_info *info, int *fd_in, int *status)
+{
+	heredoc(cmd->delimiter, *info);
+	*fd_in = open("heredoc.tmp", O_RDONLY);
+	unlink("heredoc.tmp");
+	if (*fd_in == -1)
+	{
+		perror("heredoc.tmp");
+		*fd_in = 0;
+		info->exit_code = 1;
+		*status = -1;
+	}
 }
 
 void	execute_commands(t_cmd *cmd, t_info *info)
@@ -100,44 +125,23 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 		fd_out = 1;
 		status = 0;
 		if (cmd->input)
-		{
-			fd_in = open(cmd->input, O_RDONLY);
-			if (fd_in == -1)
-			{
-				perror(cmd->input);
-				fd_in = 0;
-				info->exit_code = 1;
-				status = -1;
-			}
-		}
+			exe_input(&fd_in, cmd, &(info->exit_code), &status);
 		if (cmd->delimiter)
-		{
-			heredoc(cmd->delimiter, *info);
-			fd_in = open("heredoc.tmp", O_RDONLY);
-			unlink("heredoc.tmp");
-			if (fd_in == -1)
-			{
-				perror("heredoc.tmp");
-				fd_in = 0;
-				info->exit_code = 2;
-				cmd = cmd->next;
-				continue ;
-			}
-		}
+			exe_heredoc(cmd, info, &fd_in, &status);
 		if (cmd->output)
 		{
 			i = 0;
 			while (cmd->output[i] != NULL)
 			{
 				fd_out = open(cmd->output[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				if (fd_out == -1)
+				{
+					perror(cmd->output[i]);
+					info->exit_code = 1;
+					status = -1;
+					break ;
+				}
 				i++;
-			}
-			if (fd_out == -1)
-			{
-				perror(cmd->output[i]);
-				info->exit_code = errno;
-				cmd = cmd->next;
-				continue ;
 			}
 		}
 		else if (cmd->append)
@@ -190,7 +194,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 				if (!cmd->args || cmd->args[0][0] == '\0')
 					exit (127);
 				if (status == -1)
-					exit(0);
+					exit(info->exit_code);
 				if (fd_in != 0)
 				{
 					if (dup2(fd_in, 0) == -1)
