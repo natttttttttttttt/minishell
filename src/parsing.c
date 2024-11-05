@@ -1,4 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 16:24:58 by pibouill          #+#    #+#             */
+/*   Updated: 2024/11/05 16:26:31 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/minishell.h"
 
 int	not_words(char *str, int i)
 {
@@ -118,6 +130,7 @@ static void	save_tokens_norm(int i, int start, int *quotes, t_token **lst, char 
 			save_word(lst, copy_word(str, i, start), *quotes);
 	}
 }
+
 int	save_tokens(char *str, t_token **lst, t_info *info)
 {
 	int	i;

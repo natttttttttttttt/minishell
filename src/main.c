@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/05 16:21:11 by pibouill          #+#    #+#             */
+/*   Updated: 2024/11/05 16:21:34 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 int	all_spaces(char *str)
@@ -25,7 +37,6 @@ int	parsing_ok(char *str)
 		return (0);
 	return (1);
 }
-
 
 // void	print_cmd_lst(t_cmd *cmd_lst)
 // {
