@@ -6,7 +6,7 @@
 #    By: visaienk <visaienk@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/27 11:40:58 by pibouill          #+#    #+#              #
-#    Updated: 2024/11/05 14:42:10 by pibouill         ###   ########.fr        #
+#    Updated: 2024/11/06 11:18:02 by pibouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,8 +60,11 @@ SRC_FILES	:=		builtins\
 				   lst_utils\
 				   main\
 				   parsing\
-				   utils\
-				   vars
+				   utils_2\
+				   vars\
+				   vars_utils\
+				   lst_free_utils\
+				   free_utils_and_strjoin
 
 SRC			:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
@@ -72,14 +75,15 @@ OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	+@$(CC) $(CFLAGS)  $(OBJ) -o $(NAME) -lreadline -lncurses
+	+@make -C libft --no-print-directory
+	+@$(CC) -o $(NAME) $(OBJ) -L $(LIBFT_DIR) -l $(LIBFT_CUT) -lreadline
 	+@echo ""
 	+@echo "$(PREFIX)$(GREEN)[$(NAME) compiled]$(END_COLOR)"
 	+@echo ""
 
 
-$(BIN_DIR)/%.o: $(SRC_DIR)/%.c Makefile | $(BIN_DIR)
-	+@$(CC) -c $(CFLAGS) $(INC_DIR) $< -o $@
+$(BIN_DIR)/%.o: $(SRC_DIR)/%.c Makefile libft/src/*.c | $(BIN_DIR)
+	+@$(CC) -c $(CFLAGS) $(INC_DIR) $(LIBFT_INC) $< -o $@
 	+@echo "$(PREFIX)Compiling... $(BLUE)$(notdir $<)$(END_COLOR)"
 
 $(BIN_DIR):
@@ -89,15 +93,15 @@ $(BIN_DIR):
 clean:
 	 +@rm -rf $(BIN_DIR)
 	 +@echo "$(PREFIX)$(NAME) object files cleaned"
+	 +@make clean -C libft --no-print-directory
 
 fclean: clean
-	+@$(RM) bin $(NAME) 
+	+@$(RM) bin $(NAME) libft/libft.a 
 	+@echo "$(PREFIX)$(NAME) executable file cleaned"
 	+@echo "$(PREFIX)$(NAME) bin/ cleaned"
 
 re: fclean all
 	+@echo "$(PREFIX)Cleaned all and rebuilt $(NAME) and $(LIBFT_DIR)"
-
 
 ################################################################################
 ## PHONY

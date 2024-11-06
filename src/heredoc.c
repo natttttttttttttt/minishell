@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:10:48 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/06 10:12:16 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/06 10:40:29 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	do_heredoc(char **dlmtr, t_info info, int *fd, int *i)
 
 void	heredoc(char **dlmtr, t_info info)
 {
-	char	*line;
-	char	*s;
+	//char	*line;
+	//char	*s;
 	int		fd;
 	int		i;
 
