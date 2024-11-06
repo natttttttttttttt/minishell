@@ -112,7 +112,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 		}
 		if (cmd->delimiter)
 		{
-			heredoc(cmd->delimiter, *info);
+			heredoc(&cmd->delimiter, *info);
 			fd_in = open("heredoc.tmp", O_RDONLY);
 			unlink("heredoc.tmp");
 			if (fd_in == -1)
