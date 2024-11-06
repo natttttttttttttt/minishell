@@ -14,6 +14,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include "../libft/inc/libft.h"
 
 
 typedef enum e_type
@@ -76,22 +77,22 @@ t_token	*ft_lstlast(t_token *lst);
 void	free_lst(t_token **lst);
 void	lst_add_back(t_token **lst, t_token *new);
 //libft
-char	*ft_itoa(int n);
-char	*ft_strchr(char *str, int c);
-char	*ft_strdup(const char *src);
-char	*ft_strjoin(char *s1, const char *s2);
-char	*ft_strrchr(const char *str, int c);
-char	*ft_substr(char *s, int start, int len);
-char	**ft_split(const char *s, char c);
-//
-// is it used elsewhere than libft?
+//char	*ft_itoa(int n);
+//char	*ft_strchr(char *str, int c);
+//char	*ft_strdup(const char *src);
+//char	*ft_strjoin(char *s1, const char *s2);
+//char	*ft_strrchr(const char *str, int c);
+//char	*ft_substr(char *s, int start, int len);
+//char	**ft_split(const char *s, char c);
+////
+//// is it used anywhere else than libft stuff?
 int		all_digits(char *str);
-//
-int		ft_atoi(char *str);
-int		ft_isalnum(int c);
-int		ft_strlen(const char *str);
-int		ft_strncmp(char *str1, char *str2, size_t n);
-void	ft_strncpy(char *dest, const char *src, int size);
+////
+//int		ft_atoi(char *str);
+//int		ft_isalnum(int c);
+//int		ft_strlen(const char *str);
+//int		ft_strncmp(char *str1, char *str2, size_t n);
+//void	ft_strncpy(char *dest, const char *src, int size);
 //parsing
 char	*copy_word(char *str, int i, int start);
 int		not_words(char *str, int i);

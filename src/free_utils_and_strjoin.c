@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_3.c                                          :+:      :+:    :+:   */
+/*   free_utils_and_strjoin.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:32:43 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/06 10:29:03 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:13:46 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	free_arr(char **arr)
 ////
 
 // keep as well bc im not sure about mine
-char	*ft_strjoin(char *s1, const char *s2)
+// made s1 const - let's see if it works hehe
+char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*res;
 	size_t	len;

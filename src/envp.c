@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:10:42 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/05 16:10:44 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/06 11:11:25 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ void	update_env(char *var, char *value, char ***my_envp)
 		return ;
 	}
 	i = 0;
-	while (i < ft_strlen(var))
+	while (i < (int)ft_strlen(var))
 	{
 		s[i] = var[i];
 		i++;
 	}
 	s[i++] = '=';
-	while (i < ft_strlen(var) + ft_strlen(value) + 1)
+	while (i < (int)ft_strlen(var) + (int)ft_strlen(value) + 1)
 	{
 		s[i] = value[i - ft_strlen(var) - 1];
 		i++;
