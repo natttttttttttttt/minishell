@@ -83,7 +83,10 @@ char	*ft_strjoin(char *s1, const char *s2);
 char	*ft_strrchr(const char *str, int c);
 char	*ft_substr(char *s, int start, int len);
 char	**ft_split(const char *s, char c);
+//
+// is it used elsewhere than libft?
 int		all_digits(char *str);
+//
 int		ft_atoi(char *str);
 int		ft_isalnum(int c);
 int		ft_strlen(const char *str);
