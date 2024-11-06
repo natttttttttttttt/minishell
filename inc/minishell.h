@@ -131,7 +131,7 @@ int		find_env_var(char **my_envp, char *var);
 char	*ft_getenv(char **my_envp, char *var);
 void	update_env(char *var, char *value, char ***my_envp);
 //heredoc
-void	heredoc(char *dlmtr, t_info info);
+void	heredoc(char **dlmtr, t_info info);
 //debug (DELETE later)
 void	print_cmd_lst(t_cmd *cmd_lst);
 void	print_list(t_token *lst);
