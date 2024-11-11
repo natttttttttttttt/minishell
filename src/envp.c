@@ -6,131 +6,89 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:10:42 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/06 11:11:25 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/11 17:50:24 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	**copy_envp(char **envp)
+static int	env_size(char **my_envp)
 {
+	int	size;
+
+	size = 0;
+	while (my_envp[size])
+		size++;
+	return (size);
+}
+
+static char	*create_env_entry(char *var, char *value)
+{
+	char	*s;
 	int		i;
-	int		n;
-	int		j;
-	char	**my_envp;
+	int		len;
 
-	i = 0;
-	n = 0;
-	while (envp[n] != NULL)
-		n++;
-	my_envp = malloc((n + 1) * sizeof(char *));
-	if (!my_envp)
+	len = ft_strlen(var) + ft_strlen(value) + 2;
+	s = malloc(len);
+	if (!s)
 		return (NULL);
-	while (i < n)
-	{
-		my_envp[i] = ft_strdup(envp[i]);
-		if (!my_envp[i])
-		{
-			j = 0;
-			while (j < i)
-			{
-				free(my_envp[j]);
-				j++;
-			}
-			free(my_envp);
-			return (NULL);
-		}
-		i++;
-	}
-	my_envp[n] = NULL;
-	return (my_envp);
+	i = -1;
+	while (var[++i])
+		s[i] = var[i];
+	s[i++] = '=';
+	while (*value)
+		s[i++] = *value++;
+	s[i] = '\0';
+	return (s);
 }
 
-char	*ft_getenv(char **my_envp, char *var)
+static char	**resize_envp(char **my_envp, int size)
 {
-	int	i;
-	int	len;
+	char	**new_envp;
+	int		i;
 
-	i = 0;
-	len = ft_strlen(var);
-	while (my_envp[i] != NULL)
-	{
-		if (ft_strncmp(my_envp[i], var, len) == 0 && my_envp[i][len] == '=')
-			return (my_envp[i] + len + 1);
-		i++;
-	}
-	return (NULL);
+	new_envp = malloc((size + 1) * sizeof(char *));
+	if (!new_envp)
+		return (NULL);
+	i = -1;
+	while (my_envp[++i])
+		new_envp[i] = my_envp[i];
+	new_envp[i] = NULL;
+	return (new_envp);
 }
 
-int 	find_env_var(char **my_envp, char *var)
+static void	replace_or_add_env(char **my_envp, char *s, int var_i)
 {
-	int	i;
-	int	len;
-
-	i = 0;
-	len = ft_strlen(var);
-	while (my_envp[i])
+	if (var_i != -1)
 	{
-		if (ft_strncmp(my_envp[i], var, len) == 0 && my_envp[i][len] == '=')
-			return (i);
-		i++;
+		free(my_envp[var_i]);
+		my_envp[var_i] = s;
 	}
-	return (-1);
+	else
+	{
+		while (*my_envp)
+			my_envp++;
+		*my_envp++ = s;
+		*my_envp = NULL;
+	}
 }
 
 void	update_env(char *var, char *value, char ***my_envp)
 {
-	int		i;
 	int		var_i;
 	char	*s;
 	char	**new_envp;
 
-	s = malloc(sizeof(char) * (ft_strlen(var) + ft_strlen(value) + 2));
+	s = create_env_entry(var, value);
 	if (!s)
-	{
-		perror("malloc");
-		return ;
-	}
-	i = 0;
-	while (i < (int)ft_strlen(var))
-	{
-		s[i] = var[i];
-		i++;
-	}
-	s[i++] = '=';
-	while (i < (int)ft_strlen(var) + (int)ft_strlen(value) + 1)
-	{
-		s[i] = value[i - ft_strlen(var) - 1];
-		i++;
-	}
-	s[i] = '\0';
+		return (perror("malloc"));
 	var_i = find_env_var(*my_envp, var);
-	if (var_i != -1)
+	if (var_i == -1)
 	{
-		free((*my_envp)[var_i]);
-		(*my_envp)[var_i] = s;
-	}
-	else
-	{
-		i = 0;
-		while ((*my_envp)[i])
-			i++;
-		new_envp = malloc((i + 2) * sizeof(char *));
+		new_envp = resize_envp(*my_envp, env_size(*my_envp) + 1);
 		if (!new_envp)
-		{
-			perror("malloc"); 
-			return ;
-		}
-		var_i = 0;
-		while (var_i < i)
-		{
-			new_envp[var_i] = (*my_envp)[var_i];
-			var_i++;
-		}
-		new_envp[i] = ft_strdup(s);
-		new_envp[i + 1] = NULL;
-		free(*my_envp);
+			return (free(s), perror("malloc"));
 		*my_envp = new_envp;
-		free(s);
 	}
+	replace_or_add_env(*my_envp, s, var_i);
 }

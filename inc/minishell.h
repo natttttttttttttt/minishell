@@ -76,6 +76,7 @@ t_token	*toklst_create(char *str, t_type type);
 t_token	*toklst_last(t_token *lst);
 void	toklst_add_back(t_token **lst, t_token *new);
 void	free_lst(t_token **lst);
+
 //libft
 //char	*ft_itoa(int n);
 //char	*ft_strchr(char *str, int c);
@@ -100,6 +101,7 @@ int		not_words(char *str, int i);
 void	save_sep(t_token **lst, char *str, int i, int type);
 void	save_word(t_token **lst, char *word, int q);
 int		save_tokens(char *str, t_token **lst, t_info *info);
+
 //cmds
 t_cmd	*cmd_new(void);
 t_cmd	*parse_tokens(t_token *tokens, t_info *info);
@@ -107,6 +109,7 @@ void	add_cmd_arg(char ***arr, char *arg);
 void	cmd_to_path(t_cmd *cmd_lst, t_info *info);
 void	del_arg(char **args);
 void	execute_commands(t_cmd *cmd, t_info *info);
+
 //vars
 int		valid_var_name(char *s);
 char	*replace_env_vars(const char *txt, t_info info, int i, int start);
@@ -115,6 +118,7 @@ char	*append_env_value(char *s, char **env_val, int f);
 char	*append_substring(char *s, const char *txt, int start, int end);
 
 void	vars_to_value(t_token *lst, t_info info);
+
 //builtins
 int		is_builtin(t_cmd *cmd);
 int		run_builtin(t_cmd *cmd, t_info *info, int fd_out);
@@ -125,16 +129,21 @@ void	exit_builtin(char **args, t_info *info);
 int		export_builtin(char **args, t_info *info, int i);
 int		pwd_builtin(void);
 int		unset_builtin(char **args, t_info *info, int i, int j);
+
 //cleanup
 void	free_arr(char **arr);
 void	free_command_list(t_cmd *head);
 void	free_token_lst(t_token *head);
 void	free_all(t_cmd *cmd, t_token *token);
+
 //envp
 char	**copy_envp(char **envp);
 int		find_env_var(char **my_envp, char *var);
 char	*ft_getenv(char **my_envp, char *var);
 void	update_env(char *var, char *value, char ***my_envp);
+void	free_envp(char **my_envp, int i);
+char	**copy_envp(char **envp);
+
 //heredoc
 void	heredoc(char **dlmtr, t_info info);
 //debug (DELETE later)
