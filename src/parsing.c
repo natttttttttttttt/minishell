@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:24:58 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/05 16:26:31 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/11 17:00:41 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	save_word(t_token **lst, char *word, int q)
 
 	tmp = deal_with_quotes(word, q);
 	if (ft_strchr(word, '$') && q != 1)
-		lst_add_back(lst, lst_create(tmp, VAR));
+		toklst_add_back(lst, toklst_create(tmp, VAR));
 	else
-		lst_add_back(lst, lst_create(tmp, WORD));
+		toklst_add_back(lst, toklst_create(tmp, WORD));
 	free (word);
 	free(tmp);
 }
@@ -160,7 +160,7 @@ int	save_tokens(char *str, t_token **lst, t_info *info)
 		{
 			save_tokens_norm(i, start, &quotes, lst, str);
 			if (sep != SPACES)
-				lst_add_back(lst, lst_create(NULL, sep));
+				toklst_add_back(lst, toklst_create(NULL, sep));
 			if (sep == HEREDOC || sep == APPEND)
 				i++;
 			start = i + 1;
@@ -168,6 +168,6 @@ int	save_tokens(char *str, t_token **lst, t_info *info)
 		i++;
 	}
 	save_tokens_norm(i, start, &quotes, lst, str);
-	lst_add_back(lst, lst_create(NULL, DONE));
+	toklst_add_back(lst, toklst_create(NULL, DONE));
 	return (1);
 }

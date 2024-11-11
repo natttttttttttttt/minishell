@@ -72,10 +72,10 @@ typedef struct s_info
 }	t_info;
 
 //list utils
-t_token	*lst_create(char *str, t_type type);
-t_token	*ft_lstlast(t_token *lst);
+t_token	*toklst_create(char *str, t_type type);
+t_token	*toklst_last(t_token *lst);
+void	toklst_add_back(t_token **lst, t_token *new);
 void	free_lst(t_token **lst);
-void	lst_add_back(t_token **lst, t_token *new);
 //libft
 //char	*ft_itoa(int n);
 //char	*ft_strchr(char *str, int c);
@@ -92,7 +92,8 @@ int		all_digits(char *str);
 //int		ft_isalnum(int c);
 //int		ft_strlen(const char *str);
 //int		ft_strncmp(char *str1, char *str2, size_t n);
-//void	ft_strncpy(char *dest, const char *src, int size);
+void		ft_strncpy(char *dest, const char *src, int size);
+
 //parsing
 char	*copy_word(char *str, int i, int start);
 int		not_words(char *str, int i);

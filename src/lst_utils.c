@@ -6,13 +6,13 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:18:44 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/05 16:20:35 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/11 17:00:19 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_token	*lst_create(char *str, t_type type)
+t_token	*toklst_create(char *str, t_type type)
 {
 	t_token	*new;
 
@@ -26,7 +26,7 @@ t_token	*lst_create(char *str, t_type type)
 	return (new);
 }
 
-t_token	*ft_lstlast(t_token *lst)
+t_token	*toklst_last(t_token *lst)
 {
 	if (lst)
 	{
@@ -36,14 +36,14 @@ t_token	*ft_lstlast(t_token *lst)
 	return (lst);
 }
 
-void	lst_add_back(t_token **lst, t_token *new)
+void	toklst_add_back(t_token **lst, t_token *new)
 {
 	if (new)
 	{
 		if (*lst)
 		{
-			new->prev = ft_lstlast(*lst);
-			ft_lstlast(*lst)->next = new;
+			new->prev = toklst_last(*lst);
+			toklst_last(*lst)->next = new;
 		}
 		else
 			*lst = new;
