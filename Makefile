@@ -6,25 +6,25 @@
 #    By: visaienk <visaienk@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/27 11:40:58 by pibouill          #+#    #+#              #
-#    Updated: 2024/11/12 15:50:45 by pibouill         ###   ########.fr        #
+#    Updated: 2024/11/12 15:54:54 by pibouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		:=	minishell
-CC			:=	cc
-RM			:=	rm -rf
-CFLAGS		:=	-Wall -Werror -Wextra -g
-SRC_DIR		:=	src
-INC_DIR		:=	-I ./inc/
-LIB_DIR		:=	lib
-LIBFT_DIR	:=	libft
-LIBFT_INC	:=	-I ./libft/inc/
-BIN_DIR		:=	bin
-LIBFT_CUT	:= $(shell echo $(LIBFT_DIR) | cut -c 4-)
+NAME			:=	minishell
+CC				:=	cc
+RM				:=	rm -rf
+CFLAGS			:=	-Wall -Werror -Wextra -g
+SRC_DIR			:=	src
+INC_DIR			:=	-I ./inc/
+LIB_DIR			:=	lib
+LIBFT_DIR		:=	libft
+LIBFT_INC		:=	-I ./libft/inc/
+BIN_DIR			:=	bin
+LIBFT_CUT		:= $(shell echo $(LIBFT_DIR) | cut -c 4-)
 
 ################################################################################
 ## COLORS
-UNAME		:= $(shell uname)
+UNAME			:= $(shell uname)
 
 RED				:=	[38;5;9m
 GREEN			:=	[38;5;10m
