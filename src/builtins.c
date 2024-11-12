@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:03:17 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/12 14:46:05 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:48:41 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,43 +48,6 @@ int	pwd_builtin(void)
 		perror("pwd");
 		return (errno);
 	}
-}
-
-static void	free_before_exit(t_info *info)
-{
-	free_command_list(info->cmds);
-	free_token_lst(info->tokens);
-	free(info->input);
-	free_arr(info->paths);
-	free_arr(info->my_envp);
-}
-
-void	exit_builtin(char **args, t_info *info)
-{
-	int	code;
-
-	code = 0;
-	if (args[1] != NULL)
-	{
-		if (args[2] != NULL)
-		{
-			printf("exit: too many arguments\n");
-			free_before_exit(info);
-			exit (1);
-		}
-		if (all_digits(args[1]))
-			code = ft_atoi(args[1]);
-		else
-		{
-			printf("exit\n");
-			printf("exit: %s: numeric argument required\n", args[1]);
-			free_before_exit(info);
-			exit (2);
-		}
-	}
-	printf("exit\n");
-	free_before_exit(info);
-	exit(code);
 }
 
 int	valid_var_name(char *s)
