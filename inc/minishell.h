@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/12 14:23:47 by pibouill          #+#    #+#             */
+/*   Updated: 2024/11/12 14:24:35 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -15,7 +27,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "../libft/inc/libft.h"
-
 
 typedef enum e_type
 {
@@ -149,4 +160,5 @@ void	heredoc(char **dlmtr, t_info info);
 //debug (DELETE later)
 void	print_cmd_lst(t_cmd *cmd_lst);
 void	print_list(t_token *lst);
+
 #endif
