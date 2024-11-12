@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+//can norminette
 void	heredoc(char **dlmtr, t_info info)
 {
 	char	*line;

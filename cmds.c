@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+//can norminette
 t_cmd	*cmd_new(void)
 {
 	t_cmd	*cmd;
@@ -71,7 +71,7 @@ static void	syntax_error(int check, t_cmd **head, t_info *info)
 		*head = NULL;
 	}
 }
-
+//until here or with this function if you just put every if separately, cause i will need space there
 t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 {
 	t_cmd	*head;

@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+//can norminette
 int	is_builtin(t_cmd *cmd)
 {
 	if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)

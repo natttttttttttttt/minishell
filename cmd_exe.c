@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+//can norminette cmd_to_path
 static char	*get_cmd(t_info *info, char *cmd)
 {
 	char	*try;

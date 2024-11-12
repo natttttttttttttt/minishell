@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+//can norminette
 int	not_words(char *str, int i)
 {
 	if (((str[i] > 8 && str[i] < 14) || str[i] == 32))
@@ -52,7 +52,7 @@ static char	*deal_with_quotes(char *s, int q)
 	{
 		if ((q == 1 && s[i] == '\'')
 			|| ((q == 2 && s[i] == '\"') && (ft_strchr(s, '$') > &s[i]))
-			|| (q == 2 && (((ft_strchr(s, '$'))	&& (ft_strchr(s, '\"') == &s[i]))
+			|| (q == 2 && (((ft_strchr(s, '$')) && (ft_strchr(s, '\"') == &s[i]))
 					|| (!(ft_strchr(s, '$')) && s[i] == '\"'))))
 			i++;
 		else
