@@ -6,7 +6,7 @@
 #    By: visaienk <visaienk@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/27 11:40:58 by pibouill          #+#    #+#              #
-#    Updated: 2024/11/12 14:22:03 by pibouill         ###   ########.fr        #
+#    Updated: 2024/11/12 15:50:45 by pibouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,10 @@ SRC_FILES	:=		builtins\
 				   	vars_utils\
 				   	lst_free_utils\
 				   	free_utils_and_strjoin\
-				   	envp_utils
+				   	envp_utils\
+					cd\
+					exit\
+					export
 
 SRC			:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
