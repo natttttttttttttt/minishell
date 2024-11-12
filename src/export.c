@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 14:50:12 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/12 14:52:20 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:58:24 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,26 @@ static char	**split_for_export(char *s)
 	return (res);
 }
 
+static void	free_export_split(char **split)
+{
+	free(split[0]);
+	if (split[1])
+		free(split[1]);
+	free(split);
+}
+
+int	get_export_split(char **var, char **value, char **split)
+{
+	if (!split)
+		return (12);
+	*var = split[0];
+	if (split[1] != NULL)
+		*value = split[1];
+	else
+		*value = "";
+	return (1);
+}
+
 int	export_builtin(char **args, t_info *info, int i)
 {
 	char	**split;
@@ -79,13 +99,7 @@ int	export_builtin(char **args, t_info *info, int i)
 	while (args[i])
 	{
 		split = split_for_export(args[i]);
-		if (!split)
-			return (12);
-		var = split[0];
-		if (split[1] != NULL)
-			value = split[1];
-		else
-			value = "";
+		get_export_split(&var, &value, split);
 		if (valid_var_name(var))
 		{
 			if (value || args[i][ft_strlen(args[i]) - 1] == '=')
@@ -96,10 +110,7 @@ int	export_builtin(char **args, t_info *info, int i)
 			printf("export: %s: not a valid identifier\n", var);
 			f = 1;
 		}
-		free(split[0]);
-		if (split[1])
-			free(split[1]);
-		free(split);
+		free_export_split(split);
 		i++;
 	}
 	return (f);
