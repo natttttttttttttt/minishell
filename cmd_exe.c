@@ -21,6 +21,7 @@ static char	*get_cmd(t_info *info, char *cmd)
 		i++;
 	}
 	printf("%s: command not found\n", cmd);
+	info->exit_code = 127;
 	return (ft_strdup(""));
 }
 
@@ -28,6 +29,7 @@ static char	*get_cmd(t_info *info, char *cmd)
 void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 {
 	char	*tmp;
+	DIR		*dir;
 
 	while (cmd_lst)
 	{
@@ -37,21 +39,35 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 		{
 			if (!is_builtin(cmd_lst))
 			{
-				if (ft_strchr(cmd_lst->args[0], '/'))
+				dir = opendir(cmd_lst->args[0]);
+				if (dir != NULL)
 				{
-					if (chdir(cmd_lst->args[0]) == 0)
+					closedir(dir);
+					if (ft_strncmp(cmd_lst->args[0], "./", 2) == 0
+						|| ft_strncmp(cmd_lst->args[0], "../", 3) == 0
+						|| ft_strncmp(cmd_lst->args[0], "/", 1) == 0)
 					{
 						printf("%s: is a directory\n", cmd_lst->args[0]);
-						free(cmd_lst->args[0]);
-						cmd_lst->args[0] = ft_strdup("");
+						info->exit_code = 126;
 					}
 					else
 					{
-						chdir(cmd_lst->args[0]);
-						perror(cmd_lst->args[0]);
-						free(cmd_lst->args[0]);
-						cmd_lst->args[0] = ft_strdup("");
+						printf("%s: command not found\n", cmd_lst->args[0]);
+						info->exit_code = 127;
 					}
+					free(cmd_lst->args[0]);
+					cmd_lst->args[0] = ft_strdup("");
+				}
+				else if (ft_strchr(cmd_lst->args[0], '/'))
+				{
+					execve(cmd_lst->args[0], cmd_lst->args, info->my_envp);
+					perror(cmd_lst->args[0]);
+					free(cmd_lst->args[0]);
+					if (errno == 13)
+						info->exit_code = 126;
+					else
+						info->exit_code = 127;
+					cmd_lst->args[0] = ft_strdup("");
 				}
 				else if (access(cmd_lst->args[0], X_OK) != 0)
 				{
@@ -86,13 +102,20 @@ int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 
 void	exe_input(int *fd_in, t_cmd *cmd, int *exit_code, int *status)
 {
-	*fd_in = open(cmd->input, O_RDONLY);
-	if (*fd_in == -1)
+	int	i;
+
+	i = 0;
+	while (cmd->input[i])
 	{
-		perror(cmd->input);
-		*fd_in = 0;
-		*exit_code = 1;
-		*status = -1;
+		*fd_in = open(cmd->input[i], O_RDONLY);
+		if (*fd_in == -1)
+		{
+			perror(cmd->input[i]);
+			*exit_code = 1;
+			*status = -1;
+			break ;
+		}
+		i++;
 	}
 }
 void	exe_heredoc(t_cmd *cmd, t_info *info, int *fd_in, int *status)
@@ -128,7 +151,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			exe_input(&fd_in, cmd, &(info->exit_code), &status);
 		if (cmd->delimiter)
 			exe_heredoc(cmd, info, &fd_in, &status);
-		if (cmd->output)
+		if (cmd->output && status != -1)
 		{
 			i = 0;
 			while (cmd->output[i] != NULL)
@@ -144,20 +167,20 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 				i++;
 			}
 		}
-		else if (cmd->append)
+		if (cmd->append && status != -1)
 		{
 			i = 0;
-			while (cmd->append[i] != NULL)
+			while ((cmd->append)[i] != NULL)
 			{
 				fd_out = open(cmd->append[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+				if (fd_out == -1)
+				{
+					perror(cmd->append[i]);
+					info->exit_code = 1;
+					status = -1;
+					break ;
+				}
 				i++;
-			}
-			if (fd_out == -1)
-			{
-				perror(cmd->append[i]);
-				info->exit_code = errno;
-				cmd = cmd->next;
-				continue ;
 			}
 		}
 		if (cmd->next)
@@ -172,10 +195,14 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					close(fd_out);
 				return ;
 			}
-			fd_out = pipe_fd[1];
+			if (!cmd->output && !cmd->append)
+				fd_out = pipe_fd[1];
 		}
 		if (is_builtin(cmd) && cmd->next == NULL && cmd->prev == NULL)
-			info->exit_code = run_builtin(cmd, info, fd_out);
+		{
+			if (status != -1)
+				info->exit_code = run_builtin(cmd, info, fd_out);
+		}
 		else
 		{
 			pid = fork();
@@ -192,7 +219,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			if (pid == 0)
 			{
 				if (!cmd->args || cmd->args[0][0] == '\0')
-					exit (127);
+					exit (info->exit_code);
 				if (status == -1)
 					exit(info->exit_code);
 				if (fd_in != 0)

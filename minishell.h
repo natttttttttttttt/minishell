@@ -14,6 +14,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <dirent.h>
 
 
 typedef enum e_type
@@ -51,7 +52,7 @@ typedef struct s_token
 typedef struct s_command
 {
 	char				**args;
-	char				*input;
+	char				**input;
 	char				**output;
 	char				**append;
 	char				**delimiter;

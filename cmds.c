@@ -96,11 +96,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 			syntax_error(tokens->next->type != WORD, &head, info);
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
-			{
-				if (cmd->input)
-					free(cmd->input);
-				cmd->input = ft_strdup(tokens->txt);
-			}
+				add_cmd_arg(&(cmd->input), tokens->txt);
 		}
 		else if (tokens->type == OUTPUT)
 		{
