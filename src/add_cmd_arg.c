@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:38:53 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/14 12:39:16 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/14 12:44:10 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	alloc_cmd_arg(char ***arr, char *arg)
 	}
 	free(*arr);
 	*arr = (char **)malloc(sizeof(char *) * (i + 2));
-	if (!arr)
+	if (!*arr)
 		return (free(tmp));
 	end_alloc_cmd_arg(arr, arg, i, tmp);
 }
