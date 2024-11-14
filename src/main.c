@@ -6,11 +6,12 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:21:11 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/05 16:21:34 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/14 16:22:41 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+#include <signal.h>
 
 int	all_spaces(char *str)
 {
@@ -104,15 +105,30 @@ void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 	free(info->input);
 }
 
+bool	set_signal = false;
+
+void	ignore_signals()
+{
+	set_signal = true;
+
+
+
+}
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	*token_lst;
 	t_cmd	*cmd_lst;
 	t_info	info;
+	struct sigaction	sa;
 
 	(void)argc;
 	(void)argv;
 	info_init(&info, envp);
+	sa.sa_handler = ignore_signals;
+	sigemptyset(&sa.sa_mask);
+	ignore_signals();
 	while (1)
 	{
 		token_lst = NULL;
