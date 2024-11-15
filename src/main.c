@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:21:11 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/15 16:11:02 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:47:17 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,23 +117,12 @@ void	handle_sigint()
 	rl_redisplay();
 }
 
-void	handle_sigstop()
+// gonna have to this somewhere (not sure where for now hehe)
+void	restore_sigint_in_child(struct sigaction sigint)
 {
-	set_signal = true;
-	/*rl_replace_line("", 0);*/
-	//rl_on_new_line();
-	rl_redisplay();
+	if (set_signal == true)
+		sigaction(SIGINT, &sigint, NULL);
 }
-
-void	handle_sigquit()
-{
-	set_signal = true;
-	/*write(1, "\n", 1);*/
-	/*rl_replace_line("", 0);*/
-	/*rl_on_new_line();*/
-	rl_redisplay();
-}
-
 /*
  * So I finally got the answer.
  * The thing is that when the process was forked (let's say we ran
@@ -161,8 +150,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	info_init(&info, envp);
 	sigint.sa_handler = handle_sigint;
-	sigstop.sa_handler = handle_sigstop;
-	sigquit.sa_handler = handle_sigquit;
+	sigint.sa_flags = SA_SIGINFO | SA_RESTART;
+	sigstop.sa_handler = SIG_IGN;
+	sigquit.sa_handler = SIG_IGN;
 	sigemptyset(&sigint.sa_mask);
 	sigemptyset(&sigquit.sa_mask);
 	sigemptyset(&sigstop.sa_mask);
