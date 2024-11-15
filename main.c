@@ -1,5 +1,24 @@
 #include "minishell.h"
 
+void	ft_signal_handler(int signal)
+{
+	if (signal == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+
+void	sig_handl_child(int signal)
+{
+	if (signal == SIGINT)
+	{
+		exit(130);
+	}
+}
+
 int	all_spaces(char *str)
 {
 	int	i;
@@ -101,6 +120,8 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	signal(SIGINT, ft_signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 	info_init(&info, envp);
 	while (1)
 	{

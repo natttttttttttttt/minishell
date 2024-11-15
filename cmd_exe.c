@@ -216,8 +216,10 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					close(fd_out);
 				return ;
 			}
+			signal(SIGINT, SIG_IGN);
 			if (pid == 0)
 			{
+				signal(SIGINT, SIG_DFL);
 				if (!cmd->args || cmd->args[0][0] == '\0')
 					exit (info->exit_code);
 				if (status == -1)
@@ -267,9 +269,14 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	if (pid != -1)
 	{
 		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			write(1, "\n", 1);
 		if (WIFEXITED(status))
 			info->exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			info->exit_code = 128 + WTERMSIG(status);
 	}
 	while (wait(NULL) > 0)
 		;
+	signal(SIGINT, ft_signal_handler);
 }
