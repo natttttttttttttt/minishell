@@ -6,11 +6,12 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:21:11 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/14 16:22:41 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:11:02 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+#include <readline/readline.h>
 #include <signal.h>
 
 int	all_spaces(char *str)
@@ -107,28 +108,67 @@ void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 
 bool	set_signal = false;
 
-void	ignore_signals()
+void	handle_sigint()
 {
 	set_signal = true;
-
-
-
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
+void	handle_sigstop()
+{
+	set_signal = true;
+	/*rl_replace_line("", 0);*/
+	//rl_on_new_line();
+	rl_redisplay();
+}
+
+void	handle_sigquit()
+{
+	set_signal = true;
+	/*write(1, "\n", 1);*/
+	/*rl_replace_line("", 0);*/
+	/*rl_on_new_line();*/
+	rl_redisplay();
+}
+
+/*
+ * So I finally got the answer.
+ * The thing is that when the process was forked (let's say we ran
+ * `/usr/bin/cat`) and then interrupted with `SIGINT` the wait called
+ * failed and the parent was unwaited for (thus creating a zombie and
+ * messing will all the other wait calls). If we ran after that command,
+ * a command such as `/usr/bin/ls` the process encountered the previous
+ * zombie that had been unwaited for, returned early, printed the prompt
+ * and only after the ls command printed its output.
+ * The solution is to set `sa.sa_flags = SA_SIGINFO | SA_RESTART` (in
+ * function `init_sig`) so that the wait call will be restarted when
+ * `SIGINT` is received.
+ */
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_token	*token_lst;
 	t_cmd	*cmd_lst;
 	t_info	info;
-	struct sigaction	sa;
+	struct sigaction	sigint;
+	struct sigaction	sigstop;
+	struct sigaction	sigquit;
 
 	(void)argc;
 	(void)argv;
 	info_init(&info, envp);
-	sa.sa_handler = ignore_signals;
-	sigemptyset(&sa.sa_mask);
-	ignore_signals();
+	sigint.sa_handler = handle_sigint;
+	sigstop.sa_handler = handle_sigstop;
+	sigquit.sa_handler = handle_sigquit;
+	sigemptyset(&sigint.sa_mask);
+	sigemptyset(&sigquit.sa_mask);
+	sigemptyset(&sigstop.sa_mask);
+	sigaction(SIGINT, &sigint, NULL);
+	sigaction(SIGTSTP, &sigstop, NULL);
+	sigaction(SIGQUIT, &sigquit, NULL);
 	while (1)
 	{
 		token_lst = NULL;

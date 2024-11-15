@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:38:53 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/14 12:44:10 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:09:12 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void	alloc_cmd_arg(char ***arr, char *arg)
 
 void	add_cmd_arg(char ***arr, char *arg)
 {
-	char	**tmp;
-	int		i;
-	int		j;
+	//char	**tmp;
+	//int		i;
+	//int		j;
 
-	i = 0;
-	j = 0;
+	//i = 0;
+	//j = 0;
 	if (*arr)
 	{
 		alloc_cmd_arg(arr, arg);
