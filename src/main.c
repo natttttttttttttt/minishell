@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:21:11 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/15 17:47:17 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:56:16 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ void	restore_sigint_in_child(struct sigaction sigint)
  * function `init_sig`) so that the wait call will be restarted when
  * `SIGINT` is received.
  */
+
+// (sleep 10) +++++
 
 int	main(int argc, char **argv, char **envp)
 {
