@@ -6,13 +6,15 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:21:11 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/16 12:21:13 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/16 15:48:26 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 #include <readline/readline.h>
 #include <signal.h>
+#define PROMPT_COLOR \033[0;30
+#define DOL_COLOR \033[0;35
 
 int	all_spaces(char *str)
 {
@@ -161,7 +163,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		token_lst = NULL;
-		info.input = readline("minishell> ");
+		info.input = readline("\033[1;33mminishell\033[35m$ \033[0m");
 		if (!info.input)
 		{
 			printf("exit\n");
