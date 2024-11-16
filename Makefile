@@ -6,7 +6,7 @@
 #    By: visaienk <visaienk@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/27 11:40:58 by pibouill          #+#    #+#              #
-#    Updated: 2024/11/16 12:18:15 by pibouill         ###   ########.fr        #
+#    Updated: 2024/11/16 14:18:27 by pibouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,6 +98,11 @@ minish: all
 #submodules_init:
 #    +@git submodule update --init --recursive
 #    @echo "$(SUBMOD_PREFIX)Initialized and updated$(END_COLOR)"
+
+val:
+	@make
+	@valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=suppress --show-leak-kinds=all --log-file="leaks" ./minishell
+
 
 ################################################################################
 ## PHONY
