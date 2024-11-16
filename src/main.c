@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:21:11 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/15 17:56:16 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/16 12:21:13 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ int	main(int argc, char **argv, char **envp)
 	t_cmd	*cmd_lst;
 	t_info	info;
 	struct sigaction	sigint;
-	struct sigaction	sigstop;
 	struct sigaction	sigquit;
 
 	(void)argc;
@@ -153,14 +152,12 @@ int	main(int argc, char **argv, char **envp)
 	info_init(&info, envp);
 	sigint.sa_handler = handle_sigint;
 	sigint.sa_flags = SA_SIGINFO | SA_RESTART;
-	sigstop.sa_handler = SIG_IGN;
 	sigquit.sa_handler = SIG_IGN;
 	sigemptyset(&sigint.sa_mask);
 	sigemptyset(&sigquit.sa_mask);
-	sigemptyset(&sigstop.sa_mask);
 	sigaction(SIGINT, &sigint, NULL);
-	sigaction(SIGTSTP, &sigstop, NULL);
 	sigaction(SIGQUIT, &sigquit, NULL);
+	signal(SIGTSTP, SIG_IGN);
 	while (1)
 	{
 		token_lst = NULL;
