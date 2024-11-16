@@ -121,7 +121,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	signal(SIGINT, ft_signal_handler);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN); // ignore Ctrl+backslash
+	signal(SIGTSTP, SIG_IGN); // ignore Ctrl+Z (just in case)
 	info_init(&info, envp);
 	while (1)
 	{
