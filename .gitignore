@@ -4,4 +4,4 @@ bin/
 *.o
 .nfs*
 leaks
-
+*.tmp
