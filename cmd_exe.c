@@ -1,4 +1,8 @@
 #include "minishell.h"
+#include <endian.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
 //can norminette cmd_to_path
 static char	*get_cmd(t_info *info, char *cmd)
 {
@@ -25,6 +29,7 @@ static char	*get_cmd(t_info *info, char *cmd)
 	return (ft_strdup(""));
 }
 
+void	sig_handl_child(int signal);
 
 void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 {
@@ -142,7 +147,6 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	int i;
 
 	fd_in = 0;
-	pid = -1;
 	while (cmd != NULL)
 	{
 		fd_out = 1;
@@ -219,7 +223,15 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 			signal(SIGINT, SIG_IGN);
 			if (pid == 0)
 			{
-				signal(SIGINT, SIG_DFL);
+				struct sigaction	sa;
+
+				sa.sa_handler = SIG_DFL;
+				/*sa.sa_handler = sig_handl_child;*/
+				sa.sa_flags = SA_RESTART;
+				sigemptyset(&sa.sa_mask);
+				sigaction(SIGINT, &sa, NULL);
+
+				//signal(SIGINT, SIG_DFL);
 				if (!cmd->args || cmd->args[0][0] == '\0')
 					exit (info->exit_code);
 				if (status == -1)

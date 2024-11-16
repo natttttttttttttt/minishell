@@ -1,14 +1,15 @@
 #include "minishell.h"
+#include <signal.h>
+#include <unistd.h>
 
-void	ft_signal_handler(int signal)
+void	setup_signals(void)
 {
-	if (signal == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
+	struct sigaction	sa;
+
+	sa.sa_handler = ft_signal_handler;
+	sa.sa_flags = SA_RESTART;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
 }
 
 void	sig_handl_child(int signal)
@@ -16,6 +17,18 @@ void	sig_handl_child(int signal)
 	if (signal == SIGINT)
 	{
 		exit(130);
+	}
+}
+
+void	ft_signal_handler(int signal)
+{
+	if (signal == SIGINT)
+	{
+		//sig_handl_child(signal);
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
 }
 
