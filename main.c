@@ -140,7 +140,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		token_lst = NULL;
-		info.input = readline("minishell> ");
+		info.input = readline("\033[0;35mminishell\033[1;36m> \033[0m");
 		if (!info.input)
 		{
 			printf("exit\n");
