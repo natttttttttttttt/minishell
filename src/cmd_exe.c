@@ -6,11 +6,16 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:23:05 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/11 17:01:36 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/17 15:39:39 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+#include <endian.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <dirent.h>
 
 static char	*get_cmd(t_info *info, char *cmd)
 {
@@ -33,13 +38,14 @@ static char	*get_cmd(t_info *info, char *cmd)
 		i++;
 	}
 	printf("%s: command not found\n", cmd);
+	info->exit_code = 127;
 	return (ft_strdup(""));
 }
-
 
 void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 {
 	char	*tmp;
+	DIR		*dir;
 
 	while (cmd_lst)
 	{
@@ -49,21 +55,35 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 		{
 			if (!is_builtin(cmd_lst))
 			{
-				if (ft_strchr(cmd_lst->args[0], '/'))
+				dir = opendir(cmd_lst->args[0]);
+				if (dir != NULL)
 				{
-					if (chdir(cmd_lst->args[0]) == 0)
+					closedir(dir);
+					if (ft_strncmp(cmd_lst->args[0], "./", 2) == 0
+						|| ft_strncmp(cmd_lst->args[0], "../", 3) == 0
+						|| ft_strncmp(cmd_lst->args[0], "/", 1) == 0)
 					{
 						printf("%s: is a directory\n", cmd_lst->args[0]);
-						free(cmd_lst->args[0]);
-						cmd_lst->args[0] = ft_strdup("");
+						info->exit_code = 126;
 					}
 					else
 					{
-						chdir(cmd_lst->args[0]);
-						perror(cmd_lst->args[0]);
-						free(cmd_lst->args[0]);
-						cmd_lst->args[0] = ft_strdup("");
+						printf("%s: command not found\n", cmd_lst->args[0]);
+						info->exit_code = 127;
 					}
+					free(cmd_lst->args[0]);
+					cmd_lst->args[0] = ft_strdup("");
+				}
+				else if (ft_strchr(cmd_lst->args[0], '/'))
+				{
+					execve(cmd_lst->args[0], cmd_lst->args, info->my_envp);
+					perror(cmd_lst->args[0]);
+					free(cmd_lst->args[0]);
+					if (errno == 13)
+						info->exit_code = 126;
+					else
+						info->exit_code = 127;
+					cmd_lst->args[0] = ft_strdup("");
 				}
 				else if (access(cmd_lst->args[0], X_OK) != 0)
 				{
@@ -76,7 +96,6 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 		cmd_lst = cmd_lst->next;
 	}
 }
-
 int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 {
 	if (is_builtin(cmd) == BUILTIN_PWD)
@@ -96,6 +115,40 @@ int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 	return (0);
 }
 
+void	exe_input(int *fd_in, t_cmd *cmd, int *exit_code, int *status)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->input[i])
+	{
+		*fd_in = open(cmd->input[i], O_RDONLY);
+		if (*fd_in == -1)
+		{
+			perror(cmd->input[i]);
+			*exit_code = 1;
+			*status = -1;
+			break ;
+		}
+		i++;
+	}
+}
+
+void	exe_heredoc(t_cmd *cmd, t_info *info, int *fd_in, int *status)
+{
+	heredoc(cmd->delimiter, *info);
+	*fd_in = open("heredoc.tmp", O_RDONLY);
+	unlink("heredoc.tmp");
+	if (*fd_in == -1)
+	{
+		perror("heredoc.tmp");
+		*fd_in = 0;
+		info->exit_code = 1;
+		*status = -1;
+	}
+}
+
+void	sig_handl_child(int signal);
 void	execute_commands(t_cmd *cmd, t_info *info)
 {
 	int		fd_in;
@@ -106,66 +159,44 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	int i;
 
 	fd_in = 0;
-	pid = -1;
 	while (cmd != NULL)
 	{
 		fd_out = 1;
 		status = 0;
 		if (cmd->input)
-		{
-			fd_in = open(cmd->input, O_RDONLY);
-			if (fd_in == -1)
-			{
-				perror(cmd->input);
-				fd_in = 0;
-				info->exit_code = 1;
-				status = -1;
-			}
-		}
+			exe_input(&fd_in, cmd, &(info->exit_code), &status);
 		if (cmd->delimiter)
-		{
-			heredoc(&cmd->delimiter, *info);
-			fd_in = open("heredoc.tmp", O_RDONLY);
-			unlink("heredoc.tmp");
-			if (fd_in == -1)
-			{
-				perror("heredoc.tmp");
-				fd_in = 0;
-				info->exit_code = 2;
-				cmd = cmd->next;
-				continue ;
-			}
-		}
-		if (cmd->output)
+			exe_heredoc(cmd, info, &fd_in, &status);
+		if (cmd->output && status != -1)
 		{
 			i = 0;
 			while (cmd->output[i] != NULL)
 			{
 				fd_out = open(cmd->output[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				if (fd_out == -1)
+				{
+					perror(cmd->output[i]);
+					info->exit_code = 1;
+					status = -1;
+					break ;
+				}
 				i++;
-			}
-			if (fd_out == -1)
-			{
-				perror(cmd->output[i]);
-				info->exit_code = errno;
-				cmd = cmd->next;
-				continue ;
 			}
 		}
-		else if (cmd->append)
+		if (cmd->append && status != -1)
 		{
 			i = 0;
-			while (cmd->append[i] != NULL)
+			while ((cmd->append)[i] != NULL)
 			{
 				fd_out = open(cmd->append[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+				if (fd_out == -1)
+				{
+					perror(cmd->append[i]);
+					info->exit_code = 1;
+					status = -1;
+					break ;
+				}
 				i++;
-			}
-			if (fd_out == -1)
-			{
-				perror(cmd->append[i]);
-				info->exit_code = errno;
-				cmd = cmd->next;
-				continue ;
 			}
 		}
 		if (cmd->next)
@@ -180,10 +211,14 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					close(fd_out);
 				return ;
 			}
-			fd_out = pipe_fd[1];
+			if (!cmd->output && !cmd->append)
+				fd_out = pipe_fd[1];
 		}
 		if (is_builtin(cmd) && cmd->next == NULL && cmd->prev == NULL)
-			info->exit_code = run_builtin(cmd, info, fd_out);
+		{
+			if (status != -1)
+				info->exit_code = run_builtin(cmd, info, fd_out);
+		}
 		else
 		{
 			pid = fork();
@@ -197,12 +232,22 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					close(fd_out);
 				return ;
 			}
+			signal(SIGINT, SIG_IGN);
 			if (pid == 0)
 			{
+				struct sigaction	sa;
+
+				sa.sa_handler = SIG_DFL;
+				/*sa.sa_handler = sig_handl_child;*/
+				sa.sa_flags = SA_RESTART;
+				sigemptyset(&sa.sa_mask);
+				sigaction(SIGINT, &sa, NULL);
+
+				//signal(SIGINT, SIG_DFL);
 				if (!cmd->args || cmd->args[0][0] == '\0')
-					exit (127);
+					exit (info->exit_code);
 				if (status == -1)
-					exit(0);
+					exit(info->exit_code);
 				if (fd_in != 0)
 				{
 					if (dup2(fd_in, 0) == -1)
@@ -248,9 +293,14 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	if (pid != -1)
 	{
 		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			write(1, "\n", 1);
 		if (WIFEXITED(status))
 			info->exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			info->exit_code = 128 + WTERMSIG(status);
 	}
 	while (wait(NULL) > 0)
 		;
+	signal(SIGINT, ft_signal_handler);
 }

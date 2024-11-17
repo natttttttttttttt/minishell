@@ -6,7 +6,7 @@
 #    By: visaienk <visaienk@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/27 11:40:58 by pibouill          #+#    #+#              #
-#    Updated: 2024/11/16 14:18:27 by pibouill         ###   ########.fr        #
+#    Updated: 2024/11/17 15:24:55 by pibouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,8 @@ SRC_FILES	:=		builtins\
 					cd\
 					exit\
 					export\
-					add_cmd_arg
+					add_cmd_arg\
+					signals
 
 SRC			:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))

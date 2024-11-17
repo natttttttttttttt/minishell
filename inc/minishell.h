@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 14:23:47 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/12 20:21:11 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/17 15:41:47 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ typedef struct s_token
 typedef struct s_command
 {
 	char				**args;
-	char				*input;
+	char				**input;
 	char				**output;
 	char				**append;
-	char				*delimiter;
+	char				**delimiter;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_cmd;
@@ -160,5 +160,9 @@ void	heredoc(char **dlmtr, t_info info);
 //debug (DELETE later)
 void	print_cmd_lst(t_cmd *cmd_lst);
 void	print_list(t_token *lst);
+
+// signals
+void	ft_signal_handler(int signal);
+//
 
 #endif
