@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 16:08:55 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/14 12:39:25 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/17 15:51:27 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void	syntax_error(int check, t_cmd **head, t_info *info)
 
 // 	}
 // }
+
 t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 {
 	t_cmd	*head;
@@ -72,7 +73,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 			syntax_error(tokens->next->type != WORD, &head, info);
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
-				cmd->input = ft_strdup(tokens->txt);
+				add_cmd_arg(&(cmd->input), tokens->txt);
 		}
 		else if (tokens->type == OUTPUT)
 		{
@@ -94,7 +95,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 			syntax_error(tokens->next->type != WORD, &head, info);
 			tokens = tokens->next;
 			if (tokens && tokens->type == WORD)
-				cmd->delimiter = ft_strdup(tokens->txt);
+				add_cmd_arg(&(cmd->delimiter), tokens->txt);
 		}
 		else if (tokens->type == PIPE)
 		{
