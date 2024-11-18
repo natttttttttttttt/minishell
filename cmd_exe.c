@@ -45,7 +45,17 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 			if (!is_builtin(cmd_lst))
 			{
 				dir = opendir(cmd_lst->args[0]);
-				if (dir != NULL)
+				if ((ft_strchr(cmd_lst->args[0], '/'))  && (errno == ENOENT || errno == EACCES))
+				{
+					if (errno == ENOENT)
+						info->exit_code = 127;
+					else
+						info->exit_code = 126;
+					perror(cmd_lst->args[0]);
+					free(cmd_lst->args[0]);
+					cmd_lst->args[0] = ft_strdup("");
+				}
+				else if (dir != NULL)
 				{
 					closedir(dir);
 					if (ft_strncmp(cmd_lst->args[0], "./", 2) == 0
@@ -63,15 +73,22 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 					free(cmd_lst->args[0]);
 					cmd_lst->args[0] = ft_strdup("");
 				}
-				else if (ft_strchr(cmd_lst->args[0], '/'))
+				// else if (ft_strchr(cmd_lst->args[0], '/'))
+				// {
+				// 	execve(cmd_lst->args[0], cmd_lst->args, info->my_envp);
+				// 	perror(cmd_lst->args[0]);
+				// 	free(cmd_lst->args[0]);
+				// 	if (errno == 13)
+				// 		info->exit_code = 126;
+				// 	else
+				// 		info->exit_code = 127;
+				// 	cmd_lst->args[0] = ft_strdup("");
+				// }
+				else if ((access(cmd_lst->args[0], F_OK) == 0) && !(ft_strchr(cmd_lst->args[0], '/')))
 				{
-					execve(cmd_lst->args[0], cmd_lst->args, info->my_envp);
-					perror(cmd_lst->args[0]);
+					printf("%s: command not found\n", cmd_lst->args[0]);
+					info->exit_code = 127;
 					free(cmd_lst->args[0]);
-					if (errno == 13)
-						info->exit_code = 126;
-					else
-						info->exit_code = 127;
 					cmd_lst->args[0] = ft_strdup("");
 				}
 				else if (access(cmd_lst->args[0], X_OK) != 0)

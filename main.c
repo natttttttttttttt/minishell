@@ -59,38 +59,50 @@ int	parsing_ok(char *str)
 }
 
 
-// void	print_cmd_lst(t_cmd *cmd_lst)
-// {
-// 	t_cmd	*cmd;
-// 	int		i;
+void print_string_array(char **arr)
+{
+    if (arr == NULL) {
+        printf("NULL\n");
+        return;
+    }
+    for (int i = 0; arr[i] != NULL; i++) {
+        printf("%s ", arr[i]);
+    }
+    printf("\n");
+}
 
-// 	cmd = cmd_lst;
-// 	while (cmd)
-// 	{
-// 		i = 0;
-// 		printf("Command:\n");
-// 		while (cmd->args[i])
-// 		{
-// 			printf("  Arg[%d]: %s\n", i, cmd->args[i]);
-// 			i++;
-// 		}
-// 		if (cmd->input)
-// 			printf("  Input File: %s\n", cmd->input);
-// 		i = 0;
-// 		while (cmd->output[i])
-// 		{
-// 			printf("  Output File[%d]: %s\n", i, cmd->output[i]);
-// 			i++;
-// 		}
-// 		if (cmd->append)
-// 			printf("  Append File: %s\n", cmd->append);
-// 		if (cmd->delimiter)
-// 			printf("  Heredoc Delimiter: %s\n", cmd->delimiter);
-// 		cmd = cmd->next;
-// 		if (cmd)
-// 			printf("  |\n");
-// 	}
-// }
+// Function to print the contents of a t_cmd structure
+void print_command(t_cmd *cmd)
+{
+    if (cmd == NULL) {
+        printf("Command is NULL\n");
+        return;
+    }
+
+    printf("Command:\n");
+    
+    // Print arguments
+    printf("  args: ");
+    print_string_array(cmd->args);
+
+    // Print input redirection
+    printf("  input: ");
+    print_string_array(cmd->input);
+
+    // Print output redirection
+    printf("  output: ");
+    print_string_array(cmd->output);
+
+    // Print append redirection
+    printf("  append: ");
+    print_string_array(cmd->append);
+
+    // Print delimiter
+    printf("  delimiter: ");
+    print_string_array(cmd->delimiter);
+
+}
+
 
 void	info_init(t_info *info, char **envp)
 {
@@ -112,7 +124,7 @@ void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 		//print_list(token_lst);
 		vars_to_value(token_lst, *info);
 		cmd_lst = parse_tokens(token_lst, info);
-		//print_cmd_lst(cmd_lst);
+		//print_command(cmd_lst);
 		info->cmds = cmd_lst;
 		if (cmd_lst)
 		{
