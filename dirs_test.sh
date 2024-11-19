@@ -26,6 +26,7 @@ commands=(
 	"bla/"
 	"./bla"
 	"./bla/"
+    "echo blou"
 
 )
 
