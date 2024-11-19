@@ -1,0 +1,36 @@
+Running: minishell.h
+Command failed with exit code 127
+----------------------------------
+Running: minishell_tester/
+Command failed with exit code 126
+----------------------------------
+Running: minishell_tester
+Command failed with exit code 127
+----------------------------------
+Running: /minishell_tester
+Command failed with exit code 127
+----------------------------------
+Running: /minishell_tester/
+Command failed with exit code 127
+----------------------------------
+Running: ./minishell_tester
+Command failed with exit code 126
+----------------------------------
+Running: ./minishell_tester/
+Command failed with exit code 126
+----------------------------------
+Running: bla
+Command failed with exit code 127
+----------------------------------
+Running: /bla
+Command failed with exit code 127
+----------------------------------
+Running: bla/
+Command failed with exit code 127
+----------------------------------
+Running: ./bla
+Command failed with exit code 127
+----------------------------------
+Running: ./bla/
+Command failed with exit code 127
+----------------------------------
