@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:40:40 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/19 16:52:29 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/19 16:54:27 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,6 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		token_lst = NULL;
-		printf("\nsigflag->%d\n", sigflag);
 		info.input = readline("\033[0;35mminishell\033[1;36m> \033[0m");
 		if (sigflag != 0)
 		{
