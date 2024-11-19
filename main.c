@@ -1,6 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/19 16:40:40 by pibouill          #+#    #+#             */
+/*   Updated: 2024/11/19 16:52:29 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <signal.h>
 #include <unistd.h>
+
+int	sigflag;
 
 void	setup_signals(void)
 {
@@ -22,6 +36,7 @@ void	sig_handl_child(int signal)
 
 void	ft_signal_handler(int signal)
 {
+	sigflag = signal;
 	if (signal == SIGINT)
 	{
 		//sig_handl_child(signal);
@@ -145,6 +160,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	sigflag = 0;
 	signal(SIGINT, ft_signal_handler);
 	signal(SIGQUIT, SIG_IGN); // ignore Ctrl+backslash
 	signal(SIGTSTP, SIG_IGN); // ignore Ctrl+Z (just in case)
@@ -152,7 +168,13 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		token_lst = NULL;
+		printf("\nsigflag->%d\n", sigflag);
 		info.input = readline("\033[0;35mminishell\033[1;36m> \033[0m");
+		if (sigflag != 0)
+		{
+			info.exit_code = 130;
+			sigflag = 0;
+		}
 		if (!info.input)
 		{
 			printf("exit\n");

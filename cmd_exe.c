@@ -164,6 +164,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	int i;
 
 	fd_in = 0;
+	pid = -1;
 	while (cmd != NULL)
 	{
 		fd_out = 1;
@@ -250,7 +251,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 
 				//signal(SIGINT, SIG_DFL);
 				if (!cmd->args || cmd->args[0][0] == '\0')
-					exit (info->exit_code);
+					exit(info->exit_code);
 				if (status == -1)
 					exit(info->exit_code);
 				if (fd_in != 0)
@@ -258,7 +259,7 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 					if (dup2(fd_in, 0) == -1)
 					{
 						perror("dup2");
-						exit (errno);
+						exit(errno);
 					}
 				}
 				if (fd_out != 1)
