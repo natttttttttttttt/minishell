@@ -80,7 +80,7 @@ int	cd_builtin(char **args, t_info *info)
 	return (0);
 }
 
-static void	free_before_exit(t_info *info)
+void	free_before_exit(t_info *info)
 {
 	free_command_list(info->cmds);
 	free_token_lst(info->tokens);

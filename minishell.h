@@ -49,6 +49,18 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct	s_order
+{
+	char			*input;
+	char			*output;
+	char			*append;
+	char			*heredoc;
+	int				i_input;
+	int				i_output;
+	int				i_append;
+	int				count;
+}	t_order;
+
 typedef struct s_command
 {
 	char				**args;
@@ -56,6 +68,7 @@ typedef struct s_command
 	char				**output;
 	char				**append;
 	char				**delimiter;
+	t_order				*order;
 	struct s_command	*next;
 	struct s_command	*prev;
 }	t_cmd;
@@ -102,7 +115,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info);
 void	add_cmd_arg(char ***arr, char *arg);
 void	cmd_to_path(t_cmd *cmd_lst, t_info *info);
 void	del_arg(char **args);
-void	execute_commands(t_cmd *cmd, t_info *info);
+void	execute_commands(t_cmd *cmd, t_info *info, int fd_in, int fd_out);
 //vars
 int		valid_var_name(char *s);
 char	*replace_env_vars(const char *txt, t_info info, int i, int start);
@@ -125,7 +138,8 @@ int		unset_builtin(char **args, t_info *info, int i, int j);
 void	free_arr(char **arr);
 void	free_command_list(t_cmd *head);
 void	free_token_lst(t_token *head);
-void	free_all(t_cmd *cmd, t_token *token);
+void	free_before_exit(t_info *info);
+void	free_order(t_order *order);
 //envp
 char	**copy_envp(char **envp);
 int		find_env_var(char **my_envp, char *var);
@@ -138,4 +152,5 @@ void	ft_signal_handler(int signal);
 //debug (DELETE later)
 void	print_cmd_lst(t_cmd *cmd_lst);
 void	print_list(t_token *lst);
+void print_order(t_order *order);
 #endif

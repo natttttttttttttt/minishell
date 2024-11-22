@@ -122,25 +122,32 @@ int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 	return (0);
 }
 
-void	exe_input(int *fd_in, char *str, int *exit_code, int *status)
+void	exe_input(int *fd_in, t_cmd *cmd, int *exit_code, int *status)
 {
-	if (*status != -1)
+	int	i;
+
+	if (cmd->input)
 	{
-		*fd_in = open(str, O_RDONLY);
-		if (*fd_in == -1)
+		i = 0;
+		while (cmd->input[i])
 		{
-			perror(str);
-			*exit_code = 1;
-			*status = -1;
+			*fd_in = open(cmd->input[i], O_RDONLY);
+			if (*fd_in == -1)
+			{
+				perror(cmd->input[i]);
+				*exit_code = 1;
+				*status = -1;
+				break ;
+			}
+			i++;
 		}
 	}
-
 }
-void	exe_heredoc(char **str, t_info *info, int *fd_in, int *status)
+void	exe_heredoc(t_cmd *cmd, t_info *info, int *fd_in, int *status)
 {
-	if (*status != -1)
+	if (cmd->delimiter)// && *status != -1)
 	{
-		heredoc(str, *info);
+		heredoc(cmd->delimiter, *info);
 		*fd_in = open("heredoc.tmp", O_RDONLY);
 		unlink("heredoc.tmp");
 		if (*fd_in == -1)
@@ -154,30 +161,46 @@ void	exe_heredoc(char **str, t_info *info, int *fd_in, int *status)
 }
 
 
-void exe_output(int *fd_out, char *str, int *exit_code, int *status)
+void exe_output(int *fd_out, t_cmd *cmd, int *exit_code, int *status)
 {
-	if (*status != -1)
+	int	i;
+
+	if (cmd->output)// && *status != -1)
 	{
-		*fd_out = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (*fd_out == -1)
+	i = 0;
+		while (cmd->output[i] != NULL)
 		{
-			perror(str);
-			*exit_code = 1;
-			*status = -1;
+			*fd_out = open(cmd->output[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (*fd_out == -1)
+			{
+				perror(cmd->output[i]);
+				*exit_code = 1;
+				*status = -1;
+				break ;
+			}
+			i++;
 		}
 	}
 }
 
-void exe_append(int *fd_out, char *str, int *exit_code, int *status)
+void exe_append(int *fd_out, t_cmd *cmd, int *exit_code, int *status)
 {
-	if (*status != -1)
+	int	i;
+
+	if (cmd->append) //&& *status != -1)
 	{
-		*fd_out = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (*fd_out == -1)
+		i = 0;
+		while ((cmd->append)[i] != NULL)
 		{
-			perror(str);
-			*exit_code = 1;
-			*status = -1;
+			*fd_out = open(cmd->append[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (*fd_out == -1)
+			{
+				perror(cmd->append[i]);
+				*exit_code = 1;
+				*status = -1;
+				break ;
+			}
+			i++;
 		}
 	}
 }
@@ -207,36 +230,16 @@ void	execute_commands(t_cmd *cmd, t_info *info, int fd_in, int fd_out)
 	pid_t	pid;
 	int		status;
 	int		pipe_failed;
-	int i;
 
 	pid = -1;
-	
 	while (cmd != NULL)
 	{
 		fd_out = 1;
-		i = 0;
 		status = 0;
-		while(i < cmd->order->count)
-		{
-			if (cmd->input && (i + '0' == cmd->order->input[cmd->order->i_input]))
-			{
-				exe_input(&fd_in, cmd->input[cmd->order->i_input], &(info->exit_code), &status);
-				cmd->order->i_input++;
-			}
-			else if (cmd->output && (i + '0' == cmd->order->output[cmd->order->i_output]))
-			{
-				exe_output(&fd_out, cmd->output[cmd->order->i_output], &(info->exit_code), &status);
-				cmd->order->i_output++;
-			}
-			else if (cmd->append && (i + '0' == cmd->order->append[cmd->order->i_append]))
-			{
-				exe_append(&fd_out, cmd->append[cmd->order->i_append], &(info->exit_code), &status);
-				cmd->order->i_append++;
-			}
-			else if (cmd->delimiter && (i + '0' == cmd->order->heredoc[0]))
-				exe_heredoc(cmd->delimiter, info, &fd_in, &status);
-			i++;
-		}
+		exe_input(&fd_in, cmd, &(info->exit_code), &status);
+		exe_heredoc(cmd, info, &fd_in, &status);
+		exe_output(&fd_out, cmd, &(info->exit_code), &status);
+		exe_append(&fd_out, cmd, &(info->exit_code), &status);
 		pipe_failed = exe_pipe(pipe_fd, fd_in, &fd_out, cmd);
 		if (pipe_failed)
 			return ;
@@ -295,6 +298,7 @@ void	execute_commands(t_cmd *cmd, t_info *info, int fd_in, int fd_out)
 				}
 				if (cmd->next)
 					close(pipe_fd[0]);
+				close(pipe_fd[1]); //???
 				if (is_builtin(cmd))
 				{
 					info->exit_code = run_builtin(cmd, info, 1);
@@ -337,3 +341,7 @@ void	execute_commands(t_cmd *cmd, t_info *info, int fd_in, int fd_out)
 }
 
 //test 136
+//test 129 idk what it does at all
+//test 127, 120 that order problem
+//test 113  ls >./outfiles/outfile01 >>./outfiles/outfile01 >./outfiles/outfile02 
+//
