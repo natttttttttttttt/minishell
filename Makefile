@@ -4,7 +4,8 @@ CFLAGS = -Wall -Wextra -Werror -g
 LDFLAGS = -lreadline -lncurses  
 RM = rm -rf
 
-SRCS = main.c lst_utils.c utils.c parsing.c cmds.c cmd_exe.c builtins.c envp.c heredoc.c vars.c
+SRCS = main.c lst_utils.c utils.c parsing.c cmds.c cmd_exe.c builtins.c envp.c heredoc.c vars.c\
+	   cmd_to_path.c
 
 OBJS = $(SRCS:.c=.o)
 

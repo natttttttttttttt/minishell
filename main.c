@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:40:40 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/19 16:54:27 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/11/24 11:14:36 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	parsing_ok(char *str)
 		return (0);
 	return (1);
 }
-
 
 void print_string_array(char **arr)
 {
