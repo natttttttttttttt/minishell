@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/24 13:00:57 by pibouill          #+#    #+#             */
+/*   Updated: 2024/11/24 13:04:33 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <stdio.h>
 //can norminette
@@ -38,47 +50,6 @@ int	pwd_builtin(void)
 		return (errno);
 	}
 }
-
-//int	cd_builtin(char **args, t_info *info)
-//{
-//    char	*oldpwd;
-//    char	*newpwd;
-//    char	*dir;
-////add -
-//    if (!args[1])
-//        dir = ft_getenv(info->my_envp, "HOME");
-//    else if (args[2])
-//    {
-//        printf("cd: too many arguments\n");
-//        return (1);
-//    }
-//    else
-//        dir = args[1];
-//    oldpwd = getcwd(NULL, 0);
-//    if (oldpwd == NULL)
-//    {
-//        perror("getcwd");
-//        return (errno);
-//    }
-//    if (chdir(dir) != 0)
-//    {
-//        perror("cd");
-//        free(oldpwd);
-//        return (1);
-//    }
-//    newpwd = getcwd(NULL, 0);
-//    if (newpwd == NULL)
-//    {
-//        perror("getcwd");
-//        free(oldpwd);
-//        return (errno);
-//    }
-//    update_env("OLDPWD", oldpwd, &info->my_envp);
-//    update_env("PWD", newpwd, &info->my_envp);
-//    free(oldpwd);
-//    free(newpwd);
-//    return (0);
-//}
 
 void	free_before_exit(t_info *info)
 {
@@ -137,87 +108,6 @@ int	valid_var_name(char *s)
 	return (1);
 }
 
-static char	**split_for_export(char *s)
-{
-	int		i;
-	int		l;
-	char	**res;
-
-	l = ft_strlen(s);
-	res = malloc(sizeof(char *) * 3);
-	if (!res)
-	{
-		perror("malloc");
-		return (NULL);
-	}
-	res[2] = NULL;
-	i = 0;
-	while (s[i] && s[i] != '=')
-		i++;
-	if (s[i] == '=')
-	{
-		res[0] = malloc(sizeof(char) * (i + 1));
-		if (!res[0])
-		{
-			perror("malloc");
-			return (NULL);
-		}
-		ft_strncpy(res[0], s, i);
-		if (s[i + 1])
-		{
-			res[1] = malloc(sizeof(char) * (l - i));
-			if (!res[1])
-			{
-				perror("malloc");
-				return (NULL);
-			}
-			ft_strncpy(res[1], s + i + 1, l - i - 1);
-		}
-	}
-	else
-	{
-		res[0] = ft_strdup(s);
-		res[1] = NULL;
-	}
-	return (res);
-}
-
-int	export_builtin(char **args, t_info *info, int i)
-{
-	char	**split;
-	char	*var;
-	char	*value;
-	int		f;
-
-	f = 0;
-	while (args[i])
-	{
-		split = split_for_export(args[i]);
-		if (!split)
-			return (12);
-		var = split[0];
-		if (split[1] != NULL)
-			value = split[1];
-		else
-			value = "";
-		if (valid_var_name(var))
-		{
-			if (value || args[i][ft_strlen(args[i]) - 1] == '=')
-				update_env(var, value, &(info->my_envp));
-		}
-		else
-		{
-			printf("export: %s: not a valid identifier\n", var);
-			f = 1;
-		}
-		free(split[0]);
-		if (split[1])
-			free(split[1]);
-		free(split);
-		i++;
-	}
-	return (f);
-}
 
 int	env_builtin(char **my_envp, int fd_out)
 {
@@ -233,54 +123,54 @@ int	env_builtin(char **my_envp, int fd_out)
 	return (0);
 }
 
-int	unset_builtin(char **args, t_info *info, int i, int j)
-{
-	int		n;
-	int		k;
-	int		remove;
-	char	**new_env;
+//int	unset_builtin(char **args, t_info *info, int i, int j)
+//{
+//    int		n;
+//    int		k;
+//    int		remove;
+//    char	**new_env;
 
-	if (args[1] == NULL)
-		return (0);
-	while (args[i] && find_env_var(info->my_envp, args[i]) != -1)
-	{
-		j++;
-		i++;
-	}
-	n = 0;
-	while (info->my_envp[n] != NULL)
-		n++;
-	new_env = malloc(sizeof(char *) * (n + 1 - j));
-	if (!new_env)
-	{
-		perror("malloc");
-		return (errno);
-	}
-	i = 0;
-	j = 0;
-	while (i < n)
-	{
-		remove = 0;
-		k = 1;
-		while (args[k])
-		{
-			if (ft_strncmp(info->my_envp[i], args[k], ft_strlen(args[k])) == 0
-				&& info->my_envp[i][ft_strlen(args[k])] == '=')
-			{
-				remove = 1;
-				break ;
-			}
-			k++;
-		}
-		if (!remove)
-			new_env[j++] = info->my_envp[i];
-		i++;
-	}
-	new_env[j] = NULL;
-	free(info->my_envp);
-	info->my_envp = new_env;
-	return (0);
-}
+//    if (args[1] == NULL)
+//        return (0);
+//    while (args[i] && find_env_var(info->my_envp, args[i]) != -1)
+//    {
+//        j++;
+//        i++;
+//    }
+//    n = 0;
+//    while (info->my_envp[n] != NULL)
+//        n++;
+//    new_env = malloc(sizeof(char *) * (n + 1 - j));
+//    if (!new_env)
+//    {
+//        perror("malloc");
+//        return (errno);
+//    }
+//    i = 0;
+//    j = 0;
+//    while (i < n)
+//    {
+//        remove = 0;
+//        k = 1;
+//        while (args[k])
+//        {
+//            if (ft_strncmp(info->my_envp[i], args[k], ft_strlen(args[k])) == 0
+//                && info->my_envp[i][ft_strlen(args[k])] == '=')
+//            {
+//                remove = 1;
+//                break ;
+//            }
+//            k++;
+//        }
+//        if (!remove)
+//            new_env[j++] = info->my_envp[i];
+//        i++;
+//    }
+//    new_env[j] = NULL;
+//    free(info->my_envp);
+//    info->my_envp = new_env;
+//    return (0);
+//}
 
 int	echo_builtin(char **args, int fd_out)
 {
