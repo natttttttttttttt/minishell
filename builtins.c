@@ -39,46 +39,46 @@ int	pwd_builtin(void)
 	}
 }
 
-int	cd_builtin(char **args, t_info *info)
-{
-	char	*oldpwd;
-	char	*newpwd;
-	char	*dir;
-//add -
-	if (!args[1])
-		dir = ft_getenv(info->my_envp, "HOME");
-	else if (args[2])
-	{
-		printf("cd: too many arguments\n");
-		return (1);
-	}
-	else
-		dir = args[1];
-	oldpwd = getcwd(NULL, 0);
-	if (oldpwd == NULL)
-	{
-		perror("getcwd");
-		return (errno);
-	}
-	if (chdir(dir) != 0)
-	{
-		perror("cd");
-		free(oldpwd);
-		return (1);
-	}
-	newpwd = getcwd(NULL, 0);
-	if (newpwd == NULL)
-	{
-		perror("getcwd");
-		free(oldpwd);
-		return (errno);
-	}
-	update_env("OLDPWD", oldpwd, &info->my_envp);
-	update_env("PWD", newpwd, &info->my_envp);
-	free(oldpwd);
-	free(newpwd);
-	return (0);
-}
+//int	cd_builtin(char **args, t_info *info)
+//{
+//    char	*oldpwd;
+//    char	*newpwd;
+//    char	*dir;
+////add -
+//    if (!args[1])
+//        dir = ft_getenv(info->my_envp, "HOME");
+//    else if (args[2])
+//    {
+//        printf("cd: too many arguments\n");
+//        return (1);
+//    }
+//    else
+//        dir = args[1];
+//    oldpwd = getcwd(NULL, 0);
+//    if (oldpwd == NULL)
+//    {
+//        perror("getcwd");
+//        return (errno);
+//    }
+//    if (chdir(dir) != 0)
+//    {
+//        perror("cd");
+//        free(oldpwd);
+//        return (1);
+//    }
+//    newpwd = getcwd(NULL, 0);
+//    if (newpwd == NULL)
+//    {
+//        perror("getcwd");
+//        free(oldpwd);
+//        return (errno);
+//    }
+//    update_env("OLDPWD", oldpwd, &info->my_envp);
+//    update_env("PWD", newpwd, &info->my_envp);
+//    free(oldpwd);
+//    free(newpwd);
+//    return (0);
+//}
 
 void	free_before_exit(t_info *info)
 {
