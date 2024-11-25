@@ -110,18 +110,22 @@ void	save_sep(t_token **lst, char *str, int i, int type);
 void	save_word(t_token **lst, char *word, int q);
 int		save_tokens(char *str, t_token **lst, t_info *info);
 //exe
+void	ft_wait(pid_t pid, int status, t_info *info);
+void	set_redirs(t_cmd *cmd, t_info *info, int *status, int fd[2]);
 void	exe_input(int *fd_in, char *str, int *exit_code, int *status);
 void	exe_heredoc(char **str, t_info *info, int *fd_in, int *status);
 void	exe_output(int *fd_out, char *str, int *exit_code, int *status);
 void	exe_append(int *fd_out, char *str, int *exit_code, int *status);
-int		exe_pipe(int pipe_fd[2], int fd_in, int *fd_out, t_cmd *cmd);
+int		exe_pipe(int pipe_fd[2], int fd[2], t_cmd *cmd);
+void	prepare_exe(t_cmd *cmd, int status, t_info *info, int fd[2]);
+void	ft_execve(t_cmd *cmd, t_info *info, int pipe_fd[2]);
+void	execute_commands(t_cmd *cmd, t_info *info, int status, int i);
 //cmds
 t_cmd	*cmd_new(void);
 t_cmd	*parse_tokens(t_token *tokens, t_info *info);
 void	add_cmd_arg(char ***arr, char *arg);
 void	cmd_to_path(t_cmd *cmd_lst, t_info *info);
 void	del_arg(char **args);
-void	execute_commands(t_cmd *cmd, t_info *info, int fd_in, int fd_out);
 //vars
 int		valid_var_name(char *s);
 char	*replace_env_vars(const char *txt, t_info info, int i, int start);

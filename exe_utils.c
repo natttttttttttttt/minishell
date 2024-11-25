@@ -6,7 +6,7 @@
 /*   By: ntsvetko <ntsvetko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:16:54 by ntsvetko          #+#    #+#             */
-/*   Updated: 2024/11/25 17:21:24 by ntsvetko         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:40:18 by ntsvetko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,21 @@ void	exe_append(int *fd_out, char *str, int *exit_code, int *status)
 	}
 }
 
-int	exe_pipe(int pipe_fd[2], int fd_in, int *fd_out, t_cmd *cmd)
+int	exe_pipe(int pipe_fd[2], int fd[2], t_cmd *cmd)
 {
 	if (cmd->next)
 	{
 		if (pipe(pipe_fd) == -1)
 		{
 			perror("pipe");
-			if (fd_in != 0)
-				close(fd_in);
-			if (*fd_out != 1)
-				close(*fd_out);
+			if (fd[0] != 0)
+				close(fd[0]);
+			if (fd[1] != 1)
+				close(fd[1]);
 			return (errno);
 		}
 		if (!cmd->output && !cmd->append)
-			*fd_out = pipe_fd[1];
+			fd[1] = pipe_fd[1];
 	}
 	return (0);
 }
