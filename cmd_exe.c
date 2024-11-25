@@ -113,6 +113,7 @@ void	ft_wait(pid_t pid, int status, t_info *info)
 		;
 }
 
+// pierre do
 void	execute_commands(t_cmd *cmd, t_info *info, int status, int i)
 {
 	int		pipe_fd[2];

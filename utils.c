@@ -1,4 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/25 19:13:29 by pibouill          #+#    #+#             */
+/*   Updated: 2024/11/25 19:31:34 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+void	ft_putstr_fd(int fd, char *s)
+{
+	if (s == NULL)
+		return ;
+	write(fd, s, ft_strlen(s));
+}
 
 char	*ft_strdup(const char *src)
 {

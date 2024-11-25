@@ -163,4 +163,7 @@ void	ft_signal_handler(int signal);
 void	print_cmd_lst(t_cmd *cmd_lst);
 void	print_list(t_token *lst);
 void print_order(t_order *order);
+
+// utils
+void	ft_putstr_fd(int fd, char *str);
 #endif
