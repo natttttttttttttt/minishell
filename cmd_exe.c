@@ -111,17 +111,15 @@ void	execute_commands(t_cmd *cmd, t_info *info, int fd_in, int fd_out)
 	int		pipe_fd[2];
 	pid_t	pid;
 	int		status;
-	int		pipe_failed;
-	int i;
+	int		i;
 
 	pid = -1;
-	
 	while (cmd != NULL)
 	{
 		fd_out = 1;
 		i = 0;
 		status = 0;
-		while(i < cmd->order->count)
+		while (i < cmd->order->count)
 		{
 			if (cmd->input && (i + '0' == cmd->order->input[cmd->order->i_input]))
 			{
@@ -142,8 +140,8 @@ void	execute_commands(t_cmd *cmd, t_info *info, int fd_in, int fd_out)
 				exe_heredoc(cmd->delimiter, info, &fd_in, &status);
 			i++;
 		}
-		pipe_failed = exe_pipe(pipe_fd, fd_in, &fd_out, cmd);
-		if (pipe_failed)
+		i = exe_pipe(pipe_fd, fd_in, &fd_out, cmd);
+		if (i)
 			return ;
 		if (is_builtin(cmd) && cmd->next == NULL && cmd->prev == NULL)
 		{
