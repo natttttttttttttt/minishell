@@ -109,6 +109,12 @@ int		not_words(char *str, int i);
 void	save_sep(t_token **lst, char *str, int i, int type);
 void	save_word(t_token **lst, char *word, int q);
 int		save_tokens(char *str, t_token **lst, t_info *info);
+//exe
+void	exe_input(int *fd_in, char *str, int *exit_code, int *status);
+void	exe_heredoc(char **str, t_info *info, int *fd_in, int *status);
+void	exe_output(int *fd_out, char *str, int *exit_code, int *status);
+void	exe_append(int *fd_out, char *str, int *exit_code, int *status);
+int		exe_pipe(int pipe_fd[2], int fd_in, int *fd_out, t_cmd *cmd);
 //cmds
 t_cmd	*cmd_new(void);
 t_cmd	*parse_tokens(t_token *tokens, t_info *info);
