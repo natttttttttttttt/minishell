@@ -131,9 +131,9 @@ void	info_init(t_info *info, char **envp)
 void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 {
 	add_history(info->input);
+	info->tokens = token_lst;
 	if (save_tokens(info->input, &token_lst, info))
 	{
-		info->tokens = token_lst;
 		//print_list(token_lst);
 		vars_to_value(token_lst, *info);
 		cmd_lst = parse_tokens(token_lst, info);

@@ -203,7 +203,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 		else if (tokens->type == PIPE)
 		{
 			cmd->order->count = i;
-			i = 0; 
+			i = 0;
 			syntax_error(tokens->next->type == DONE
 				|| tokens->next->type == PIPE, &head, info);
 			cmd->next = cmd_new();

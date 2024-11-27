@@ -49,7 +49,7 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct	s_order
+typedef struct s_order
 {
 	char			*input;
 	char			*output;
@@ -106,9 +106,11 @@ void	ft_strncpy(char *dest, const char *src, int size);
 //parsing
 char	*copy_word(char *str, int i, int start);
 int		not_words(char *str, int i);
-void	save_sep(t_token **lst, char *str, int i, int type);
+void	handle_separator(char *str, int *i, int *quotes, t_token **lst);
+void	finalize_tokens(char *str, int *i, int quotes, t_token **lst);
 void	save_word(t_token **lst, char *word, int q);
 int		save_tokens(char *str, t_token **lst, t_info *info);
+char	*deal_with_quotes(char *s, int q, int i);
 //exe
 void	ft_wait(pid_t pid, int status, t_info *info);
 void	set_redirs(t_cmd *cmd, t_info *info, int *status, int fd[2]);
