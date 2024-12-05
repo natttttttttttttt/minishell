@@ -13,66 +13,68 @@
 #include "minishell.h"
 #include <unistd.h>
 
-void close_fds(int *fd, int *pipe_fd, t_cmd *cmd)
+void	close_fds(int *fd, int *pipe_fd, t_cmd *cmd)
 {
-    if (fd[0] != 0)
-        close(fd[0]);
-    if (fd[1] != 1)
-        close(fd[1]);
-    if (cmd->next)
-        close(pipe_fd[1]);
+	if (fd[0] != 0)
+		close(fd[0]);
+	if (fd[1] != 1)
+		close(fd[1]);
+	if (cmd->next)
+		close(pipe_fd[1]);
 }
 
-void execute_child(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd)
+void	execute_child(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd)
 {
-    struct sigaction sa;
+	struct sigaction	sa;
 
-    sa.sa_handler = SIG_DFL;
-    sa.sa_flags = SA_RESTART;
-    sigemptyset(&sa.sa_mask);
-    sigaction(SIGINT, &sa, NULL);
-
-    prepare_exe(cmd, 0, info, fd);
-    ft_execve(cmd, info, pipe_fd);
+	sa.sa_handler = SIG_DFL;
+	sa.sa_flags = SA_RESTART;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+	prepare_exe(cmd, 0, info, fd);
+	ft_execve(cmd, info, pipe_fd);
 }
 
-pid_t create_child(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd)
+pid_t	create_child(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd)
 {
-    pid_t	pid;
+	pid_t	pid;
 
-    pid = fork();
-    if (pid == -1) {
-        perror("fork");
-        info->exit_code = errno;
-        close_fds(fd, pipe_fd, cmd);
-        return -1;
-    }
-    if (pid == 0)
-        execute_child(cmd, info, fd, pipe_fd);
-    return pid;
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		info->exit_code = errno;
+		close_fds(fd, pipe_fd, cmd);
+		return (-1);
+	}
+	if (pid == 0)
+		execute_child(cmd, info, fd, pipe_fd);
+	return (pid);
 }
 
-int handle_builtin(t_cmd *cmd, t_info *info, int status, int *fd)
+int	handle_builtin(t_cmd *cmd, t_info *info, int status, int *fd)
 {
-    if (is_builtin(cmd) && cmd->next == NULL && cmd->prev == NULL) {
-        if (status != -1)
-            info->exit_code = run_builtin(cmd, info, fd[1]);
-        return 1;
-    }
-    return 0;
+	if (is_builtin(cmd) && cmd->next == NULL && cmd->prev == NULL)
+	{
+		if (status != -1)
+			info->exit_code = run_builtin(cmd, info, fd[1]);
+		return (1);
+	}
+	return (0);
 }
 
-void execute_commands(t_cmd *cmd, t_info *info, int status, int i)
+void	execute_commands(t_cmd *cmd, t_info *info, int status, int i)
 {
-    int		pipe_fd[2];
-    int		fd[2];
-    pid_t	pid;
+	int		pipe_fd[2];
+	int		fd[2];
+	pid_t	pid;
 
-    fd[0] = 0;
+	fd[0] = 0;
 	(void)i;
-    while (cmd != NULL) {
-        fd[1] = 1;
-        status = 0;
+	while (cmd != NULL)
+	{
+		fd[1] = 1;
+		status = 0;
 		set_redirs(cmd, info, &status, fd);
 		if (is_builtin(cmd) && cmd->next == NULL && cmd->prev == NULL)
 		{
@@ -80,13 +82,13 @@ void execute_commands(t_cmd *cmd, t_info *info, int status, int i)
 				info->exit_code = run_builtin(cmd, info, fd[1]);
 			return ;
 		}
-        if (handle_builtin(cmd, info, status, fd))
-            return;
-        pid = create_child(cmd, info, fd, pipe_fd);
-        close_fds(fd, pipe_fd, cmd);
-        cmd = cmd->next;
-    }
-	ft_wait(pid,  status, info);
+		if (handle_builtin(cmd, info, status, fd))
+			return ;
+		pid = create_child(cmd, info, fd, pipe_fd);
+		close_fds(fd, pipe_fd, cmd);
+		cmd = cmd->next;
+	}
+	ft_wait(pid, status, info);
 	signal(SIGINT, ft_signal_handler);
 }
 
