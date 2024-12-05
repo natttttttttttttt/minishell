@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 //can norminette
 t_order	*order_new(void)
 {

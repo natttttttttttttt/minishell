@@ -1,28 +1,95 @@
-NAME = minishell
-CC = cc 
-CFLAGS = -Wall -Wextra -Werror -g 
-LDFLAGS = -lreadline -lncurses  
-RM = rm -rf
+NAME			:=	minishell
+CC				:=	cc
+RM				:=	rm -rf
+CFLAGS			:=	-Wall -Werror -Wextra -g
+SRC_DIR			:=	src
+INC_DIR			:=	-I ./inc/
+LIB_DIR			:=	lib
+LIBFT_DIR		:=	libft
+LIBFT_INC		:=	-I ./libft/inc/
+BIN_DIR			:=	bin
+LDFLAGS			:=	-lreadline -lncurses  
+LIBFT_CUT		:= $(shell echo $(LIBFT_DIR) | cut -c 4-)
 
-SRCS = main.c lst_utils.c utils.c parsing.c cmds.c cmd_exe.c builtins.c envp.c heredoc.c vars.c\
-	   cmd_to_path.c cd_builtin.c unset_builtin.c export_builtin.c exe_utils.c parsing_utils.c execute_cmd.c
+################################################################################
+## COLORS
+UNAME			:= $(shell uname)
 
-OBJS = $(SRCS:.c=.o)
+RED				:=	[38;5;9m
+GREEN			:=	[38;5;10m
+BLUE			:= 	[38;5;14m
+YELLOW			:=	[38;5;226m
+RESET			:=	[38;5;7m
+PREFIX			:=	[$(YELLOW)$(NAME)$(RESET)]\t\t\t\t
+SUBMOD_PREFIX	:=	[$(BLUE)Submodules$(RESET)]\t\t\t\t
 
-$(NAME): $(OBJS) 
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS) 
+################################################################################
+## SOURCES
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+SRC_FILES	:=		builtins\
+					cd_builtin\
+					cmd_exe\
+					cmd_to_path\
+					cmds\
+					envp\
+					exe_utils\
+					execute_cmd\
+					export_builtin\
+					heredoc\
+					lst_utils\
+					main\
+					parsing\
+					parsing_utils\
+					unset_builtin\
+					utils\
+					vars
 
-all: $(NAME)
+SRC			:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
+OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 
-fclean: clean
-	$(RM) $(NAME)
+################################################################################
+## RULES
+
+all: $(NAME) 
+
+$(NAME): $(OBJ)
+	+@make -C libft --no-print-directory
+	+@$(CC) -o $(NAME) $(OBJ) -L $(LIBFT_DIR) -l $(LIBFT_CUT) $(LDFLAGS)
+	+@echo ""
+	+@echo "$(PREFIX)$(GREEN)[$(NAME) compiled]$(END_COLOR)"
+	+@echo ""
+
+
+$(BIN_DIR)/%.o: $(SRC_DIR)/%.c Makefile libft/src/*.c | $(BIN_DIR)
+	+@$(CC) -c $(CFLAGS) $(INC_DIR) $(LIBFT_INC) $< -o $@
+	+@echo "$(PREFIX)Compiling... $(BLUE)$(notdir $<)$(END_COLOR)"
+
+$(BIN_DIR):
+	+@mkdir $(BIN_DIR)
+	+@echo "$(PREFIX)Created $(BIN_DIR)/"
 
 clean:
-	$(RM) $(OBJS)
+	 +@rm -rf $(BIN_DIR)
+	 +@echo "$(PREFIX)$(NAME) object files cleaned"
+	 +@make clean -C libft --no-print-directory
+
+fclean: clean
+	+@$(RM) bin $(NAME) libft/libft.a 
+	+@echo "$(PREFIX)$(NAME) executable file cleaned"
+	+@echo "$(PREFIX)$(NAME) bin/ cleaned"
 
 re: fclean all
+	+@echo "$(PREFIX)Cleaned all and rebuilt $(NAME) and $(LIBFT_DIR)"
+
+minish: all
+	+@ ./minishell
+
+val:
+	@make
+	@valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=suppress --show-leak-kinds=all --log-file="leaks" ./minishell
+
+
+################################################################################
+## PHONY
 
 .PHONY: all clean fclean re

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 #include <stdio.h>
 //can norminette
 int	is_builtin(t_cmd *cmd)

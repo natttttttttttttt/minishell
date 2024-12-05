@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 t_token	*lst_create(char *str, t_type type)
 {

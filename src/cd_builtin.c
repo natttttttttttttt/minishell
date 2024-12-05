@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/24 12:56:38 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/24 12:57:55 by pibouill         ###   ########.fr       */
+/*   Created: 2024/12/05 13:22:45 by pibouill          #+#    #+#             */
+/*   Updated: 2024/12/05 13:22:47 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 char	*change_dir(char **args, t_info *info)
 {

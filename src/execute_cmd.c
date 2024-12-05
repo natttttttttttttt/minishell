@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 #include <unistd.h>
 
 void	close_fds(int *fd, int *pipe_fd, t_cmd *cmd)

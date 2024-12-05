@@ -1,5 +1,5 @@
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 // static void	save_part(int i, int start, char *str, char **s)
 // {

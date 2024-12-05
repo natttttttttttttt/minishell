@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 char	*extract_variable(const char *txt, int *i)
 {

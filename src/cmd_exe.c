@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../inc/minishell.h"
 #include <endian.h>
 #include <signal.h>
 #include <stdlib.h>
