@@ -74,7 +74,6 @@ void	print_order(t_order *order)
 	printf("Output: %s\n", (order->output) ? order->output : "NULL");
 	printf("Append: %s\n", (order->append) ? order->append : "NULL");
 	printf("Heredoc: %s\n", (order->heredoc) ? order->heredoc : "NULL");
-
 	// Print the integers
 	printf("Input index: %d\n", order->i_input);
 	printf("Output index: %d\n", order->i_output);

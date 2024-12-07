@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/12/07 11:07:00 by pibouill          #+#    #+#              #
+#    Updated: 2024/12/07 11:07:09 by pibouill         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME			:=	minishell
 CC				:=	cc
 RM				:=	rm -rf
@@ -47,7 +59,8 @@ SRC_FILES	:=		builtins\
 					utils\
 					print_stuff\
 					vars\
-					vars_utils
+					vars_utils\
+					free_utils
 
 SRC			:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))

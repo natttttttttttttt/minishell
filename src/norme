@@ -1,0 +1,448 @@
+execute_cmd.c: OK!
+main.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  32, col:   9):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  35, col:   9):	Comment is invalid in this scope
+lst_utils.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: TOO_MANY_FUNCS       (line:  68, col:   1):	Too many functions in file
+Error: SPACE_AFTER_KW       (line:  70, col:   5):	Missing space after keyword
+Error: SPC_BFR_PAR          (line:  70, col:   7):	Missing space before parenthesis (brace/bracket)
+Error: SPACE_AFTER_KW       (line:  72, col:   5):	Missing space after keyword
+Error: SPC_BFR_PAR          (line:  72, col:   7):	Missing space before parenthesis (brace/bracket)
+Error: SPACE_AFTER_KW       (line:  74, col:   5):	Missing space after keyword
+Error: SPC_BFR_PAR          (line:  74, col:   7):	Missing space before parenthesis (brace/bracket)
+Error: SPACE_AFTER_KW       (line:  76, col:   5):	Missing space after keyword
+Error: SPC_BFR_PAR          (line:  76, col:   7):	Missing space before parenthesis (brace/bracket)
+Error: TOO_MANY_FUNCS       (line:  80, col:   1):	Too many functions in file
+Error: TOO_MANY_FUNCS       (line: 101, col:   1):	Too many functions in file
+signals.c: Error!
+Notice: GLOBAL_VAR_DETECTED  (line:  15, col:   1):	Global variable present in file. Make sure it is a reasonable choice.
+Error: WRONG_SCOPE_COMMENT  (line:  26, col:  31):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  26, col:  31):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  27, col:  31):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  27, col:  31):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  43, col:   9):	Comment is invalid in this scope
+cmds_utils.c: OK!
+parsing.c: OK!
+heredoc.c: Error!
+Error: INVALID_HEADER       (line:   1, col:   1):	Missing or invalid 42 header
+Error: TOO_MANY_LINES       (line:  39, col:   1):	Function has more than 25 lines
+cmd_exe.c: OK!
+vars_OLD.c: Error!
+Error: SPACE_BEFORE_FUNC    (line:  45, col:   5):	space before function name
+Error: TOO_FEW_TAB          (line:  47, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  47, col:   5):	Found space when expecting tab
+Error: SPACE_REPLACE_TAB    (line:  47, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  48, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  48, col:   5):	Found space when expecting tab
+Error: SPACE_REPLACE_TAB    (line:  48, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  49, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  49, col:   5):	Found space when expecting tab
+Error: SPACE_REPLACE_TAB    (line:  49, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  50, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  50, col:   5):	Found space when expecting tab
+Error: SPACE_REPLACE_TAB    (line:  50, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  52, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  52, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  53, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  53, col:   5):	Space on empty line
+Error: TOO_FEW_TAB          (line:  54, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  54, col:   9):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  55, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  55, col:   9):	Space on empty line
+Error: TOO_FEW_TAB          (line:  56, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  56, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  57, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  57, col:  13):	Space on empty line
+Error: TOO_FEW_TAB          (line:  58, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  58, col:  17):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  59, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  59, col:  17):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  60, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  60, col:  17):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  61, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  61, col:  17):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  62, col:   1):	Missing tabs for indent level
+Error: SPACE_AFTER_KW       (line:  62, col:  17):	Missing space after keyword
+Error: SPACE_REPLACE_TAB    (line:  62, col:  17):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  63, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  63, col:  13):	Space on empty line
+Error: EMPTY_LINE_FUNCTION  (line:  64, col:   1):	Empty line in function
+Error: TOO_FEW_TAB          (line:  65, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  65, col:  13):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line:  65, col:  22):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line:  65, col:  24):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  65, col:  24):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line:  66, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  66, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  67, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  67, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  68, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  68, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  69, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  69, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  70, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  70, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  71, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  71, col:  13):	Space on empty line
+Error: TOO_FEW_TAB          (line:  72, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  72, col:  17):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  73, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  73, col:  17):	Space on empty line
+Error: TOO_FEW_TAB          (line:  74, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  74, col:  21):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  75, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  75, col:  21):	Space on empty line
+Error: TOO_FEW_TAB          (line:  76, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  76, col:  25):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line:  76, col:  70):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line:  76, col:  72):	line too long
+Error: WRONG_SCOPE_COMMENT  (line:  76, col:  72):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  76, col:  72):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line:  76, col:  98):	line too long
+Error: TOO_FEW_TAB          (line:  77, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  77, col:  25):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line:  77, col:  70):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line:  77, col:  72):	line too long
+Error: WRONG_SCOPE_COMMENT  (line:  77, col:  72):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  77, col:  72):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line:  77, col:  89):	line too long
+Error: TOO_FEW_TAB          (line:  78, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  78, col:  25):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line:  78, col:  47):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line:  78, col:  49):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  78, col:  49):	Comment is invalid in this scope
+Error: EMPTY_LINE_FUNCTION  (line:  79, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line:  80, col:  25):	Space on empty line
+Error: WRONG_SCOPE_COMMENT  (line:  80, col:  25):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line:  81, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  81, col:  25):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  82, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  82, col:  25):	Space on empty line
+Error: TOO_FEW_TAB          (line:  83, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  83, col:  29):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line:  83, col:  48):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line:  83, col:  50):	line too long
+Error: WRONG_SCOPE_COMMENT  (line:  83, col:  50):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  83, col:  50):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line:  83, col:  89):	line too long
+Error: TOO_FEW_TAB          (line:  84, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  84, col:  25):	Space on empty line
+Error: TOO_FEW_TAB          (line:  85, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  85, col:  25):	Space on empty line
+Error: TOO_FEW_TAB          (line:  86, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  86, col:  25):	Space on empty line
+Error: SPACE_EMPTY_LINE     (line:  87, col:  29):	Space on empty line
+Error: WRONG_SCOPE_COMMENT  (line:  87, col:  29):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line:  88, col:   1):	Missing tabs for indent level
+Error: WRONG_SCOPE_VAR      (line:  88, col:   1):	Variable declared in incorrect scope
+Error: SPACE_REPLACE_TAB    (line:  88, col:  29):	Found space when expecting tab
+Error: SPACE_REPLACE_TAB    (line:  88, col:  33):	Found space when expecting tab
+Error: DECL_ASSIGN_LINE     (line:  88, col:  42):	Declaration and assignation on a single line
+Error: CONSECUTIVE_SPC      (line:  88, col:  63):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line:  88, col:  65):	line too long
+Error: WRONG_SCOPE_COMMENT  (line:  88, col:  65):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  88, col:  65):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line:  88, col:  82):	line too long
+Error: TOO_FEW_TAB          (line:  89, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  89, col:  29):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line:  89, col:  37):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line:  89, col:  39):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  89, col:  39):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line:  90, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  90, col:  29):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line:  90, col:  40):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line:  90, col:  42):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  90, col:  42):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line:  91, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  91, col:  25):	Space on empty line
+Error: TOO_FEW_TAB          (line:  92, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  92, col:  25):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line:  92, col:  35):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line:  92, col:  37):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  92, col:  37):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line:  93, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line:  93, col:  21):	Space on empty line
+Error: TOO_FEW_TAB          (line:  94, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  94, col:  21):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  95, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  95, col:  21):	Found space when expecting tab
+Error: LINE_TOO_LONG        (line:  95, col:  84):	line too long
+Error: TOO_FEW_TAB          (line:  96, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  96, col:  25):	Found space when expecting tab
+Error: EMPTY_LINE_FUNCTION  (line:  97, col:   1):	Empty line in function
+Error: TOO_FEW_TAB          (line:  98, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  98, col:  21):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line:  98, col:  64):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line:  98, col:  66):	line too long
+Error: WRONG_SCOPE_COMMENT  (line:  98, col:  66):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  98, col:  66):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line:  98, col:  97):	line too long
+Error: TOO_FEW_TAB          (line:  99, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  99, col:  21):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line:  99, col:  64):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line:  99, col:  66):	line too long
+Error: WRONG_SCOPE_COMMENT  (line:  99, col:  66):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line:  99, col:  66):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line:  99, col:  87):	line too long
+Error: TOO_FEW_TAB          (line: 100, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 100, col:  21):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 100, col:  41):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 100, col:  43):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 100, col:  43):	Comment is invalid in this scope
+Error: EMPTY_LINE_FUNCTION  (line: 101, col:   1):	Empty line in function
+Error: TOO_FEW_TAB          (line: 102, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 102, col:  21):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 102, col:  58):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line: 102, col:  60):	line too long
+Error: WRONG_SCOPE_COMMENT  (line: 102, col:  60):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 102, col:  60):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line: 102, col:  87):	line too long
+Error: TOO_FEW_TAB          (line: 103, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 103, col:  21):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 103, col:  29):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 103, col:  31):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 103, col:  31):	Comment is invalid in this scope
+Error: EMPTY_LINE_FUNCTION  (line: 104, col:   1):	Empty line in function
+Error: TOO_FEW_TAB          (line: 105, col:   1):	Missing tabs for indent level
+Error: WRONG_SCOPE_VAR      (line: 105, col:   1):	Variable declared in incorrect scope
+Error: SPACE_REPLACE_TAB    (line: 105, col:  21):	Found space when expecting tab
+Error: SPACE_REPLACE_TAB    (line: 105, col:  25):	Found space when expecting tab
+Error: DECL_ASSIGN_LINE     (line: 105, col:  33):	Declaration and assignation on a single line
+Error: TERNARY_FBIDDEN      (line: 105, col:  37):	Ternaries are forbidden
+Error: CONSECUTIVE_SPC      (line: 105, col:  59):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line: 105, col:  61):	line too long
+Error: WRONG_SCOPE_COMMENT  (line: 105, col:  61):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 105, col:  61):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line: 105, col:  82):	line too long
+Error: TOO_FEW_TAB          (line: 106, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 106, col:  21):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 107, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 107, col:  21):	Space on empty line
+Error: TOO_FEW_TAB          (line: 108, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 108, col:  25):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 109, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 109, col:  25):	Space on empty line
+Error: TOO_FEW_TAB          (line: 110, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 110, col:  29):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 110, col:  37):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 110, col:  39):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 110, col:  39):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line: 111, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 111, col:  29):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 111, col:  60):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line: 111, col:  62):	line too long
+Error: WRONG_SCOPE_COMMENT  (line: 111, col:  62):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 111, col:  62):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line: 111, col:  93):	line too long
+Error: TOO_FEW_TAB          (line: 112, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 112, col:  25):	Space on empty line
+Error: TOO_FEW_TAB          (line: 113, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 113, col:  25):	Space on empty line
+Error: TOO_FEW_TAB          (line: 114, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 114, col:  25):	Space on empty line
+Error: TOO_FEW_TAB          (line: 115, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 115, col:  29):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 115, col:  52):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line: 115, col:  54):	line too long
+Error: WRONG_SCOPE_COMMENT  (line: 115, col:  54):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 115, col:  54):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line: 115, col:  94):	line too long
+Error: TOO_FEW_TAB          (line: 116, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 116, col:  25):	Space on empty line
+Error: TOO_FEW_TAB          (line: 117, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 117, col:  21):	Space on empty line
+Error: TOO_FEW_TAB          (line: 118, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 118, col:  21):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 119, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 119, col:  25):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 119, col:  37):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 119, col:  39):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 119, col:  39):	Comment is invalid in this scope
+Error: EMPTY_LINE_FUNCTION  (line: 120, col:   1):	Empty line in function
+Error: TOO_FEW_TAB          (line: 121, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 121, col:  21):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 122, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 122, col:  17):	Space on empty line
+Error: TOO_FEW_TAB          (line: 123, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 123, col:  17):	Space on empty line
+Error: TOO_FEW_TAB          (line: 124, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 124, col:  17):	Space on empty line
+Error: TOO_FEW_TAB          (line: 125, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 125, col:  21):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 126, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 126, col:  17):	Space on empty line
+Error: TOO_FEW_TAB          (line: 127, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 127, col:  13):	Space on empty line
+Error: EMPTY_LINE_FUNCTION  (line: 128, col:   1):	Empty line in function
+Error: SPACE_EMPTY_LINE     (line: 129, col:  13):	Space on empty line
+Error: WRONG_SCOPE_COMMENT  (line: 129, col:  13):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line: 130, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 130, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 131, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 131, col:  13):	Space on empty line
+Error: TOO_FEW_TAB          (line: 132, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 132, col:  17):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 132, col:  62):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line: 132, col:  64):	line too long
+Error: WRONG_SCOPE_COMMENT  (line: 132, col:  64):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 132, col:  64):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line: 132, col: 105):	line too long
+Error: TOO_FEW_TAB          (line: 133, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 133, col:  17):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 133, col:  62):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line: 133, col:  64):	line too long
+Error: WRONG_SCOPE_COMMENT  (line: 133, col:  64):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 133, col:  64):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line: 133, col: 100):	line too long
+Error: TOO_FEW_TAB          (line: 134, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 134, col:  17):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 134, col:  39):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 134, col:  41):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 134, col:  41):	Comment is invalid in this scope
+Error: EMPTY_LINE_FUNCTION  (line: 135, col:   1):	Empty line in function
+Error: TOO_FEW_TAB          (line: 136, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 136, col:  17):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 137, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 137, col:  17):	Space on empty line
+Error: TOO_FEW_TAB          (line: 138, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 138, col:  21):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 138, col:  40):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 138, col:  42):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 138, col:  42):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line: 139, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 139, col:  17):	Space on empty line
+Error: TOO_FEW_TAB          (line: 140, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 140, col:  17):	Space on empty line
+Error: TOO_FEW_TAB          (line: 141, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 141, col:  17):	Space on empty line
+Error: TOO_FEW_TAB          (line: 142, col:   1):	Missing tabs for indent level
+Error: WRONG_SCOPE_VAR      (line: 142, col:   1):	Variable declared in incorrect scope
+Error: SPACE_REPLACE_TAB    (line: 142, col:  21):	Found space when expecting tab
+Error: SPACE_REPLACE_TAB    (line: 142, col:  25):	Found space when expecting tab
+Error: DECL_ASSIGN_LINE     (line: 142, col:  34):	Declaration and assignation on a single line
+Error: CONSECUTIVE_SPC      (line: 142, col:  55):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 142, col:  57):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 142, col:  57):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line: 143, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 143, col:  21):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 143, col:  29):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 143, col:  31):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 143, col:  31):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line: 144, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 144, col:  21):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 144, col:  32):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 144, col:  34):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 144, col:  34):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line: 145, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 145, col:  17):	Space on empty line
+Error: TOO_FEW_TAB          (line: 146, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 146, col:  17):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 146, col:  27):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 146, col:  29):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 146, col:  29):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line: 147, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 147, col:  13):	Space on empty line
+Error: EMPTY_LINE_FUNCTION  (line: 148, col:   1):	Empty line in function
+Error: TOO_FEW_TAB          (line: 149, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 149, col:  13):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 149, col:  28):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 149, col:  30):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 149, col:  30):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line: 150, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 150, col:  13):	Found space when expecting tab
+Error: TERNARY_FBIDDEN      (line: 150, col:  26):	Ternaries are forbidden
+Error: CONSECUTIVE_SPC      (line: 150, col:  57):	Two or more consecutives spaces
+Error: LINE_TOO_LONG        (line: 150, col:  59):	line too long
+Error: WRONG_SCOPE_COMMENT  (line: 150, col:  59):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 150, col:  59):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line: 150, col:  87):	line too long
+Error: TOO_FEW_TAB          (line: 151, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 151, col:  13):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 151, col:  21):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 151, col:  23):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 151, col:  23):	Comment is invalid in this scope
+Error: EMPTY_LINE_FUNCTION  (line: 152, col:   1):	Empty line in function
+Error: TOO_FEW_TAB          (line: 153, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 153, col:  13):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line: 154, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 154, col:   9):	Space on empty line
+Error: TOO_FEW_TAB          (line: 155, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line: 155, col:   9):	Found space when expecting tab
+Error: CONSECUTIVE_SPC      (line: 155, col:  25):	Two or more consecutives spaces
+Error: WRONG_SCOPE_COMMENT  (line: 155, col:  27):	Comment is invalid in this scope
+Error: WRONG_SCOPE_COMMENT  (line: 155, col:  27):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line: 156, col:   1):	Missing tabs for indent level
+Error: SPACE_EMPTY_LINE     (line: 156, col:   5):	Space on empty line
+Error: TOO_MANY_LINES       (line: 157, col:   1):	Function has more than 25 lines
+exe_utils.c: Error!
+Error: EMPTY_LINE_FUNCTION  (line:  27, col:   1):	Empty line in function
+cd_builtin.c: OK!
+print_stuff.c: Error!
+Error: NO_SPC_AFR_PAR       (line:  17, col:  20):	Extra space after parenthesis (brace/bracket)
+Error: TOO_FEW_TAB          (line:  17, col:  22):	Missing tabs for indent level
+Error: SPACE_AFTER_KW       (line:  19, col:   9):	Missing space after keyword
+Error: FORBIDDEN_CS         (line:  21, col:   5):	Forbidden control structure
+Error: NO_SPC_AFR_PAR       (line:  21, col:  40):	Extra space after parenthesis (brace/bracket)
+Error: TOO_FEW_TAB          (line:  21, col:  42):	Missing tabs for indent level
+Error: SPACE_AFTER_KW       (line:  33, col:   9):	Missing space after keyword
+Error: TOO_FEW_TAB          (line:  35, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  35, col:   5):	Found space when expecting tab
+Error: SPACE_EMPTY_LINE     (line:  36, col:   5):	Space on empty line
+Error: WRONG_SCOPE_COMMENT  (line:  36, col:   5):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line:  37, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  37, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  38, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  38, col:   5):	Found space when expecting tab
+Error: SPACE_EMPTY_LINE     (line:  39, col:   5):	Space on empty line
+Error: WRONG_SCOPE_COMMENT  (line:  39, col:   5):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line:  40, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  40, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  41, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  41, col:   5):	Found space when expecting tab
+Error: SPACE_EMPTY_LINE     (line:  42, col:   5):	Space on empty line
+Error: WRONG_SCOPE_COMMENT  (line:  42, col:   5):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line:  43, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  43, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  44, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  44, col:   5):	Found space when expecting tab
+Error: SPACE_EMPTY_LINE     (line:  45, col:   5):	Space on empty line
+Error: WRONG_SCOPE_COMMENT  (line:  45, col:   5):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line:  46, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  46, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  47, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  47, col:   5):	Found space when expecting tab
+Error: SPACE_EMPTY_LINE     (line:  48, col:   5):	Space on empty line
+Error: WRONG_SCOPE_COMMENT  (line:  48, col:   5):	Comment is invalid in this scope
+Error: TOO_FEW_TAB          (line:  49, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  49, col:   5):	Found space when expecting tab
+Error: TOO_FEW_TAB          (line:  50, col:   1):	Missing tabs for indent level
+Error: SPACE_REPLACE_TAB    (line:  50, col:   5):	Found space when expecting tab
+builtins.c: OK!
+parsing_utils.c: OK!
+builtins_utils.c: OK!
+envp.c: Error!
+Error: TOO_MANY_LINES       (line:  47, col:   1):	Function has more than 25 lines
+Error: MIXED_SPACE_TAB      (line:  65, col:   4):	Mixed spaces and tabs
+Error: SPC_BEFORE_NL        (line: 121, col:  30):	Space before newline
+Error: TOO_MANY_LINES       (line: 136, col:   1):	Function has more than 25 lines
+cmds.c: Error!
+Error: TOO_MANY_LINES       (line:  62, col:   1):	Function has more than 25 lines
+Error: WRONG_SCOPE_COMMENT  (line:  72, col:   5):	Comment is invalid in this scope
+Error: TERNARY_FBIDDEN      (line:  73, col:  42):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line:  74, col:  44):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line:  75, col:  44):	Ternaries are forbidden
+Error: TERNARY_FBIDDEN      (line:  76, col:  46):	Ternaries are forbidden
+Error: EMPTY_LINE_FUNCTION  (line:  77, col:   1):	Empty line in function
+Error: WRONG_SCOPE_COMMENT  (line:  78, col:   5):	Comment is invalid in this scope
+Error: LINE_TOO_LONG        (line:  95, col:   1):	line too long
+Error: LINE_TOO_LONG        (line:  95, col: 102):	line too long
+Error: TOO_MANY_LINES       (line: 173, col:   1):	Function has more than 25 lines
+vars_utils.c: OK!
+unset_builtin.c: Error!
+Error: TOO_MANY_LINES       (line:  62, col:   1):	Function has more than 25 lines
+utils.c: OK!
+vars.c: OK!
+export_builtin.c: Error!
+Error: TOO_MANY_LINES       (line:  50, col:   1):	Function has more than 25 lines
+cmd_to_path.c: OK!

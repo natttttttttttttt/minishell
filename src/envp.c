@@ -62,7 +62,7 @@ char	*ft_getenv(char **my_envp, char *var)
 	return (NULL);
 }
 
-int 	find_env_var(char **my_envp, char *var)
+int	find_env_var(char **my_envp, char *var)
 {
 	int	i;
 	int	len;
@@ -118,7 +118,7 @@ void	update_env(char *var, char *value, char ***my_envp)
 		new_envp = malloc((i + 2) * sizeof(char *));
 		if (!new_envp)
 		{
-			perror("malloc"); 
+			perror("malloc");
 			return ;
 		}
 		var_i = 0;
