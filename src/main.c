@@ -12,6 +12,8 @@
 
 #include "../inc/minishell.h"
 
+int	g_sigflag = 0;
+
 static void	info_init(t_info *info, char **envp)
 {
 	info->input = NULL;

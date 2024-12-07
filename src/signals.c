@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-int	g_sigflag = 0;
+extern int	g_sigflag;
 
 void	setup_signals(void)
 {
