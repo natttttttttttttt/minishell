@@ -1,32 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vars.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/06 14:10:41 by pibouill          #+#    #+#             */
+/*   Updated: 2024/12/06 14:13:46 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
-
-char	*extract_variable(const char *txt, int *i)
-{
-	int		start;
-	char	*var;
-
-	start = *i;
-	if (!(txt[*i] >= '0' && txt[*i] <= '9'))
-		while (txt[*i] && (ft_isalnum(txt[*i]) || txt[*i] == '_'))
-			(*i)++;
-	if (*i == start)
-	{
-		if (txt[*i] == '\"')
-			return ((*i)++, ft_strdup("$"));
-		if (txt[*i] == ' ')
-			return ((*i)++, ft_strdup("$"));
-		if (txt[*i] == '?')
-			return ((*i)++, ft_strdup("$?"));
-		if (!txt[*i])
-			return (ft_strdup("$"));
-		return (NULL);
-	}
-	var = malloc(sizeof(char) * (*i - start + 1));
-	ft_strncpy(var, txt + start, *i - start);
-	if (txt[*i] == '\"')
-		(*i)++;
-	return (var);
-}
 
 static char	*append_substr_norm(char *copy, const char *txt, int start, int end)
 {
@@ -52,21 +36,6 @@ static char	*append_substr_norm(char *copy, const char *txt, int start, int end)
 		ft_strncpy(tmp, txt + start, end - start);
 	}
 	return (tmp);
-}
-
-char	*append_substring(char *s, const char *txt, int start, int end)
-{
-	char	*tmp;
-	char	*res;
-	char	*copy;
-
-	copy = ft_strdup(&txt[start]);
-	tmp = append_substr_norm(copy, txt, start, end);
-	res = ft_strjoin(s, tmp);
-	free(s);
-	free(tmp);
-	free(copy);
-	return (res);
 }
 
 char	*append_env_value(char *s, char **env_val, int f)
@@ -138,23 +107,17 @@ char	*replace_env_vars(const char *txt, t_info info, int i, int start)
 	return (s);
 }
 
-
-void vars_to_value(t_token *lst, t_info info)
+char	*append_substring(char *s, const char *txt, int start, int end)
 {
-	char	*s;
+	char	*tmp;
+	char	*res;
+	char	*copy;
 
-	while (lst)
-	{
-		if (lst->type == VAR)
-		{
-			if (lst->type != WORD)
-			{
-				s = replace_env_vars(lst->txt, info, 0, 0);
-				free(lst->txt);
-				lst->txt = s;
-				lst->type = WORD;
-			}
-		}
-		lst = lst->next;
-	}
+	copy = ft_strdup(&txt[start]);
+	tmp = append_substr_norm(copy, txt, start, end);
+	res = ft_strjoin(s, tmp);
+	free(s);
+	free(tmp);
+	free(copy);
+	return (res);
 }

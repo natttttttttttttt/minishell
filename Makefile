@@ -27,22 +27,27 @@ SUBMOD_PREFIX	:=	[$(BLUE)Submodules$(RESET)]\t\t\t\t
 ## SOURCES
 
 SRC_FILES	:=		builtins\
+					builtins_utils\
 					cd_builtin\
 					cmd_exe\
 					cmd_to_path\
 					cmds\
+					cmds_utils\
 					envp\
 					exe_utils\
 					execute_cmd\
 					export_builtin\
 					heredoc\
+					signals\
 					lst_utils\
 					main\
 					parsing\
 					parsing_utils\
 					unset_builtin\
 					utils\
-					vars
+					print_stuff\
+					vars\
+					vars_utils
 
 SRC			:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))

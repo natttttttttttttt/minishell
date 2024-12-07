@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vars_OLD.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/06 14:09:28 by pibouill          #+#    #+#             */
+/*   Updated: 2024/12/06 14:09:29 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
@@ -144,4 +155,3 @@ void vars_to_value(t_token *lst, int i, int start, t_info info)
         lst = lst->next;  // Move to the next token
     }
 }
-

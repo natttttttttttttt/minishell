@@ -1,36 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmds.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/06 13:39:51 by pibouill          #+#    #+#             */
+/*   Updated: 2024/12/06 13:48:12 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
+
 //can norminette
-t_order	*order_new(void)
-{
-	t_order	*order;
-
-	order = malloc(sizeof(t_order));
-	order->input = NULL;
-	order->output = NULL;
-	order->append = NULL;
-	order->heredoc = NULL;
-	order->i_input = 0;
-	order->i_append = 0;
-	order->i_output = 0;
-	order->count = 0;
-	return (order);
-}
-
-t_cmd	*cmd_new(void)
-{
-	t_cmd	*cmd;
-
-	cmd = malloc(sizeof(t_cmd));
-	cmd->args = NULL;
-	cmd->input = NULL;
-	cmd->output = NULL;
-	cmd->append = NULL;
-	cmd->delimiter = NULL;
-	cmd->next = NULL;
-	cmd->prev = NULL;
-	cmd->order = order_new();
-	return (cmd);
-}
 
 void	add_cmd_arg(char ***arr, char *arg)
 {
@@ -79,26 +61,14 @@ void	add_cmd_arg(char ***arr, char *arg)
 	}
 }
 
-static void	syntax_error(int check, t_cmd **head, t_info *info)
-{
-	if (check)
-	{
-		printf("syntax error near unexpected token\n");
-		info->exit_code = 2;
-		*head = NULL;
-	}
-}
-
 void	print_order(t_order *order)
 {
 	if (order == NULL)
 	{
 		printf("Order is NULL\n");
-		return;
+		return ;
 	}
-
 	printf("Order details:\n");
-
 	// Print the strings (using NULL check)
 	printf("Input: %s\n", (order->input) ? order->input : "NULL");
 	printf("Output: %s\n", (order->output) ? order->output : "NULL");
@@ -112,34 +82,18 @@ void	print_order(t_order *order)
 	printf("Count: %d\n", order->count);
 }
 
-int	find_heredoc(t_token *token)
+static void	syntax_error(int check, t_cmd **head, t_info *info)
 {
-	t_token *current;
-	
-	current = token->next;
-    while (current->type != DONE)
+	if (check)
 	{
-        if (current->type == 7)
-            return (1);
-        current = current->next;
-    }
-    return (0);
+		printf("syntax error near unexpected token\n");
+		info->exit_code = 2;
+		*head = NULL;
+	}
 }
-void	fix_order(char **s, int *i)
-{
-	char	*tmp;
-	char	*c;
 
-	c = ft_itoa(*i);
-	tmp = ft_strjoin(*s, c);
-	if (*s)	
-		free(*s);
-	*s = ft_strdup(tmp);
-	free(tmp);
-	free(c);
-	(*i)++;
-}
 //until here or with this function if you just put every if separately, cause i will need space there
+
 t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 {
 	t_cmd	*head;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/06 13:34:38 by pibouill          #+#    #+#             */
+/*   Updated: 2024/12/06 14:32:15 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -15,7 +27,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <dirent.h>
-
 
 typedef enum e_type
 {
@@ -123,6 +134,8 @@ void	prepare_exe(t_cmd *cmd, int status, t_info *info, int fd[2]);
 void	ft_execve(t_cmd *cmd, t_info *info, int pipe_fd[2]);
 void	execute_commands(t_cmd *cmd, t_info *info, int status, int i);
 //cmds
+int		find_heredoc(t_token *token);
+void	fix_order(char **s, int *i);
 t_cmd	*cmd_new(void);
 t_cmd	*parse_tokens(t_token *tokens, t_info *info);
 void	add_cmd_arg(char ***arr, char *arg);
@@ -164,8 +177,14 @@ void	ft_signal_handler(int signal);
 //debug (DELETE later)
 void	print_cmd_lst(t_cmd *cmd_lst);
 void	print_list(t_token *lst);
-void print_order(t_order *order);
+void	print_order(t_order *order);
+
+// signal
+void	setup_signals(void);
+void	ft_signal_handler(int signal);
+void	sig_handl_child(int signal);
 
 // utils
 void	ft_putstr_fd(int fd, char *str);
+int		parsing_ok(char *str);
 #endif

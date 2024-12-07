@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_exe.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/06 13:38:36 by pibouill          #+#    #+#             */
+/*   Updated: 2024/12/06 13:39:12 by pibouill         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 #include <endian.h>
 #include <signal.h>
@@ -6,7 +18,6 @@
 //can norminette cmd_to_path
 
 void	sig_handl_child(int signal);
-
 
 int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 {
