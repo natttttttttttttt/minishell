@@ -39,7 +39,7 @@ static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 		if (cmd_lst)
 		{
 			cmd_to_path(cmd_lst, info);
-			execute_commands(cmd_lst, info, 0, 0);
+			execute_commands(cmd_lst, info);
 			free_command_list(cmd_lst);
 		}
 		free_token_lst(token_lst);

@@ -30,9 +30,7 @@ void	setup_signals(void)
 void	sig_handl_child(int signal)
 {
 	if (signal == SIGINT)
-	{
 		exit(130);
-	}
 }
 
 void	ft_signal_handler(int signal)
