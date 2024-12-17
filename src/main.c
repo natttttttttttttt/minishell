@@ -25,27 +25,45 @@ static void	info_init(t_info *info, char **envp)
 	info->cmds = NULL;
 }
 
-static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
-{
-	add_history(info->input);
-	info->tokens = token_lst;
-	if (save_tokens(info->input, &token_lst, info))
-	{
-		//print_list(token_lst);
-		vars_to_value(token_lst, *info);
-		cmd_lst = parse_tokens(token_lst, info);
-		//print_command(cmd_lst);
-		info->cmds = cmd_lst;
-		if (cmd_lst)
-		{
-			cmd_to_path(cmd_lst, info);
-			execute_commands(cmd_lst, info);
-			free_command_list(cmd_lst);
-		}
-		free_token_lst(token_lst);
-	}
-	free(info->input);
+static void parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst) {
+    add_history(info->input);
+    info->tokens = token_lst;
+    if (save_tokens(info->input, &token_lst, info)) {
+        vars_to_value(token_lst, *info);
+        cmd_lst = parse_tokens(token_lst, info);
+        info->cmds = cmd_lst;
+
+        if (cmd_lst) {
+            cmd_to_path(cmd_lst, info);
+            execute_commands(cmd_lst, info, 0, 0); // Initial status and index
+            free_command_list(cmd_lst);
+        }
+        free_token_lst(token_lst);
+    }
+    free(info->input);
 }
+
+// static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
+// {
+// 	add_history(info->input);
+// 	info->tokens = token_lst;
+// 	if (save_tokens(info->input, &token_lst, info))
+// 	{
+// 		//print_list(token_lst);
+// 		vars_to_value(token_lst, *info);
+// 		cmd_lst = parse_tokens(token_lst, info);
+// 		//print_command(cmd_lst);
+// 		info->cmds = cmd_lst;
+// 		if (cmd_lst)
+// 		{
+// 			cmd_to_path(cmd_lst, info);
+// 			execute_commands(cmd_lst, info);
+// 			free_command_list(cmd_lst);
+// 		}
+// 		free_token_lst(token_lst);
+// 	}
+// 	free(info->input);
+// }
 
 static int	flag_and_input_check(t_info *info)
 {

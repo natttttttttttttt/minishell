@@ -11,7 +11,10 @@
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-#include <endian.h>
+// #include <endian.h>
+//
+// OXS include
+#include <machine/endian.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>

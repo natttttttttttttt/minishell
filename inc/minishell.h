@@ -27,6 +27,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <dirent.h>
+# include <machine/endian.h>
 
 typedef enum e_type
 {
@@ -132,8 +133,8 @@ void	exe_append(int *fd_out, char *str, int *exit_code, int *status);
 int		exe_pipe(int pipe_fd[2], int fd[2], t_cmd *cmd);
 void	prepare_exe(t_cmd *cmd, int status, t_info *info, int fd[2]);
 void	ft_execve(t_cmd *cmd, t_info *info, int pipe_fd[2]);
-// void	execute_commands(t_cmd *cmd, t_info *info, int status, int i);
-void	execute_commands(t_cmd *cmd, t_info *info);
+void	execute_commands(t_cmd *cmd, t_info *info, int status, int i);
+// void	execute_commands(t_cmd *cmd, t_info *info);
 //cmds
 int		find_heredoc(t_token *token);
 void	fix_order(char **s, int *i);

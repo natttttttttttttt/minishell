@@ -81,11 +81,13 @@ int process_command(t_cmd *cmd, t_info *info, int *last_pid, int *fd)
 	return 0;
 }
 
-void execute_commands(t_cmd *cmd, t_info *info)
+void	execute_commands(t_cmd *cmd, t_info *info, int status, int i)
 {
-	int fd[2];
+	int		fd[2];
 	pid_t last_pid = -1;
 	int result = 0;
+	(void)status;
+	(void)i;
 
 	fd[0] = 0;
 	fd[1] = 1;
