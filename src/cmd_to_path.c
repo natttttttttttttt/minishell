@@ -27,8 +27,8 @@ static char	*get_cmd(t_info *info, char *cmd)
 		if (!tmp)
 			return (perror("Alloc failed for tmp"), NULL);
 		try = ft_strjoin(tmp, cmd);
-		if (!tmp)
-			return (perror("Alloc failed for tmp"), NULL);
+		if (!try)
+			return (perror("Alloc failed for try"), NULL);
 		if (access(try, X_OK) == 0)
 		{
 			free(tmp);
