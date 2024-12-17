@@ -44,6 +44,7 @@ void	free_command_list(t_cmd *head)
 	t_cmd	*node;
 	t_cmd	*next;
 
+	printf("\n\nBIIITTCH\n");
 	node = head;
 	while (node != NULL)
 	{

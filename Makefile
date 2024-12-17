@@ -20,7 +20,11 @@ LIB_DIR			:=	lib
 LIBFT_DIR		:=	libft
 LIBFT_INC		:=	-I ./libft/inc/
 BIN_DIR			:=	bin
-LDFLAGS			:=	-lreadline -lncurses  
+# LDFLAGS			:=	-lreadline -lncurses  
+# Thats the path to the readline library on OSX
+# will remove later
+READINC			:= -I /opt/homebrew/opt/readline/include
+LDFLAGS			:=	-lreadline -lncurses -L /opt/homebrew/opt/readline/lib
 LIBFT_CUT		:= $(shell echo $(LIBFT_DIR) | cut -c 4-)
 
 ################################################################################
@@ -79,7 +83,7 @@ $(NAME): $(OBJ)
 
 
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c Makefile libft/src/*.c | $(BIN_DIR)
-	+@$(CC) -c $(CFLAGS) $(INC_DIR) $(LIBFT_INC) $< -o $@
+	+@$(CC) -c $(CFLAGS) $(INC_DIR) $(LIBFT_INC) $(READINC) $< -o $@
 	+@echo "$(PREFIX)Compiling... $(BLUE)$(notdir $<)$(END_COLOR)"
 
 $(BIN_DIR):

@@ -24,7 +24,11 @@ static char	*get_cmd(t_info *info, char *cmd)
 	while (info->paths[i])
 	{
 		tmp = ft_strjoin(info->paths[i], "/");
+		if (!tmp)
+			return (perror("Alloc failed for tmp"), NULL);
 		try = ft_strjoin(tmp, cmd);
+		if (!tmp)
+			return (perror("Alloc failed for tmp"), NULL);
 		if (access(try, X_OK) == 0)
 		{
 			free(tmp);
