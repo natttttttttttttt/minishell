@@ -41,6 +41,20 @@ static void parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
             execute_commands(cmd_lst, info);
             free_command_list(cmd_lst);
         }
+		// Debugging: Check if token_lst is valid before freeing
+        if (token_lst) {
+            printf("Freeing token_lst at %p\n", (void *)token_lst);
+            free_token_lst(token_lst);
+        } else {
+            printf("token_lst is NULL, not freeing.\n");
+        }
+    }
+    // Debugging: Check if info->input is valid before freeing
+    if (info->input) {
+        printf("Freeing info->input at %p\n", (void *)info->input);
+        free(info->input);
+    } else {
+        printf("info->input is NULL, not freeing.\n");
     }
 }
 
