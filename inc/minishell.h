@@ -176,7 +176,7 @@ void	heredoc(char **dlmtr, t_info info);
 
 void	ft_signal_handler(int signal);
 //debug (DELETE later)
-void	print_cmd_lst(t_cmd *cmd_lst);
+void	print_command(t_cmd *cmd);
 void	print_list(t_token *lst);
 void	print_order(t_order *order);
 
