@@ -6,40 +6,39 @@
 /*   By: pibouill <pibouill@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 16:43:46 by pibouill          #+#    #+#             */
-/*   Updated: 2023/10/22 16:53:52 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/12/18 12:54:42 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 /*
 ** Creates new string from *s
 ** Starting at index start and of size len
 */
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, int start, int len)
 {
-	char			*new;
-	size_t			s_len;
+	int		size;
+	char	*res;
+	int		i;
 
-	if (s == NULL)
+	if (start >= ft_strlen(s))
 		return (NULL);
-	s_len = ft_strlen(s);
-	if (s_len <= start)
+	size = ft_strlen(s) - start;
+	if (size < len)
+		len = size;
+	res = (char *)malloc((len + 1) * sizeof(char));
+	if (!s || !res)
+		return (NULL);
+	i = 0;
+	while (i < len)
 	{
-		new = malloc(sizeof(char));
-		if (new == NULL)
-			return (NULL);
-		new[0] = '\0';
-		return (new);
+		res[i] = s[i + start];
+		i++;
 	}
-	if (len > s_len - start)
-		len = s_len - start;
-	new = malloc(sizeof(char) * (len + 1));
-	if (new == NULL)
-		return (NULL);
-	ft_strlcpy(new, s + start, len + 1);
-	return (new);
+	res[i] = '\0';
+	return (res);
 }
 
 // int	main()

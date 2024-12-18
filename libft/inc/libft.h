@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 11:02:47 by pibouill          #+#    #+#             */
-/*   Updated: 2024/05/27 13:30:35 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/12/18 12:54:58 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ int		ft_tolower(int c);
 int		ft_toupper(int c);
 
 //	STRINGS
-size_t	ft_strlen(const char *s);
+int	ft_strlen(const char *s);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
-char	*ft_strchr(const char *s, int c);
+char	*ft_strchr(char *s, int c);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strncmp(char *s1, char *s2, size_t n);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strdup(const char *s);
@@ -77,7 +77,7 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	ft_bzero(void *s, size_t n);
 
 //	STDLIB
-int		ft_atoi(const char *nptr);
+int		ft_atoi(char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 
 //	PUT
@@ -91,8 +91,8 @@ char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	**ft_split(char const *s, char c);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_substr(char *s, int start, int len);
+char	*ft_strjoin(char *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 
 //	LISTS
@@ -118,6 +118,7 @@ int		ft_str_arr_len(char **ar);
 char	*get_next_line(int fd);
 int		ft_wordcount(const char *s, char c);
 int		ft_printf_fd(int fd, const char *format, ...);
+void	ft_strncpy(char *dest, const char *src, int size);
 
 // HELPERS
 int		putchar_len(int c);

@@ -10,27 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 /*
 ** Returns pointer to first c in *s
 */
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *str, int c)
 {
-	char	*str;
+	char	*st;
 
-	if (s == NULL)
-		return (NULL);
-	str = (char *)s;
-	while (*str)
+	st = (char *)str;
+	if (c == 0)
+		return (st + ft_strlen(str));
+	while (*st)
 	{
-		if (*str == (char) c)
-			return (str);
-		str++;
+		if (*st == (char)c)
+			return (st);
+		st++;
 	}
-	if ((char) c == '\0')
-		return (str);
 	return (NULL);
 }
 

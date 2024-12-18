@@ -1,43 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibouill <pibouill@student.42prague.com    +#+  +:+       +#+        */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/18 16:22:09 by pibouill          #+#    #+#             */
-/*   Updated: 2023/10/23 12:25:12 by pibouill         ###   ########.fr       */
+/*   Created: 2024/12/18 12:53:25 by pibouill          #+#    #+#             */
+/*   Updated: 2024/12/18 12:53:44 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libft.h"
 
-/*
-** Duplicates *s
-*/
-
-char	*ft_strdup(const char *src)
+void ft_strncpy(char *dest, const char *src, int size)
 {
-	char	*str;
-	int		i;
+	int	i;
 
-	if (!src)
-		return (NULL);
 	i = 0;
-	if (src[0] == '\0')
-		str = malloc(1);
-	else
+	if (size != 0)
 	{
-		while (src[i])
-			i++;
-		str = malloc((i + 1) * sizeof(char));
-		i = 0;
-		while (src[i])
+		while (src[i] != '\0' && i < size)
 		{
-			str[i] = src[i];
+			dest[i] = src[i];
 			i++;
 		}
+		dest[i] = '\0';
 	}
-	str[i] = '\0';
-	return (str);
 }

@@ -10,14 +10,73 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 /*
 ** Returns an array of strings
 ** from the split of a string by char c
 */
 
-static void	*free_array(char **arr)
+static int	count(const char *str, char c)
+{
+	int	i;
+	int	k;
+
+	i = 0;
+	k = 0;
+	while (str[i])
+	{
+		if (str[i] != c)
+		{
+			k++;
+			while (str[i] && str[i] != c)
+				i++;
+		}
+		else
+			i++;
+	}
+	return (k);
+}
+
+static void	ft_skip(const char *str, char c, int *i, int *from)
+{
+	while (str[*i] == c)
+		(*i)++;
+	*from = *i;
+	while (str[*i] != c && str[*i])
+		(*i)++;
+}
+
+char	**ft_split(const char *s, char c)
+{
+	int		i;
+	int		k;
+	int		j;
+	int		from;
+	char	**res;
+
+	i = 0;
+	k = 0;
+	res = (char **)malloc((count(s, c) + 1) * sizeof(char *));
+	if (!res)
+		return (NULL);
+	while (s[i])
+	{
+		ft_skip(s, c, &i, &from);
+		if (from == i)
+			break ;
+		res[k] = (char *)malloc((i - from + 1) * sizeof(char));
+		j = 0;
+		while (from < i)
+			res[k][j++] = s[from++];
+		res[k][j] = '\0';
+		k++;
+	}
+	res[k] = NULL;
+	return (res);
+}
+
+void	*free_array(char **arr)
 {
 	size_t	i;
 
@@ -26,65 +85,6 @@ static void	*free_array(char **arr)
 		free(arr[i++]);
 	free(arr);
 	return (NULL);
-}
-
-static int	word_len(char const *s, char c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] && s[i] != c)
-		i++;
-	return (i);
-}
-
-static char	*alloc_word(char const *s, char c)
-{
-	char	*new_word;
-	int		i;
-	int		len;
-
-	i = 0;
-	len = word_len(s, c);
-	new_word = malloc(sizeof(char) * (len + 1));
-	if (new_word == NULL)
-		return (NULL);
-	while (i < len)
-	{
-		new_word[i] = s[i];
-		i++;
-	}
-	new_word[i] = '\0';
-	return (new_word);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	char	**new_arr;
-	int		i;
-
-	i = 0;
-	if (s == NULL)
-		return (NULL);
-	new_arr = malloc(sizeof(char *) * (ft_wordcount(s, c) + 1));
-	if (new_arr == NULL)
-		return (NULL);
-	while (*s)
-	{
-		while (*s && *s == c)
-			s++;
-		if (*s)
-		{
-			new_arr[i] = alloc_word(s, c);
-			if (new_arr[i] == NULL)
-				return (free_array(new_arr));
-			i++;
-		}
-		while (*s && *s != c)
-			s++;
-	}
-	new_arr[i] = 0;
-	return (new_arr);
 }
 
 // int main()

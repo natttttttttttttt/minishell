@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 /*
 ** Returns the int representaion of char *nptr
@@ -18,37 +18,36 @@
 ** 0 if more than one sign
 */
 
-int	ft_atoi(const char *nptr)
+int	ft_atoi(char *str)
 {
-	int	ret;
+	int	i;
+	int	n;
 	int	sign;
 
-	ret = 0;
+	i = 0;
+	n = 0;
 	sign = 1;
-	while ((*nptr == ' ') || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
-	if (*nptr == '-' || *nptr == '+')
+	while ((str[i] == 32) || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
 	{
-		if (*nptr == '-')
-		{
-			sign = -1;
-			nptr++;
-		}
-		else if (*nptr == '+')
-			nptr++;
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
 	}
-	while (*nptr >= '0' && *nptr <= '9')
+	while (str[i] != '\0' && (str[i] >= '0' && str[i] <= '9'))
 	{
-		ret = ret * 10 + *nptr - '0';
-		nptr++;
+		n *= 10;
+		n += str[i] - '0';
+		i++;
 	}
-	return (ret * sign);
+	return (n * sign);
 }
 
-	// int	main()
-	// {
-	// 	char	str[] = "		+--+42jdifj5i";
-	// 	printf("%d\n", ft_atoi(str));
-	// 	printf("%d\n", atoi(str));
-	// 	return (0);
-	// }
+// int	main()
+// {
+// 	char	str[] = "		+--+42jdifj5i";
+// 	printf("%d\n", ft_atoi(str));
+// 	printf("%d\n", atoi(str));
+// 	return (0);
+// }

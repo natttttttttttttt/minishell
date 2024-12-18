@@ -10,38 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 /*
 ** Creates new string (*s1 + *s2)
 */
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, const char *s2)
 {
-	char	*new;
-	int		i;
-	int		j;
+	char	*res;
+	size_t	len;
+	size_t	i;
+	size_t	j;
 
-	if (s1 == NULL)
-		s1 = ft_strdup("");
-	if (s1 && s2 == NULL)
-		return (free((char *)s1), NULL);
 	i = 0;
 	j = 0;
-	new = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (new == NULL)
-	{
-		free((char *)s1);
+	len = ft_strlen(s1) + ft_strlen(s2);
+	res = (char *)malloc((len + 1) * sizeof(char));
+	if (!res)
 		return (NULL);
+	while (s1 && s1[i])
+	{
+		res[i] = s1[i];
+		i++;
 	}
-	while (s1[i])
-		new[j++] = s1[i++];
-	i = 0;
-	while (s2[i])
-		new[j++] = s2[i++];
-	new[j] = '\0';
-	free((char *)s1);
-	return (new);
+	while (s2 && s2[j])
+	{
+		res[i + j] = s2[j];
+		j++;
+	}
+	res[i + j] = '\0';
+	return (res);
 }
 
 // int	main()

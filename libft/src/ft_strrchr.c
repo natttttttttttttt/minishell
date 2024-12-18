@@ -6,26 +6,26 @@
 /*   By: pibouill <pibouill@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 14:06:09 by pibouill          #+#    #+#             */
-/*   Updated: 2023/10/27 11:42:50 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/12/18 12:55:50 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 /*
 ** Returns a pointer to last occurence of c in *s
 */
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strrchr(const char *str, int c)
 {
-	int	i;
+	int	l;
 
-	i = ft_strlen(s);
-	while (i >= 0)
+	l = (int)ft_strlen((char *)str);
+	while (l >= 0)
 	{
-		if (s[i] == (unsigned char) c)
-			return ((char *)(s + i));
-		i--;
+		if (str[l] == (char)c)
+			return ((char *)(str + l));
+		l--;
 	}
 	return (NULL);
 }
