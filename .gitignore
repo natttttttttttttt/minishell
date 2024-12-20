@@ -4,3 +4,4 @@ minishell
 *tags*
 .nfs*
 bin
+compile_commands.json
