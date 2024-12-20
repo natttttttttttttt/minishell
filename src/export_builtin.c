@@ -24,7 +24,7 @@ int	export_builtin(char **args, t_info *info, int i)
 	{
 		split = ft_split(args[i], '=');
 		if (!split)
-			return (12);
+			return (12); // dont need to free here?
 		var = split[0];
 		if (split[1] != NULL)
 			value = split[1];

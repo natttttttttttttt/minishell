@@ -11,12 +11,11 @@
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-#include <unistd.h>
 
-pid_t setup_child_process(t_cmd *cmd, t_info *info, int *fd)
+pid_t	setup_child_process(t_cmd *cmd, t_info *info, int *fd)
 {
-	pid_t pid;
-	int status = 0;
+	pid_t	pid;
+	int		status = 0;
 
 	pid = fork();
 	if (pid == -1)

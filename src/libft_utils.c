@@ -1,9 +1,4 @@
-
-
-// void	free_arr(char **arr)
-// {
-// 	int	i;
-//
+						ft_strtrim\
 // 	i = 0;
 // 	while (arr && arr[i])
 // 	{

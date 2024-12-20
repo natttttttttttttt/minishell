@@ -24,7 +24,6 @@ void	exe_input(int *fd_in, char *str, int *exit_code, int *status)
 			*status = -1;
 		}
 	}
-
 }
 
 void	exe_heredoc(char **str, t_info *info, int *fd_in, int *status)
