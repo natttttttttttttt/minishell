@@ -6,11 +6,12 @@
 #    By: pibouill <pibouill@student.42prague.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/17 10:56:08 by pibouill          #+#    #+#              #
-#    Updated: 2024/09/16 11:04:38 by pibouill         ###   ########.fr        #
+#    Updated: 2024/11/17 15:46:25 by pibouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			= libft.a
+FT				= libft
 CC				= cc
 CFLAGS			= -Wall -Wextra -Werror
 RM 				= rm -rf
@@ -22,10 +23,17 @@ BIN_DIR			= bin
 # **************************************************************************** #
 # COLORS
 
-GREEN			= \033[0;92m
-YELLOW			= \033[0;93m
-BLUE			= \033[0;94m
-END_COLOR		= \033[0;39m
+RED				:=	[38;5;9m
+GREEN			:=	[38;5;10m
+BLUE			:= 	[38;5;14m
+YELLOW			:=	[38;5;226m
+RESET			:=	[38;5;7m
+PREFIX			=	[$(GREEN)$(FT)$(RESET)]\t\t\t\t\t
+
+#GREEN			= \033[0;92m
+#YELLOW			= \033[0;93m
+#BLUE			= \033[0;94m
+#END_COLOR		= \033[0;39m
 
 # **************************************************************************** #
 # SOURCES
@@ -79,6 +87,7 @@ SRC_FILES		=		ft_atoi\
 						ft_strncmp\
 						ft_strnstr\
 						ft_strrchr\
+						ft_strtrim\
 						ft_substr\
 						ft_tolower\
 						ft_toupper\
@@ -86,7 +95,9 @@ SRC_FILES		=		ft_atoi\
 						ft_printf_utils\
 						ft_wordcount\
 						ft_printf_fd\
-						ft_printf_fd_utils
+						ft_printf_fd_utils\
+						ft_strndup\
+						ft_puts
 
 SRC					= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ 				= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
@@ -98,25 +109,25 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	+@$(AR) $(NAME) $(OBJ)
-	+@echo "$(GREEN)$(NAME) compiled. $(END_COLOR)"
+	+@echo "$(PREFIX)$(NAME) compiled."
 
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c Makefile | $(BIN_DIR)
 	+@$(CC) -c $(CFLAGS) -I $(INC_DIR) $< -o $@
 
 $(BIN_DIR):
 	+@mkdir $(BIN_DIR)
-	+@echo "$(YELLOW)Created $(BIN_DIR)/ directory at libft/$(END_COLOR)"
+	+@echo "$(PREFIX)Created $(BIN_DIR)/ directory at libft/"
 
 clean:
 	+@$(RM) $(BIN_DIR)
-	+@echo "$(BLUE)$(NAME) bin/ cleaned.$(END_COLOR)"
+	+@echo "$(PREFIX)Libft bin/ cleaned."
 
 fclean: clean
 	+@$(RM) $(NAME)
-	+@echo "$(YELLOW)$(NAME).a cleaned.$(END_COLOR)"
+	+@echo "$(PREFIX)$(NAME).a cleaned."
 
 re: fclean all
-	+@echo "$(GREEN)Cleaned all and rebuilt $(NAME)$(END_COLOR)"
+	+@echo "$(PREFIX)Cleaned all and rebuilt $(NAME)"
 
 # **************************************************************************** #
 
