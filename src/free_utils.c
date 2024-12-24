@@ -29,13 +29,13 @@ void	free_token_lst(t_token *head)
 
 void	free_order(t_order *order)
 {
-	if(order->input)
+	if (order->input)
 		free(order->input);
-	if(order->output)
+	if (order->output)
 		free(order->output);
-	if(order->heredoc)
+	if (order->heredoc)
 		free(order->heredoc);
-	if(order->append)
+	if (order->append)
 		free(order->append);
 }
 

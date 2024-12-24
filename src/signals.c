@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:23:31 by pibouill          #+#    #+#             */
-/*   Updated: 2024/12/06 14:30:48 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/12/24 12:14:18 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	setup_signals(void)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGINT, ft_signal_handler);
-	signal(SIGQUIT, SIG_IGN); // ignore Ctrl+backslash
-	signal(SIGTSTP, SIG_IGN); // ignore Ctrl+Z (just in case)
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 }
 
 void	sig_handl_child(int signal)

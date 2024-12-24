@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:40:40 by pibouill          #+#    #+#             */
-/*   Updated: 2024/12/06 14:30:59 by pibouill         ###   ########.fr       */
+/*   Updated: 2024/12/24 12:11:52 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,37 +25,41 @@ static void	info_init(t_info *info, char **envp)
 	info->cmds = NULL;
 }
 
-static void parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
+static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 {
-    add_history(info->input);
-    info->tokens = token_lst;
-    if (save_tokens(info->input, &token_lst, info))
-    {
-        vars_to_value(token_lst, *info);
-        cmd_lst = parse_tokens(token_lst, info);
+	add_history(info->input);
+	info->tokens = token_lst;
+	if (save_tokens(info->input, &token_lst, info))
+	{
+		vars_to_value(token_lst, *info);
+		cmd_lst = parse_tokens(token_lst, info);
 		print_command(cmd_lst);
-        info->cmds = cmd_lst;
-        if (cmd_lst)
-        {
-            cmd_to_path(cmd_lst, info);
-            execute_commands(cmd_lst, info);
-            free_command_list(cmd_lst);
-        }
+		info->cmds = cmd_lst;
+		if (cmd_lst)
+		{
+			cmd_to_path(cmd_lst, info);
+			execute_commands(cmd_lst, info);
+			free_command_list(cmd_lst);
+		}
 		// Debugging: Check if token_lst is valid before freeing
-        if (token_lst) {
-            printf("Freeing token_lst at %p\n", (void *)token_lst);
-            free_token_lst(token_lst);
-        } else {
-            printf("token_lst is NULL, not freeing.\n");
-        }
-    }
-    // Debugging: Check if info->input is valid before freeing
-    if (info->input) {
-        printf("Freeing info->input at %p\n", (void *)info->input);
-        free(info->input);
-    } else {
-        printf("info->input is NULL, not freeing.\n");
-    }
+		if (token_lst)
+		{
+			printf("Freeing token_lst at %p\n", (void *)token_lst);
+			free_token_lst(token_lst);
+		}
+		else
+			printf("token_lst is NULL, not freeing.\n");
+	}
+	// Debugging: Check if info->input is valid before freeing
+	if (info->input)
+	{
+		printf("Freeing info->input at %p\n", (void *)info->input);
+		free(info->input);
+	}
+	else
+	{
+		printf("info->input is NULL, not freeing.\n");
+	}
 }
 
 // static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
