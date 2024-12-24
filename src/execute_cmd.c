@@ -14,20 +14,21 @@
 
 pid_t	setup_child_process(t_cmd *cmd, t_info *info, int *fd)
 {
-	pid_t	pid;
-	int		status = 0;
+	pid_t				pid;
+	int					status;
+	struct sigaction	sa;
 
 	pid = fork();
+	status = 0;
 	if (pid == -1)
 	{
 		perror("fork");
 		info->exit_code = errno;
-		return -1;
+		return (-1);
 	}
 	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 	{
-		struct sigaction sa;
 		sa.sa_handler = SIG_DFL;
 		sa.sa_flags = SA_RESTART;
 		sigemptyset(&sa.sa_mask);
@@ -35,12 +36,12 @@ pid_t	setup_child_process(t_cmd *cmd, t_info *info, int *fd)
 		prepare_exe(cmd, status, info, fd);
 		ft_execve(cmd, info, NULL);
 	}
-	return pid;
+	return (pid);
 }
 
-int handle_redirects_and_pipe(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd)
+int	handle_redirects_and_pipe(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd)
 {
-	int status;
+	int	status;
 
 	status = 0;
 	fd[1] = 1;
@@ -50,15 +51,15 @@ int handle_redirects_and_pipe(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd)
 		if (pipe(pipe_fd) == -1)
 		{
 			perror("pipe");
-			return -1;
+			return (-1);
 		}
 		if (!cmd->output && !cmd->append)
 			fd[1] = pipe_fd[1];
 	}
-	return status;
+	return (status);
 }
 
-int process_command(t_cmd *cmd, t_info *info, int *last_pid, int *fd)
+int	process_command(t_cmd *cmd, t_info *info, int *last_pid, int *fd)
 {
 	int		pipe_fd[2];
 	int		status;
@@ -66,33 +67,35 @@ int process_command(t_cmd *cmd, t_info *info, int *last_pid, int *fd)
 
 	status = handle_redirects_and_pipe(cmd, info, fd, pipe_fd);
 	if (status == -1)
-		return -1;
+		return (-1);
 	if (is_builtin(cmd) && !cmd->next && !cmd->prev)
 	{
 		if (status != -1)
 			info->exit_code = run_builtin(cmd, info, fd[1]);
-		return 0;
+		return (0);
 	}
 	pid = setup_child_process(cmd, info, fd);
 	if (pid == -1)
-		return -1;
+		return (-1);
 	*last_pid = pid;
-	return 0;
+	return (0);
 }
 
-void execute_commands(t_cmd *cmd, t_info *info)
+void	execute_commands(t_cmd *cmd, t_info *info)
 {
-	int fd[2];
-	pid_t last_pid = -1;
-	int result = 0;
+	int		fd[2];
+	pid_t	last_pid;
+	int		result;
 
 	fd[0] = 0;
 	fd[1] = 1;
+	last_pid = -1;
+	result = 0;
 	while (cmd != NULL)
 	{
 		result = process_command(cmd, info, &last_pid, fd);
 		if (result == -1)
-			return;
+			return ;
 		if (cmd->next)
 		{
 			close(fd[1]);
