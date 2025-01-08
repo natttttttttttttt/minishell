@@ -2,7 +2,7 @@
 
 - [ ] cmds.c -> add_cmd_arg() and parse_tokens() => too long functions
 
-- [ ] envp.c -> copy_env() and update_env() => too long
+- [x] envp.c -> copy_env() and update_env() => too long
 
 - [x] export_builtins.c -> func too long ->fixed except comments
 
