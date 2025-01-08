@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:34:38 by pibouill          #+#    #+#             */
-/*   Updated: 2024/12/06 14:32:15 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/01/08 16:41:19 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_order
 	int				i_output;
 	int				i_append;
 	int				count;
+	int				i;
 }	t_order;
 
 typedef struct s_command

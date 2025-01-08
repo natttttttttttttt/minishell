@@ -1,6 +1,8 @@
 - [x] cmd_to_path.c -> line too long on commented previous functions 
 
 - [ ] cmds.c -> add_cmd_arg() and parse_tokens() => too long functions
+    - parse_tokens() is a bitch to norminette
+    - add_cmd_arg done
 
 - [x] envp.c -> copy_env() and update_env() => too long
 
