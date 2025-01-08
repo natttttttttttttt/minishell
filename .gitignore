@@ -7,3 +7,4 @@ bin
 # clangd stuff
 compile_commands.json
 .cache
+*.a
