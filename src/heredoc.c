@@ -13,40 +13,90 @@
 #include "../inc/minishell.h"
 
 //can norminette
-void	heredoc(char **dlmtr, t_info info)
+// void	heredoc(char **dlmtr, t_info info)
+// {
+// 	char	*line;
+// 	char	*s;
+// 	int		fd;
+// 	int		i;
+//
+// 	i = 0;
+// 	while (dlmtr[i])
+// 	{
+// 		fd = open("heredoc.tmp", O_RDWR | O_CREAT | O_TRUNC, 0600);
+// 		if (fd == -1)
+// 			perror("open");
+// 		else
+// 		{
+// 			while (1)
+// 			{
+// 				line = readline("> ");
+// 				if (!line)
+// 				{
+// 					printf("warning: here-document delimited by end-of-file");
+// 					printf(" (wanted '%s')\n", dlmtr[i]);
+// 					break ;
+// 				}
+// 				if (ft_strncmp(line, dlmtr[i], ft_strlen(dlmtr[i]) + 1) == 0)
+// 					break ;
+// 				s = replace_env_vars(line, info, 0, 0);
+// 				write(fd, s, ft_strlen(s));
+// 				free(line);
+// 				free(s);
+// 				write(fd, "\n", 1);
+// 			}
+// 			close(fd);
+// 		}
+// 		i++;
+// 	}
+// }
+
+void	write_heredoc_line(int fd, char *line, t_info info)
+{
+	char	*s;
+
+	s = replace_env_vars(line, info, 0, 0);
+	write(fd, s, ft_strlen(s));
+	write(fd, "\n", 1);
+	free(line);
+	free(s);
+}
+
+void	handle_single_heredoc(char *delimiter, t_info info)
 {
 	char	*line;
-	char	*s;
 	int		fd;
-	int		i;
+
+	fd = open("heredoc.tmp", O_RDWR | O_CREAT | O_TRUNC, 0600);
+	if (fd == -1)
+	{
+		perror("open");
+		return ;
+	}
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+		{
+			printf("warning: here-document delimited by end-of-file");
+			printf(" (wanted '%s')\n", delimiter);
+			break ;
+		}
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
+			break ;
+		write_heredoc_line(fd, line, info);
+	}
+	close(fd);
+}
+
+void	heredoc(char **dlmtr, t_info info)
+{
+	int	i;
 
 	i = 0;
 	while (dlmtr[i])
 	{
-		fd = open("heredoc.tmp", O_RDWR | O_CREAT | O_TRUNC, 0600);
-		if (fd == -1)
-			perror("open");
-		else
-		{
-			while (1)
-			{
-				line = readline("> ");
-				if (!line)
-				{
-					printf("warning: here-document delimited by end-of-file");
-					printf(" (wanted '%s')\n", dlmtr[i]);
-					break ;
-				}
-				if (ft_strncmp(line, dlmtr[i], ft_strlen(dlmtr[i]) + 1) == 0)
-					break ;
-				s = replace_env_vars(line, info, 0, 0);
-				write(fd, s, ft_strlen(s));
-				free(line);
-				free(s);
-				write(fd, "\n", 1);
-			}
-			close(fd);
-		}
+		handle_single_heredoc(dlmtr[i], info);
 		i++;
 	}
 }

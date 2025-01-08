@@ -6,7 +6,7 @@
 #    By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/07 11:07:00 by pibouill          #+#    #+#              #
-#    Updated: 2024/12/07 11:07:09 by pibouill         ###   ########.fr        #
+#    Updated: 2025/01/08 16:13:03 by pibouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,8 @@ SRC_FILES	:=		builtins\
 					print_stuff\
 					vars\
 					vars_utils\
-					free_utils
+					free_utils\
+					update_env
 
 SRC			:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))

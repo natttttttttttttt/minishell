@@ -4,9 +4,9 @@
 
 - [ ] envp.c -> copy_env() and update_env() => too long
 
-- [ ] export_builtins.c -> func too long
+- [x] export_builtins.c -> func too long ->fixed except comments
 
-- [ ] heredoc.c -> func too long
+- [x] heredoc.c -> func too long
 
 - [ ] main.c -> parse_and_exe() => too long bc of the debugging stuff, keeping it for now just in case
 
