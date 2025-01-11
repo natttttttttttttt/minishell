@@ -21,10 +21,10 @@
 tester result -> 107
 
 
-- cat | ls (any ammount of cat) is broken so pipes were unfortuntely fucked up while norminetting
+- cat | ls (any ammount of cat) is broken so pipes were unfortuntely fucked up while norminetting; 
 upd: echo hi > out | echo bye >out2 also doesn't work and most of the tests that are failing now are for the same reason (it's something with pipe ends waiting but i can't tell where rn), it was def working before
 
--test 127 : idk if it's the broken pipes again or it just never worked
+- test 127 : idk if it's the broken pipes again or it just never worked
 
 - if you give it the name of a file in the current directory (cd src; vars.c) it gets an exec error
 - cmd_to_path:250 need to fork for this one, i fixed it somewhere but idk if that commit is lost, will have a look on campus computer 
