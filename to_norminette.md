@@ -27,10 +27,13 @@ upd: echo hi > out | echo bye >out2 also doesn't work and most of the tests that
 - test 127 : idk if it's the broken pipes again or it just never worked
 
 - if you give it the name of a file in the current directory (cd src; vars.c) it gets an exec error
+
 - cmd_to_path:250 need to fork for this one, i fixed it somewhere but idk if that commit is lost, will have a look on campus computer 
+
 - guess it's because of that fork too but running ./minishell inside minishell also fails (if you exit once the original one should still run but it just exits alltogether)
 this is the working version for these three (it will still fail if you give it src/vars.c but bash also tries to execute it this way so i think it's ok):
-```
+
+``` c
 void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 {
 	char	*tmp;
@@ -90,3 +93,4 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 		cmd_lst = cmd_lst->next;
 	}
 }
+```
