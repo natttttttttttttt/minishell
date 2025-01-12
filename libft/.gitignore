@@ -1,0 +1,10 @@
+*code
+*test*
+a.out
+*.o
+*.a
+*.so
+.DS_Store
+bin/
+*.swp
+tags

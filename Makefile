@@ -112,8 +112,10 @@ val:
 	@make
 	@valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=suppress --show-leak-kinds=all --log-file="leaks" ./minishell
 
+test:
+	@make re && cd minishell_tester && ./tester && cd ..
 
 ################################################################################
 ## PHONY
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re test

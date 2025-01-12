@@ -18,9 +18,6 @@
 
 ---
 
-tester result -> 107
-
-
 - cat | ls (any ammount of cat) is broken so pipes were unfortuntely fucked up while norminetting; 
 upd: echo hi > out | echo bye >out2 also doesn't work and most of the tests that are failing now are for the same reason (it's something with pipe ends waiting but i can't tell where rn), it was def working before
 
@@ -94,3 +91,7 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 	}
 }
 ```
+
+execute_command() norminette was the issue
+
+tester -> 127 now

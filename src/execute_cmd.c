@@ -81,31 +81,31 @@ int	process_command(t_cmd *cmd, t_info *info, int *last_pid, int *fd)
 	return (0);
 }
 
-void	execute_commands(t_cmd *cmd, t_info *info)
-{
-	int		fd[2];
-	pid_t	last_pid;
-	int		result;
-
-	fd[0] = 0;
-	fd[1] = 1;
-	last_pid = -1;
-	result = 0;
-	while (cmd != NULL)
-	{
-		result = process_command(cmd, info, &last_pid, fd);
-		if (result == -1)
-			return ;
-		if (cmd->next)
-		{
-			close(fd[1]);
-			fd[0] = result;
-		}
-		cmd = cmd->next;
-	}
-	ft_wait(last_pid, 0, info);
-	signal(SIGINT, ft_signal_handler);
-}
+// void	execute_commands(t_cmd *cmd, t_info *info)
+// {
+// 	int		fd[2];
+// 	pid_t	last_pid;
+// 	int		result;
+//
+// 	fd[0] = 0;
+// 	fd[1] = 1;
+// 	last_pid = -1;
+// 	result = 0;
+// 	while (cmd != NULL)
+// 	{
+// 		result = process_command(cmd, info, &last_pid, fd);
+// 		if (result == -1)
+// 			return ;
+// 		if (cmd->next)
+// 		{
+// 			close(fd[1]);
+// 			fd[0] = result;
+// 		}
+// 		cmd = cmd->next;
+// 	}
+// 	ft_wait(last_pid, 0, info);
+// 	signal(SIGINT, ft_signal_handler);
+// }
 
 // void execute_commands(t_cmd *cmd, t_info *info, int status, int i)
 // {
