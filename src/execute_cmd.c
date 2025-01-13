@@ -39,25 +39,25 @@ pid_t	setup_child_process(t_cmd *cmd, t_info *info, int *fd)
 	return (pid);
 }
 
-int	handle_redirects_and_pipe(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd)
-{
-	int	status;
-
-	status = 0;
-	fd[1] = 1;
-	set_redirs(cmd, info, &status, fd);
-	if (cmd->next)
-	{
-		if (pipe(pipe_fd) == -1)
-		{
-			perror("pipe");
-			return (-1);
-		}
-		if (!cmd->output && !cmd->append)
-			fd[1] = pipe_fd[1];
-	}
-	return (status);
-}
+// int	handle_redirects_and_pipe(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd)
+// {
+// 	int	status;
+//
+// 	status = 0;
+// 	fd[1] = 1;
+// 	set_redirs(cmd, info, &status, fd);
+// 	if (cmd->next)
+// 	{
+// 		if (pipe(pipe_fd) == -1)
+// 		{
+// 			perror("pipe");
+// 			return (-1);
+// 		}
+// 		if (!cmd->output && !cmd->append)
+// 			fd[1] = pipe_fd[1];
+// 	}
+// 	return (status);
+// }
 
 int	process_command(t_cmd *cmd, t_info *info, int *last_pid, int *fd)
 {

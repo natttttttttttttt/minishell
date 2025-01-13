@@ -96,6 +96,14 @@ typedef struct s_info
 	t_cmd	*cmds;
 }	t_info;
 
+typedef struct s_exec_info
+{
+	int		fd[2];
+	int		pipe_fd[2];
+	pid_t	last_pid;
+	int		status;
+}	t_exec_info;
+
 //list utils
 t_token	*lst_create(char *str, t_type type);
 t_token	*ft_lstlast(t_token *lst);
@@ -125,7 +133,8 @@ int		save_tokens(char *str, t_token **lst, t_info *info);
 char	*deal_with_quotes(char *s, int q, int i);
 //exe
 void	ft_wait(pid_t pid, int status, t_info *info);
-void	set_redirs(t_cmd *cmd, t_info *info, int *status, int fd[2]);
+//void	set_redirs(t_cmd *cmd, t_info *info, int *status, int fd[2]);
+int	set_redirs(t_cmd *cmd, t_info *info, int *status, int fd[2]);
 void	exe_input(int *fd_in, char *str, int *exit_code, int *status);
 void	exe_heredoc(char **str, t_info *info, int *fd_in, int *status);
 void	exe_output(int *fd_out, char *str, int *exit_code, int *status);
@@ -133,8 +142,9 @@ void	exe_append(int *fd_out, char *str, int *exit_code, int *status);
 int		exe_pipe(int pipe_fd[2], int fd[2], t_cmd *cmd);
 void	prepare_exe(t_cmd *cmd, int status, t_info *info, int fd[2]);
 void	ft_execve(t_cmd *cmd, t_info *info, int pipe_fd[2]);
+void	execute_command_part1(t_cmd *cmd, t_info *info, t_exec_info *e_info);
 void	execute_commands(t_cmd *cmd, t_info *info, int status, int i);
-//void	execute_commands(t_cmd *cmd, t_info *info);
+int	handle_redirects_and_pipe(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd);
 //cmds
 int		find_heredoc(t_token *token);
 void	fix_order(char **s, int *i);
@@ -189,4 +199,5 @@ void	sig_handl_child(int signal);
 // utils
 void	ft_putstr_fd(int fd, char *str);
 int		parsing_ok(char *str);
+
 #endif
