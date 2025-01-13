@@ -14,7 +14,6 @@
 
 //can norminette
 
-
 void	print_order(t_order *order)
 {
 	if (order == NULL)
@@ -35,23 +34,90 @@ void	print_order(t_order *order)
 	printf("Count: %d\n", order->count);
 }
 
-static void	syntax_error(int check, t_cmd **head, t_info *info)
+static void	syntax_error(int check, t_info *info)
 {
 	if (check)
 	{
 		printf("syntax error near unexpected token\n");
 		info->exit_code = 2;
-		*head = NULL;
+		info->err = 1;
 	}
 }
 
-//until here or with this function if you just put every if separately, cause i will need space there
+void	tkn_input(t_token **tokens, t_info *info, t_cmd **cmd, int *i)
+{
+	syntax_error((*tokens)->next->type != WORD, info);
+	(*tokens) = (*tokens)->next;
+	if (!find_heredoc(*tokens) || !(*cmd)->delimiter)
+	{
+		if ((*tokens) && (*tokens)->type == WORD)
+			add_cmd_arg(&((*cmd)->input), (*tokens)->txt);
+		fix_order(&((*cmd)->order->input), i);
+	}
+}
+
+void	tkn_output(t_token **tokens, t_info *info, t_cmd **cmd, int *i)
+{
+	syntax_error((*tokens)->next->type != WORD, info);
+	(*tokens) = (*tokens)->next;
+	if ((*tokens) && (*tokens)->type == WORD)
+		add_cmd_arg(&((*cmd)->output), (*tokens)->txt);
+	fix_order(&((*cmd)->order->output), i);
+}
+
+void	tkn_append(t_token **tokens, t_info *info, t_cmd **cmd, int *i)
+{
+	syntax_error((*tokens)->next->type != WORD, info);
+	(*tokens) = (*tokens)->next;
+	if ((*tokens) && (*tokens)->type == WORD)
+		add_cmd_arg(&((*cmd)->append), (*tokens)->txt);
+	fix_order(&((*cmd)->order->append), i);
+}
+
+void	tkn_heredoc(t_token **tokens, t_info *info, t_cmd **cmd, int *i)
+{
+	syntax_error((*tokens)->next->type != WORD, info);
+	(*tokens) = (*tokens)->next;
+	if (*tokens && (*tokens)->type == WORD)
+		add_cmd_arg(&((*cmd)->delimiter), (*tokens)->txt);
+	if (!(*cmd)->order->heredoc)
+	{
+		(*cmd)->order->heredoc = ft_strdup(ft_itoa(*i));
+		(*i)++;
+	}
+}
+
+void	tkn_pipe(t_token **tokens, t_info *info, t_cmd **cmd, int *i)
+{
+	(*cmd)->order->count = *i;
+	*i = 0;
+	syntax_error((*tokens)->next->type == DONE
+		|| (*tokens)->next->type == PIPE, info);
+	(*cmd)->next = cmd_new();
+	(*cmd)->next->prev = *cmd;
+	*cmd = (*cmd)->next;
+}
+
+void	check_tkn(t_token **tokens, t_info *info, t_cmd **cmd, int *i)
+{
+	if ((*tokens)->type == WORD)
+		add_cmd_arg(&((*cmd)->args), (*tokens)->txt);
+	else if ((*tokens)->type == INPUT)
+		tkn_input(tokens, info, cmd, i);
+	else if ((*tokens)->type == OUTPUT)
+		tkn_output(tokens, info, cmd, i);
+	else if ((*tokens)->type == APPEND)
+		tkn_append(tokens, info, cmd, i);
+	else if ((*tokens)->type == HEREDOC)
+		tkn_heredoc(tokens, info, cmd, i);
+	else if ((*tokens)->type == PIPE)
+		tkn_pipe(tokens, info, cmd, i);
+}
 
 t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 {
 	t_cmd	*head;
 	t_cmd	*cmd;
-	t_cmd	*copy;
 	int		i;
 
 	cmd = NULL;
@@ -61,66 +127,15 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 	{
 		cmd = cmd_new();
 		head = cmd;
-		copy = cmd;
-		syntax_error(tokens->type == PIPE, &head, info);
+		syntax_error(tokens->type == PIPE, info);
 	}
 	while (tokens)
 	{
-		if (tokens->type == WORD)
-			add_cmd_arg(&(cmd->args), tokens->txt);
-		else if (tokens->type == INPUT)
-		{
-			syntax_error(tokens->next->type != WORD, &head, info);
-			tokens = tokens->next;
-			if (!find_heredoc(tokens) || !cmd->delimiter)
-			{
-				if (tokens && tokens->type == WORD)
-					add_cmd_arg(&(cmd->input), tokens->txt);
-				fix_order(&cmd->order->input, &i);
-			}
-		}
-		else if (tokens->type == OUTPUT)
-		{
-			syntax_error(tokens->next->type != WORD, &head, info);
-			tokens = tokens->next;
-			if (tokens && tokens->type == WORD)
-				add_cmd_arg(&(cmd->output), tokens->txt);
-			fix_order(&cmd->order->output, &i);
-		}
-		else if (tokens->type == APPEND)
-		{
-			syntax_error(tokens->next->type != WORD, &head, info);
-			tokens = tokens->next;
-			if (tokens && tokens->type == WORD)
-				add_cmd_arg(&(cmd->append), tokens->txt);
-			fix_order(&cmd->order->append, &i);
-		}
-		else if (tokens->type == HEREDOC)
-		{
-			syntax_error(tokens->next->type != WORD, &head, info);
-			tokens = tokens->next;
-			if (tokens && tokens->type == WORD)
-				add_cmd_arg(&(cmd->delimiter), tokens->txt);
-			if (!cmd->order->heredoc)
-			{
-				cmd->order->heredoc = ft_strdup(ft_itoa(i));
-				i++;
-			}
-		}
-		else if (tokens->type == PIPE)
-		{
-			cmd->order->count = i;
-			i = 0;
-			syntax_error(tokens->next->type == DONE
-				|| tokens->next->type == PIPE, &head, info);
-			cmd->next = cmd_new();
-			cmd->next->prev = cmd;
-			cmd = cmd->next;
-		}
+		check_tkn(&tokens, info, &cmd, &i);
 		tokens = tokens->next;
 	}
 	cmd->order->count = i;
-	if (head == NULL)
-		free_command_list(copy);
+	if (info->err)
+		free_command_list(&head);
 	return (head);
 }

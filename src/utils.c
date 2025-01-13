@@ -62,12 +62,15 @@ void	free_arr(char **arr)
 	int	i;
 
 	i = 0;
-	while (arr && arr[i])
+	if (arr)
 	{
-		free(arr[i]);
-		i++;
+		while (arr && arr[i])
+		{
+			free(arr[i]);
+			i++;
+		}
+		free(arr);
 	}
-	free(arr);
 }
 
 void	ft_strncpy(char *dest, const char *src, int size)

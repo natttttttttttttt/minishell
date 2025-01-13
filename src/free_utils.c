@@ -39,12 +39,12 @@ void	free_order(t_order *order)
 		free(order->append);
 }
 
-void	free_command_list(t_cmd *head)
+void	free_command_list(t_cmd **head)
 {
 	t_cmd	*node;
 	t_cmd	*next;
 
-	node = head;
+	node = *head;
 	while (node != NULL)
 	{
 		next = node->next;
@@ -56,6 +56,8 @@ void	free_command_list(t_cmd *head)
 		free_order(node->order);
 		free(node->order);
 		free(node);
+		node = NULL;
+		*head = NULL;
 		node = next;
 	}
 }

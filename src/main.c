@@ -21,6 +21,7 @@ static void	info_init(t_info *info, char **envp)
 	info->env_path = getenv("PATH");
 	info->paths = ft_split(info->env_path, ':');
 	info->exit_code = 0;
+	info->err = 0;
 	info->tokens = NULL;
 	info->cmds = NULL;
 }
@@ -31,15 +32,15 @@ static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 	info->tokens = token_lst;
 	if (save_tokens(info->input, &token_lst, info))
 	{
+		//print_list(token_lst);
 		vars_to_value(token_lst, *info);
 		cmd_lst = parse_tokens(token_lst, info);
-		// print_command(cmd_lst);
 		info->cmds = cmd_lst;
 		if (cmd_lst)
-		{
+		{print_command(cmd_lst);
 			cmd_to_path(cmd_lst, info);
 			execute_commands(cmd_lst, info, 0, 0);
-			free_command_list(cmd_lst);
+			free_command_list(&cmd_lst);
 		}
 		free_token_lst(token_lst);
 	}

@@ -92,6 +92,7 @@ typedef struct s_info
 	char	**my_envp;
 	char	**paths;
 	int		exit_code;
+	int		err;
 	t_token	*tokens;
 	t_cmd	*cmds;
 }	t_info;
@@ -173,7 +174,7 @@ int		pwd_builtin(void);
 int		unset_builtin(char **args, t_info *info, int i, int j);
 //cleanup
 void	free_arr(char **arr);
-void	free_command_list(t_cmd *head);
+void	free_command_list(t_cmd **head);
 void	free_token_lst(t_token *head);
 void	free_before_exit(t_info *info);
 void	free_order(t_order *order);
