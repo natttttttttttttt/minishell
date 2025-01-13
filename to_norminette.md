@@ -95,3 +95,9 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 execute_command() norminette was the issue
 
 tester -> 127 now
+
+attempt to norminette execute_command()
+ -> infinite loop happening now when doing something like:
+
+ `cat <"./test_files/infile_big" | echo hi` in minishell_tester/
+
