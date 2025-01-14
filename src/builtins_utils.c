@@ -54,7 +54,7 @@ int	valid_var_name(char *s)
 
 void	free_before_exit(t_info *info)
 {
-	free_command_list(info->cmds);
+	free_command_list(&info->cmds);
 	free_token_lst(info->tokens);
 	free(info->input);
 	free_arr(info->paths);

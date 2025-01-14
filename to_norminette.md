@@ -100,4 +100,3 @@ attempt to norminette execute_command()
  -> infinite loop happening now when doing something like:
 
  `cat <"./test_files/infile_big" | echo hi` in minishell_tester/
-

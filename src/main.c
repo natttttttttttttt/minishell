@@ -37,7 +37,8 @@ static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 		cmd_lst = parse_tokens(token_lst, info);
 		info->cmds = cmd_lst;
 		if (cmd_lst)
-		{print_command(cmd_lst);
+		{
+			// print_command(cmd_lst);
 			cmd_to_path(cmd_lst, info);
 			execute_commands(cmd_lst, info, 0, 0);
 			free_command_list(&cmd_lst);
@@ -45,7 +46,6 @@ static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 		free_token_lst(token_lst);
 	}
 	free(info->input);
-
 	// 	// Debugging: Check if token_lst is valid before freeing
 	// 	if (token_lst)
 	// 	{

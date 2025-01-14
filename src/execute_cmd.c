@@ -39,7 +39,8 @@ pid_t	setup_child_process(t_cmd *cmd, t_info *info, int *fd)
 	return (pid);
 }
 
-// int	handle_redirects_and_pipe(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd)
+// int	handle_redirects_and_pipe(t_cmd *cmd,
+//	t_info *info, int *fd, int *pipe_fd)
 // {
 // 	int	status;
 //
