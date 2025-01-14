@@ -51,7 +51,6 @@ SRC_FILES	:=		builtins\
 					cmds_utils\
 					envp\
 					exe_utils\
-					execute_cmd\
 					export_builtin\
 					heredoc\
 					signals\
@@ -66,7 +65,8 @@ SRC_FILES	:=		builtins\
 					vars_utils\
 					free_utils\
 					update_env\
-					add_cmd_arg
+					add_cmd_arg\
+					execute_commands
 
 SRC			:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))

@@ -6,13 +6,14 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:38:36 by pibouill          #+#    #+#             */
-/*   Updated: 2024/12/06 13:39:12 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/01/14 10:47:02 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 // #include <endian.h>
 #include <signal.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 //can norminette cmd_to_path
@@ -84,7 +85,7 @@ void	prepare_exe(t_cmd *cmd, int status, t_info *info, int fd[2])
 	}
 }
 
-int	set_redirs(t_cmd *cmd, t_info *info, int *status, int fd[2])
+int	set_redirs(t_cmd *cmd, t_info *info, int fd[2])
 {
 	int	i;
 
@@ -93,45 +94,21 @@ int	set_redirs(t_cmd *cmd, t_info *info, int *status, int fd[2])
 	{
 		if (cmd->input && (i + '0' == cmd->order->input[cmd->order->i_input]))
 			exe_input(&fd[0], cmd->input[cmd->order->i_input++],
-				&(info->exit_code), status);
+				&(info->exit_code), &info->status);
 		else if (cmd->output && (i + '0'
 				== cmd->order->output[cmd->order->i_output]))
 			exe_output(&fd[1], cmd->output[cmd->order->i_output++],
-				&(info->exit_code), status);
+				&(info->exit_code), &info->status);
 		else if (cmd->append && (i + '0'
 				== cmd->order->append[cmd->order->i_append]))
 			exe_append(&fd[1], cmd->append[cmd->order->i_append++],
-				&(info->exit_code), status);
+				&(info->exit_code), &info->status);
 		else if (cmd->delimiter && (i + '0' == cmd->order->heredoc[0]))
-			exe_heredoc(cmd->delimiter, info, &fd[0], status);
+			exe_heredoc(cmd->delimiter, info, &fd[0], &info->status);
 		i++;
 	}
-	return (*status);
+	return (info->status);
 }
-
-// void	set_redirs(t_cmd *cmd, t_info *info, int *status, int fd[2])
-// {
-// 	int	i;
-//
-// 	i = 0;
-// 	while (i < cmd->order->count)
-// 	{
-// 		if (cmd->input && (i + '0' == cmd->order->input[cmd->order->i_input]))
-// 			exe_input(&fd[0], cmd->input[cmd->order->i_input++],
-// 				&(info->exit_code), status);
-// 		else if (cmd->output && (i + '0'
-// 				== cmd->order->output[cmd->order->i_output]))
-// 			exe_output(&fd[1], cmd->output[cmd->order->i_output++],
-// 				&(info->exit_code), status);
-// 		else if (cmd->append && (i + '0'
-// 				== cmd->order->append[cmd->order->i_append]))
-// 			exe_append(&fd[1], cmd->append[cmd->order->i_append++],
-// 				&(info->exit_code), status);
-// 		else if (cmd->delimiter && (i + '0' == cmd->order->heredoc[0]))
-// 			exe_heredoc(cmd->delimiter, info, &fd[0], status);
-// 		i++;
-// 	}
-// }
 
 void	ft_wait(pid_t pid, int status, t_info *info)
 {
@@ -156,188 +133,3 @@ void	setup_child_signals(struct sigaction *sa)
 	sigemptyset(&sa->sa_mask);
 	sigaction(SIGINT, sa, NULL);
 }
-
-static void	cleanup_fds(t_exec_info *e_info)
-{
-	if (e_info->fd[0] != 0)
-		close(e_info->fd[0]);
-	if (e_info->fd[1] != 1)
-		close(e_info->fd[1]);
-	if (e_info->pipe_fd[1] != -1)
-		close(e_info->pipe_fd[1]);
-}
-
-static void	handle_next_command(t_cmd *cmd, t_exec_info *e_info)
-{
-	if (cmd->next)
-	{
-		close(e_info->pipe_fd[1]);
-		e_info->fd[0] = e_info->pipe_fd[0];
-	}
-}
-
-int	handle_redirects_and_pipe(t_cmd *cmd, t_info *info, int *fd, int *pipe_fd)
-{
-	int	status;
-
-	status = 0;
-	fd[1] = 1;
-	status = set_redirs(cmd, info, &status, fd);
-	if (cmd->next)
-	{
-		if (pipe(pipe_fd) == -1)
-		{
-			perror("pipe");
-			return (-1);
-		}
-		if (!cmd->output && !cmd->append)
-			fd[1] = pipe_fd[1];
-	}
-	return (status);
-}
-
-// int	handle_redirects_and_pipe(t_cmd *cmd, t_info *info, t_exec_info *e_info)
-// {
-// 	int	status;
-//
-// 	status = 0;
-// 	status = set_redirs(cmd, info, &status, e_info->fd);
-// 	if (cmd->next)
-// 	{
-// 		if (pipe(e_info->pipe_fd) == -1)
-// 		{
-// 			perror("pipe");
-// 			return (-1);
-// 		}
-// 		if (!cmd->output && !cmd->append)
-// 			e_info->fd[1] = e_info->pipe_fd[1];
-// 	}
-// 	return (status);
-// }
-
-void	execute_command_part1(t_cmd *cmd, t_info *info, t_exec_info *e_info)
-{
-	pid_t				pid;
-	struct sigaction	sa;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		info->exit_code = errno;
-		cleanup_fds(e_info);
-		return ;
-	}
-	signal(SIGINT, SIG_IGN);
-	if (pid == 0)
-	{
-		setup_child_signals(&sa);
-		prepare_exe(cmd, 0, info, e_info->fd);
-		ft_execve(cmd, info, e_info->pipe_fd);
-	}
-}
-
-static void	init_execution(t_exec_info *e_info)
-{
-	e_info->last_pid = -1;
-	e_info->fd[0] = 0;
-	e_info->fd[1] = 1;
-}
-
-static void	process_single_cmd(t_cmd *cmd, t_info *info, t_exec_info *e_info)
-{
-	e_info->status = handle_redirects_and_pipe(cmd, info, e_info->fd, 
-			e_info->pipe_fd);
-	if (e_info->status == -1)
-		return ;
-	if (is_builtin(cmd) && !cmd->next && !cmd->prev)
-		info->exit_code = run_builtin(cmd, info, e_info->fd[1]);
-	else
-		execute_command_part1(cmd, info, e_info);
-	handle_next_command(cmd, e_info);
-}
-
-void	execute_commands(t_cmd *cmd, t_info *info, int status, int i)
-{
-	t_exec_info	e_info;
-
-	(void)i;
-	init_execution(&e_info);
-	while (cmd != NULL)
-	{
-		e_info.status = status;
-		process_single_cmd(cmd, info, &e_info);
-		if (e_info.status == -1)
-			break ;
-		cmd = cmd->next;
-	}
-	ft_wait(e_info.last_pid, e_info.status, info);
-	signal(SIGINT, ft_signal_handler);
-}
-
-// pierre do
-// void	execute_commands(t_cmd *cmd, t_info *info, int status, int i)
-// {
-// 	int		pipe_fd[2];
-// 	pid_t	pid;
-// 	int		fd[2];
-//
-// 	pid = -1;
-// 	fd[0] = 0;
-// 	while (cmd != NULL)
-// 	{
-// 		fd[1] = 1;
-// 		i = 0;
-// 		status = 0;
-// 		set_redirs(cmd, info, &status, fd);
-// 		i = exe_pipe(pipe_fd, fd, cmd);
-// 		if (i)
-// 			return ;
-// 		if (is_builtin(cmd) && cmd->next == NULL && cmd->prev == NULL)
-// 		{
-// 			if (status != -1)
-// 				info->exit_code = run_builtin(cmd, info, fd[1]);
-// 		}
-// 		else
-// 		{
-// 			pid = fork();
-// 			if (pid == -1)
-// 			{
-// 				perror("fork");
-// 				info->exit_code = errno;
-// 				if (fd[0] != 0)
-// 					close(fd[0]);
-// 				if (fd[1] != 1)
-// 					close(fd[1]);
-// 				return ;
-// 			}
-// 			signal(SIGINT, SIG_IGN);
-// 			if (pid == 0)
-// 			{
-// 				struct sigaction	sa;
-// 				sa.sa_handler = SIG_DFL;
-// 				/*sa.sa_handler = sig_handl_child;*/
-// 				sa.sa_flags = SA_RESTART;
-// 				sigemptyset(&sa.sa_mask);
-// 				sigaction(SIGINT, &sa, NULL);
-// 				//signal(SIGINT, SIG_DFL);
-// 				prepare_exe(cmd, status, info, fd);
-// 				ft_execve(cmd, info, pipe_fd);
-// 			}
-// 		}
-// 		if (fd[0] != 0)
-// 			close(fd[0]);
-// 		if (fd[1] != 1)
-// 			close(fd[1]);
-// 		if (cmd->next)
-// 		{
-// 			close(pipe_fd[1]);
-// 			fd[0] = pipe_fd[0];
-// 		}
-// 		cmd = cmd->next;
-// 	}
-// 	ft_wait(pid, status, info);
-// 	signal(SIGINT, ft_signal_handler);
-// }
-
-//test 136
