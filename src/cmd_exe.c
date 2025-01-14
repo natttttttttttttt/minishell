@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:38:36 by pibouill          #+#    #+#             */
-/*   Updated: 2025/01/14 10:47:02 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:40:19 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,28 +108,4 @@ int	set_redirs(t_cmd *cmd, t_info *info, int fd[2])
 		i++;
 	}
 	return (info->status);
-}
-
-void	ft_wait(pid_t pid, int status, t_info *info)
-{
-	if (pid != -1)
-	{
-		waitpid(pid, &status, 0);
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-			write(1, "\n", 1);
-		if (WIFEXITED(status))
-			info->exit_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			info->exit_code = 128 + WTERMSIG(status);
-	}
-	while (wait(NULL) > 0)
-		;
-}
-
-void	setup_child_signals(struct sigaction *sa)
-{
-	sa->sa_handler = SIG_DFL;
-	sa->sa_flags = SA_RESTART;
-	sigemptyset(&sa->sa_mask);
-	sigaction(SIGINT, sa, NULL);
 }

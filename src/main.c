@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:40:40 by pibouill          #+#    #+#             */
-/*   Updated: 2025/01/08 16:17:32 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:38:54 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,11 @@ static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 	info->tokens = token_lst;
 	if (save_tokens(info->input, &token_lst, info))
 	{
-		//print_list(token_lst);
 		vars_to_value(token_lst, *info);
 		cmd_lst = parse_tokens(token_lst, info);
 		info->cmds = cmd_lst;
 		if (cmd_lst)
 		{
-			// print_command(cmd_lst);
 			cmd_to_path(cmd_lst, info);
 			execute_commands(cmd_lst, info);
 			free_command_list(&cmd_lst);
@@ -48,25 +46,6 @@ static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 		free_token_lst(token_lst);
 	}
 	free(info->input);
-	// 	// Debugging: Check if token_lst is valid before freeing
-	// 	if (token_lst)
-	// 	{
-	// 		printf("Freeing token_lst at %p\n", (void *)token_lst);
-	// 		free_token_lst(token_lst);
-	// 	}
-	// 	else
-	// 		printf("token_lst is NULL, not freeing.\n");
-	// }
-	// // Debugging: Check if info->input is valid before freeing
-	// if (info->input)
-	// {
-	// 	printf("Freeing info->input at %p\n", (void *)info->input);
-	// 	free(info->input);
-	// }
-	// else
-	// {
-	// 	printf("info->input is NULL, not freeing.\n");
-	// }
 }
 
 static int	flag_and_input_check(t_info *info)

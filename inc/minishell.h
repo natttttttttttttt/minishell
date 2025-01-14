@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:34:38 by pibouill          #+#    #+#             */
-/*   Updated: 2025/01/14 10:58:49 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:35:20 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,5 +199,13 @@ void	sig_handl_child(int signal);
 // utils
 void	ft_putstr_fd(int fd, char *str);
 int		parsing_ok(char *str);
+void	syntax_error(int check, t_info *info);
+
+// token utils
+void	tkn_input(t_token **tokens, t_info *info, t_cmd **cmd, int *i);
+void	tkn_output(t_token **tokens, t_info *info, t_cmd **cmd, int *i);
+void	tkn_append(t_token **tokens, t_info *info, t_cmd **cmd, int *i);
+void	tkn_heredoc(t_token **tokens, t_info *info, t_cmd **cmd, int *i);
+void	tkn_pipe(t_token **tokens, t_info *info, t_cmd **cmd, int *i);
 
 #endif
