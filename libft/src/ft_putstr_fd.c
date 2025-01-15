@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pibouill <pibouill@student.42prague.com    +#+  +:+       +#+        */
+/*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 12:01:54 by pibouill          #+#    #+#             */
-/*   Updated: 2023/10/22 15:51:26 by pibouill         ###   ########.fr       */
+/*   Created: 2025/01/14 14:36:16 by pibouill          #+#    #+#             */
+/*   Updated: 2025/01/14 14:37:23 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-/*
-** Writes *s to fd
-*/
+#include "../inc/libft.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {

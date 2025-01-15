@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:34:38 by pibouill          #+#    #+#             */
-/*   Updated: 2025/01/14 13:35:20 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:39:08 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <dirent.h>
+# include "../libft/inc/libft.h"
 
 typedef enum e_type
 {
@@ -113,7 +114,7 @@ void	free_lst(t_token **lst);
 void	lst_add_back(t_token **lst, t_token *new);
 //libft
 char	*ft_itoa(int n);
-char	*ft_strchr(char *str, int c);
+char	*ft_strchr(const char *str, int c);
 char	*ft_strdup(const char *src);
 char	*ft_strjoin(char *s1, const char *s2);
 char	*ft_strrchr(const char *str, int c);
@@ -197,7 +198,6 @@ void	ft_signal_handler(int signal);
 void	sig_handl_child(int signal);
 
 // utils
-void	ft_putstr_fd(int fd, char *str);
 int		parsing_ok(char *str);
 void	syntax_error(int check, t_info *info);
 

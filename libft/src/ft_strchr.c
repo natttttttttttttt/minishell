@@ -16,10 +16,12 @@
 ** Returns pointer to first c in *s
 */
 
-char	*ft_strchr(char *str, int c)
+char	*ft_strchr(const char *str, int c)
 {
 	char	*st;
 
+	if (str == NULL)
+		return (NULL);
 	st = (char *)str;
 	if (c == 0)
 		return (st + ft_strlen(str));

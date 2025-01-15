@@ -51,12 +51,10 @@ SRC_FILES		=		ft_atoi\
 						ft_isdigit\
 						ft_isprint\
 						ft_itoa\
-						ft_lstadd_back\
 						ft_lstadd_front\
 						ft_lstclear\
 						ft_lstdelone\
 						ft_lstiter\
-						ft_lstlast\
 						ft_lstmap\
 						ft_lstnew\
 						ft_lstsize\
@@ -70,15 +68,15 @@ SRC_FILES		=		ft_atoi\
 						ft_putchar\
 						ft_putchar_fd\
 						ft_putendl_fd\
+						ft_putstr_fd\
 						ft_putnbr\
-						ft_putnbr_fd\
 						ft_putstr\
 						ft_putstr_fd\
 						ft_split\
 						ft_str_arr_len\
-						ft_strchr\
 						ft_strdup\
 						ft_striteri\
+						ft_strchr\
 						ft_strjoin\
 						ft_strlcat\
 						ft_strlcpy\
