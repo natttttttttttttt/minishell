@@ -68,8 +68,7 @@ SRC_FILES	:=		builtins\
 					add_cmd_arg\
 					execute_commands\
 					token_utils\
-					cmd_exe_utils\
-					cmd_to_path_utils
+					cmd_exe_utils
 
 SRC			:= $(addprefix $(SRC_DIR)/, $(addsuffix .c, $(SRC_FILES)))
 OBJ			:= $(addprefix $(BIN_DIR)/, $(addsuffix .o, $(SRC_FILES)))
