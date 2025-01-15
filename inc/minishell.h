@@ -172,6 +172,8 @@ void	exit_builtin(char **args, t_info *info);
 int		export_builtin(char **args, t_info *info, int i);
 int		pwd_builtin(void);
 int		unset_builtin(char **args, t_info *info, int i, int j);
+void	handle_not_builtin(t_cmd *cmd_lst, t_info *info);
+char	*get_cmd(t_info *info, char *cmd);
 //cleanup
 void	free_arr(char **arr);
 void	free_command_list(t_cmd **head);
