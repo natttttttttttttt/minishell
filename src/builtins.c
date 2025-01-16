@@ -12,7 +12,6 @@
 
 #include "../inc/minishell.h"
 #include <stdio.h>
-//can norminette
 
 int	pwd_builtin(void)
 {

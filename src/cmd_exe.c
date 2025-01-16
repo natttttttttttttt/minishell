@@ -11,12 +11,9 @@
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-// #include <endian.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-//can norminette cmd_to_path
 
 void	sig_handl_child(int signal);
 

@@ -12,28 +12,6 @@
 
 #include "../inc/minishell.h"
 
-//can norminette
-
-// void	print_order(t_order *order)
-// {
-// 	if (order == NULL)
-// 	{
-// 		printf("Order is NULL\n");
-// 		return ;
-// 	}
-// 	printf("Order details:\n");
-// 	// Print the strings (using NULL check)
-// 	printf("Input: %s\n", (order->input) ? order->input : "NULL");
-// 	printf("Output: %s\n", (order->output) ? order->output : "NULL");
-// 	printf("Append: %s\n", (order->append) ? order->append : "NULL");
-// 	printf("Heredoc: %s\n", (order->heredoc) ? order->heredoc : "NULL");
-// 	// Print the integers
-// 	printf("Input index: %d\n", order->i_input);
-// 	printf("Output index: %d\n", order->i_output);
-// 	printf("Append index: %d\n", order->i_append);
-// 	printf("Count: %d\n", order->count);
-// }
-
 void	syntax_error(int check, t_info *info)
 {
 	if (check)

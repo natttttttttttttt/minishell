@@ -60,40 +60,6 @@ char	**copy_envp(char **envp)
 	return (my_envp);
 }
 
-// char	**copy_envp(char **envp)
-// {
-// 	int		i;
-// 	int		n;
-// 	int		j;
-// 	char	**my_envp;
-//
-// 	i = 0;
-// 	n = 0;
-// 	while (envp[n] != NULL)
-// 		n++;
-// 	my_envp = malloc((n + 1) * sizeof(char *));
-// 	if (!my_envp)
-// 		return (NULL);
-// 	while (i < n)
-// 	{
-// 		my_envp[i] = ft_strdup(envp[i]);
-// 		if (!my_envp[i])
-// 		{
-// 			j = 0;
-// 			while (j < i)
-// 			{
-// 				free(my_envp[j]);
-// 				j++;
-// 			}
-// 			free(my_envp);
-// 			return (NULL);
-// 		}
-// 		i++;
-// 	}
-// 	my_envp[n] = NULL;
-// 	return (my_envp);
-// }
-
 char	*ft_getenv(char **my_envp, char *var)
 {
 	int	i;
