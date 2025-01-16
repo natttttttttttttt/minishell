@@ -14,39 +14,58 @@
 #include <dirent.h>
 #include <unistd.h>
 
-char	*get_cmd(t_info *info, char *cmd)
+void	do_close_dir(DIR *dir, t_cmd *cmd_lst, t_info *info)
 {
-	char	*try;
-	char	*tmp;
-	int		i;
-
-	i = 0;
-	while (info->paths[i])
+	closedir(dir);
+	if (ft_strncmp(cmd_lst->args[0], "./", 2) == 0
+		|| ft_strncmp(cmd_lst->args[0], "../", 3) == 0
+		|| ft_strncmp(cmd_lst->args[0], "/", 1) == 0)
 	{
-		tmp = ft_strjoin(info->paths[i], "/");
-		if (!tmp)
-			return (perror("Alloc failed for tmp"), NULL);
-		try = ft_strjoin(tmp, cmd);
-		if (!try)
-			return (perror("Alloc failed for try"), NULL);
-		if (access(try, X_OK) == 0)
-		{
-			free(tmp);
-			return (try);
-		}
-		free(try);
-		free(tmp);
-		i++;
+		printf("%s: is a directory\n", cmd_lst->args[0]);
+		info->exit_code = 126;
 	}
-	printf("%s: command not found\n", cmd);
+	else
+	{
+		printf("%s: command not found\n", cmd_lst->args[0]);
+		info->exit_code = 127;
+	}
+	free(cmd_lst->args[0]);
+	cmd_lst->args[0] = ft_strdup("");
+}
+
+static void	cmd_not_found(t_cmd *cmd_lst, t_info *info)
+{
+	printf("%s: command not found\n", cmd_lst->args[0]);
 	info->exit_code = 127;
-	return (ft_strdup(""));
+	free(cmd_lst->args[0]);
+	cmd_lst->args[0] = ft_strdup("");
+}
+
+static void	not_possible(t_info *info, t_cmd *cmd_lst)
+{
+	if (errno == ENOENT)
+		info->exit_code = 127;
+	else
+		info->exit_code = 126;
+	perror(cmd_lst->args[0]);
+	free(cmd_lst->args[0]);
+	cmd_lst->args[0] = ft_strdup("");
+}
+
+static void	possible(t_cmd *cmd_lst, t_info *info)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = cmd_lst->args[0];
+	cmd_lst->args[0] = get_cmd(info, tmp);
+	free(tmp);
 }
 
 void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 {
-	char	*tmp;
 	DIR		*dir;
+
 	while (cmd_lst)
 	{
 		if (cmd_lst->args[0][0] == '\0' && cmd_lst->args[1])
@@ -56,47 +75,16 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 			if (!is_builtin(cmd_lst))
 			{
 				dir = opendir(cmd_lst->args[0]);
-				if ((ft_strchr(cmd_lst->args[0], '/'))  && (errno == ENOENT || errno == EACCES))
-				{
-					if (errno == ENOENT)
-						info->exit_code = 127;
-					else
-						info->exit_code = 126;
-					perror(cmd_lst->args[0]);
-					free(cmd_lst->args[0]);
-					cmd_lst->args[0] = ft_strdup("");
-				}
+				if ((ft_strchr(cmd_lst->args[0], '/'))
+					&& (errno == ENOENT || errno == EACCES))
+					not_possible(info, cmd_lst);
 				else if (dir != NULL)
-				{
-					closedir(dir);
-					if (ft_strncmp(cmd_lst->args[0], "./", 2) == 0
-						|| ft_strncmp(cmd_lst->args[0], "../", 3) == 0
-						|| ft_strncmp(cmd_lst->args[0], "/", 1) == 0)
-					{
-						printf("%s: is a directory\n", cmd_lst->args[0]);
-						info->exit_code = 126;
-					}
-					else
-					{
-						printf("%s: command not found\n", cmd_lst->args[0]);
-						info->exit_code = 127;
-					}
-					free(cmd_lst->args[0]);
-					cmd_lst->args[0] = ft_strdup("");
-				}
-				else if ((access(cmd_lst->args[0], F_OK) == 0) && !(ft_strchr(cmd_lst->args[0], '/')))
-				{
-					printf("%s: command not found\n", cmd_lst->args[0]);
-					info->exit_code = 127;
-					free(cmd_lst->args[0]);
-					cmd_lst->args[0] = ft_strdup("");
-				}
+					do_close_dir(dir, cmd_lst, info);
+				else if ((access(cmd_lst->args[0], F_OK) == 0)
+					&& !(ft_strchr(cmd_lst->args[0], '/')))
+					cmd_not_found(cmd_lst, info);
 				else if (access(cmd_lst->args[0], X_OK) != 0)
-				{
-					tmp = cmd_lst->args[0];
-					cmd_lst->args[0] = get_cmd(info, tmp);
-					free(tmp);
-				}
+					possible(cmd_lst, info);
 			}
 		}
 		cmd_lst = cmd_lst->next;
