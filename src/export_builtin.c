@@ -21,7 +21,7 @@ int	process_export_arg(char *arg, t_info *info)
 
 	split = ft_split(arg, '=');
 	if (!split)
-		return (12); // don't need to be free here?
+		return (12);
 	var = split[0];
 	value = split[1];
 	ret = 0;

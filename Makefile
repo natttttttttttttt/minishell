@@ -36,6 +36,7 @@ GREEN			:=	[38;5;10m
 BLUE			:= 	[38;5;14m
 YELLOW			:=	[38;5;226m
 RESET			:=	[38;5;7m
+
 PREFIX			:=	[$(YELLOW)$(NAME)$(RESET)]\t\t\t\t
 SUBMOD_PREFIX	:=	[$(BLUE)Submodules$(RESET)]\t\t\t\t
 
@@ -89,7 +90,7 @@ $(NAME): $(OBJ)
 
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c Makefile libft/src/*.c | $(BIN_DIR)
 	+@$(CC) -c $(CFLAGS) $(INC_DIR) $(LIBFT_INC) $(READINC) $< -o $@
-	+@echo "$(PREFIX)Compiling... $(BLUE)$(notdir $<)$(END_COLOR)"
+	+@echo "$(PREFIX)Compiling... $(GREEN)$(notdir $<) $(END_COLOR)"
 
 $(BIN_DIR):
 	+@mkdir $(BIN_DIR)

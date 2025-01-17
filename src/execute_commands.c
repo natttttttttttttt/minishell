@@ -30,11 +30,9 @@ void	fork_it(t_cmd *cmd, t_info *info,
 	signal(SIGINT, SIG_IGN);
 	if (exe_info->pid == 0)
 	{
-		/*sa.sa_handler = sig_handl_child;*/
 		sa.sa_flags = SA_RESTART;
 		sigemptyset(&sa.sa_mask);
 		sigaction(SIGINT, &sa, NULL);
-		//signal(SIGINT, SIG_DFL);
 		prepare_exe(cmd, info->status, info, exe_info->fd);
 		ft_execve(cmd, info, exe_info->pipe_fd);
 	}
