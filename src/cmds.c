@@ -56,10 +56,16 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 	while (tokens)
 	{
 		check_tkn(&tokens, info, &cmd, &i);
+		if (info->err)
+		{
+			free_command_list(&head);
+			info->err = 0;
+			break ;
+		}
 		tokens = tokens->next;
 	}
-	cmd->order->count = i;
-	if (info->err)
-		free_command_list(&head);
-	return (head);
+	if (head)
+		return (cmd->order->count = i, head);
+	else 
+		return (NULL);
 }

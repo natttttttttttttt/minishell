@@ -23,17 +23,25 @@ char	*get_cmd(t_info *info, char *cmd)
 	{
 		tmp = ft_strjoin(info->paths[i], "/");
 		if (!tmp)
-			return (perror("Alloc failed for tmp"), NULL);
+			return (perror("Alloc failed for tmp"), ft_strdup(""));
 		try = ft_strjoin(tmp, cmd);
 		if (!try)
-			return (perror("Alloc failed for try"), NULL);
+			return (perror("Alloc failed for try"), ft_strdup(""));
 		if (access(try, X_OK) == 0)
 			return (free(tmp), try);
 		free(try);
 		free(tmp);
 		i++;
 	}
-	printf("%s: command not found\n", cmd);
-	info->exit_code = 127;
+	if (!ft_strncmp("./", cmd, 2) && access(cmd, X_OK) != 0)
+	{
+		perror(cmd);
+		info->exit_code = 126;
+	}
+	else
+	{
+		printf("%s: command not found\n", cmd);
+		info->exit_code = 127;
+	}
 	return (ft_strdup(""));
 }
