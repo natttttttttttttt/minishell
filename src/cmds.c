@@ -38,6 +38,17 @@ void	check_tkn(t_token **tokens, t_info *info, t_cmd **cmd, int *i)
 		tkn_pipe(tokens, info, cmd, i);
 }
 
+static t_cmd	*do_cmd_new(t_token *tokens, t_cmd **cmd, t_info *info)
+{
+	t_cmd	*head;
+
+	head = NULL;
+	*cmd = cmd_new();
+	head = *cmd;
+	syntax_error(tokens->type == PIPE, info);
+	return (head);
+}
+
 t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 {
 	t_cmd	*head;
@@ -48,11 +59,7 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 	head = NULL;
 	i = 0;
 	if (tokens)
-	{
-		cmd = cmd_new();
-		head = cmd;
-		syntax_error(tokens->type == PIPE, info);
-	}
+		head = do_cmd_new(tokens, &cmd, info);
 	while (tokens)
 	{
 		check_tkn(&tokens, info, &cmd, &i);
@@ -66,6 +73,6 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info)
 	}
 	if (head)
 		return (cmd->order->count = i, head);
-	else 
+	else
 		return (NULL);
 }
