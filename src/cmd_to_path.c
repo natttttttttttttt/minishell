@@ -17,9 +17,7 @@
 void	do_close_dir(DIR *dir, t_cmd *cmd_lst, t_info *info)
 {
 	closedir(dir);
-	if (ft_strncmp(cmd_lst->args[0], "./", 2) == 0
-		|| ft_strncmp(cmd_lst->args[0], "../", 3) == 0
-		|| ft_strncmp(cmd_lst->args[0], "/", 1) == 0)
+	if (ft_strchr(cmd_lst->args[0], '/'))
 	{
 		printf("%s: is a directory\n", cmd_lst->args[0]);
 		info->exit_code = 126;

@@ -1,0 +1,794 @@
+commit 43419c90f869fde2c33fd3bc4e83e0815f315644
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Jan 21 10:00:21 2025 +0100
+
+    to_do addition
+
+commit ee58ab7e30c32719d6dff5eed36d0be197adc505
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Mon Jan 20 15:39:16 2025 +0100
+
+    more to to_do
+
+commit 2c63541a7734f094a8d65dedcc8773bdb1de51aa
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sun Jan 19 09:24:39 2025 +0100
+
+    rm to_norminette and created to_do.md
+
+commit 7a3676625ea25ee973dab0c7a225de820d95e06a
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Fri Jan 17 20:09:44 2025 +0100
+
+    cleaning stuff around
+
+commit e5869703b098fc56a691e074d513c2dc06e8d4cb
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Thu Jan 16 19:52:35 2025 +0100
+
+    cleaning things around
+
+commit 93352d8c6506d5cbb499e4ba28955214e47efd7b
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Thu Jan 16 17:12:13 2025 +0100
+
+    Makefile update
+
+commit 1c24682e849a1ece7c066d61186eab4b6a640df9
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Thu Jan 16 16:40:43 2025 +0100
+
+    norminette cmd_to_path
+
+commit dc5d7f70d8739359da7153d15cc03b94bd6f0984
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Wed Jan 15 17:49:44 2025 +0100
+
+    new/old cmd_to_path
+
+commit ec1c719994d0f04865c43373a3015580e9bc4e16
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Wed Jan 15 08:42:57 2025 +0100
+
+    now using stat() instead of opendir()
+
+commit faddcb6bdc6fc9fdc6e1e927a9e0a529efbc1851
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Wed Jan 15 08:02:31 2025 +0100
+
+    cleaning stuff around
+
+commit 84a301342aa60d649853a865cbfdc29b3dc911a4
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Jan 14 13:41:01 2025 +0100
+
+    norminetting stuff
+
+commit 0bd11d0591c4cd4d82ca4e91630f7aa3f5d78559
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Jan 14 13:15:37 2025 +0100
+
+    norminetted execute_command and everything is back to normal now
+
+commit 53b5a1483da423df4b37a9e74c5533a67804a8ce
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Jan 14 10:02:41 2025 +0100
+
+    cleaning stuff and norminetting around. still issue with infinite loop when cat bigfile and pipe echo somehting
+
+commit c0dd1fd70d1ad1a26208ea32438da3286f1ed73f
+Author: Natalia Tsvetkova <ntsvetko@c2r5s1.42prague.com>
+Date:   Mon Jan 13 18:35:49 2025 +0100
+
+    norminetted tokens
+
+commit f10df86e9fbaeee1a610e6f51422ce1d79f71380
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Mon Jan 13 09:34:08 2025 +0100
+
+    info added in to_norminette
+
+commit 0b66fa5708fe0f5ac2eabd6f461045e7493cab64
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Mon Jan 13 09:32:21 2025 +0100
+
+    attempt to norminette execute_command. infinite loop happening now. putting info in to_norminette
+
+commit e7e6264b2388e31bb2c916fc2d5aec1b4eb346f5
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sun Jan 12 14:25:50 2025 +0100
+
+    execute_command() was the issue. reverted back to og state. updated to_norminette. created test makefile rule
+
+commit d5121f04fc1df23adf004c997faad1037c87313c
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sun Jan 12 13:05:47 2025 +0100
+
+    to_norminette.md stuff
+
+commit 0f8e4433ff2a4e70885d41ccb6e74b19e87430ee
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Sat Jan 11 01:12:45 2025 +0100
+
+    checked tester
+
+commit 3095ada16eb1fd2c70b94266cb6644269c399dfe
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Sat Jan 11 01:10:30 2025 +0100
+
+    checked tester
+
+commit ee155e88cb156a1c5801c426257431d3afdcf1b0
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Sat Jan 11 01:03:16 2025 +0100
+
+    checked tester
+
+commit a47f2dcf65f8bfff29b8bdbd92e6231676edd908
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Wed Jan 8 16:46:55 2025 +0100
+
+    norminette add_cmd_arg. parse_tokens not done yet this bitch
+
+commit bd1f95c861b796618da88020128c2cb93c8ac204
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Wed Jan 8 16:18:22 2025 +0100
+
+    norminette envp
+
+commit 37bbb761a18a46e33b2c472eb8fbcf8de20d496e
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Wed Jan 8 16:14:44 2025 +0100
+
+    norminette envp, export_builtin, heredoc
+
+commit 64dc6adb4634dbf1c776685d5778c26d2e99a108
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Wed Jan 8 15:41:38 2025 +0100
+
+    norminette unset_builtin
+
+commit b291db05edd1dfb10d72b989609197ba2ebe2dd5
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Dec 24 12:17:30 2024 +0100
+
+    norminetted stuff and created note for whats left to do
+
+commit a212d0e732f0db3a1aa4584331f6d701c66951cd
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Dec 24 12:02:18 2024 +0100
+
+    norminette execute_cmd
+
+commit 9f1b0f3d1e09178a7ccbebd453591c36e976f3da
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Fri Dec 20 09:42:24 2024 +0100
+
+    updating stuff too
+
+commit 28fc8e97f205236baade0d06880abe6c00c376ce
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Fri Dec 20 07:57:40 2024 +0100
+
+    saving stuff
+
+commit 4d3a78834cd42f17a7da060ef58a6e574eab54a1
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Fri Dec 20 07:38:39 2024 +0100
+
+    removing vars_old once again
+
+commit f1a21b9916c4c0c1a13a8800ff7a7f2b77e419cb
+Merge: 9a18a5c 5f2b501
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Fri Dec 20 07:38:00 2024 +0100
+
+    no idea
+    Merge github.com:natttttttttttttt/minishell
+
+commit 9a18a5cf3466fb6c63b4a887b73bd07f39d5d27e
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Fri Dec 20 07:37:14 2024 +0100
+
+    removing vars_old. saved on its branch
+
+commit 5f2b501a015cb29944f3e9b3f9c8784261623ddb
+Merge: 3b4da19 1a909dc
+Author: pibouill <148201393+pibouill@users.noreply.github.com>
+Date:   Fri Dec 20 07:36:04 2024 +0100
+
+    Merge pull request #2 from natttttttttttttt/old_var_b
+    
+    adding vars_OLD to save for later in case
+
+commit 1a909dca235506d68787076b41880b73aca2070f
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Fri Dec 20 07:34:36 2024 +0100
+
+    adding vars_OLD to save for later in case
+
+commit 3b4da19f21d96420b8557afb444e67501ac76f04
+Merge: 28ea9d3 c0980e2
+Author: pibouill <148201393+pibouill@users.noreply.github.com>
+Date:   Wed Dec 18 13:03:55 2024 +0100
+
+    Merge pull request #1 from natttttttttttttt/test
+    
+    Fixed libft stuff
+
+commit c0980e209ff765bfb2fddee0fed36994bf4e430a
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Wed Dec 18 12:59:20 2024 +0100
+
+    FIIIIIIXXXEEEEEEEEEEEEEEEEED JIDOSFJIOSDJFIODSFBUIRBGIUSDFGBIUDFSBGUIDFBS AAAAAAAAAAAA
+
+commit a5eff02ae0f930d482e4b1fb0590215f499241bf
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Wed Dec 18 12:25:35 2024 +0100
+
+    adding libft dir (not submodule)
+
+commit 389958ead0ed2aefb8082806f0a93907b7a3ea73
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Wed Dec 18 12:23:31 2024 +0100
+
+    removing libft submodule and adding its utils in separate file
+
+commit c7b53cc5df06eab06065b089fb603a05d76992c9
+Author: Natalia Tsvetkova <ntsvetko@c2r10s1.42prague.com>
+Date:   Tue Dec 17 19:06:55 2024 +0100
+
+    fixing stuff:
+
+commit 81c0a64f556d6e53402b3cf1789ed55405542c21
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Dec 17 14:44:22 2024 +0100
+
+    pushing to test on linux
+
+commit 28ea9d3ee2e770a906bde4ce3e449a8fed447d18
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sun Dec 8 08:27:11 2024 +0100
+
+    wip
+
+commit c66083b61769ce934f01623a9e1eb0a18280d4f4
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sat Dec 7 11:22:17 2024 +0100
+
+    execute_command() has to be fixed with norminette. working on it now
+
+commit 69cc404e2408790ae2066e0c935d1767c237e6b8
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sat Dec 7 11:12:55 2024 +0100
+
+    fixed g var
+
+commit 686585aa4e09abdc8d2c022b11b8deb3076a64c7
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sat Dec 7 11:08:09 2024 +0100
+
+    norminette again. need to fix global var usage
+
+commit 4cab4426915369a8e8bd7abc5c0717a9918e156b
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sat Dec 7 10:49:22 2024 +0100
+
+    restructure and norminette
+
+commit e5174200ef273688724b55cf785fb42c62b3a518
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Thu Dec 5 15:07:07 2024 +0100
+
+    adding libft repo and restructure
+
+commit 547f4297e91499a5bed4472c7058fa7361be3be0
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Thu Dec 5 10:44:21 2024 +0100
+
+    norminetted execute_command
+
+commit 4784d59a6c3902b8a0e5f0a364b76354b73bf97b
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Thu Dec 5 10:25:21 2024 +0100
+
+    norminette execute_command
+
+commit dc8c07363c2f5daf42eccd3b5b96c6ce9f1a4dad
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Wed Nov 27 20:02:33 2024 +0100
+
+    Delete test
+
+commit 85a51c5924679965b5538f22f85b833709af5428
+Author: Natalia Tsvetkova <ntsvetko@c2r2s1.42prague.com>
+Date:   Wed Nov 27 20:01:56 2024 +0100
+
+    parsing.c norm
+
+commit f96c5eca38de60862eb9ecac29d8b1df5f8ee578
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Mon Nov 25 20:09:24 2024 +0100
+
+    nothing changed. norminette inc
+
+commit ecfac07b81b0091deb177a10b483571c36f963ea
+Author: Natalia Tsvetkova <ntsvetko@c2r2s3.42prague.com>
+Date:   Mon Nov 25 18:37:39 2024 +0100
+
+    norm
+
+commit 68d21036f6c655a5b6bdbee035dfed51922e5091
+Author: Natalia Tsvetkova <ntsvetko@c2r2s3.42prague.com>
+Date:   Mon Nov 25 17:23:47 2024 +0100
+
+    exe_utils
+
+commit abca1c5d2acc1c565ba66f3b7c77143783352bf1
+Author: Natalia Tsvetkova <ntsvetko@c2r2s3.42prague.com>
+Date:   Mon Nov 25 17:07:46 2024 +0100
+
+    export split
+
+commit 49688217f7be83e18f276396dd29bff86f55d775
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sun Nov 24 13:15:24 2024 +0100
+
+    started created separated files for builtins
+
+commit 2dcaec488ab5155bdd212b0e120d1be60d492373
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sun Nov 24 12:59:30 2024 +0100
+
+    new cd file for norminette
+
+commit 01b552e6f5b4a0c99ae288598d90e6c2ea4f0653
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sun Nov 24 12:11:03 2024 +0100
+
+    norminetted cmd_to_path
+
+commit 408ab28b27d8a4c759da5f12bcba892f0e348454
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Fri Nov 22 01:19:19 2024 +0100
+
+    order works?
+
+commit bea94ee061d0339cc2d2fd17a6944063f0f2d35c
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Nov 19 16:56:29 2024 +0100
+
+    cleaning main
+
+commit 3eb5964e6ee4c038a21bcb414288bfff3a867d2d
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Nov 19 16:53:46 2024 +0100
+
+    exit code fixed
+
+commit b9ce50c72c2a54e417254f4444a249ed5024eecb
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Nov 19 11:47:17 2024 +0100
+
+    testing stuff
+
+commit 4ff4d8e8cc386ab917a9274f060970a6dc9b9010
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Nov 19 11:40:09 2024 +0100
+
+    commands test script
+
+commit 6cf970e6f926d9aa45ed109e7ff582a4f4405e36
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Mon Nov 18 20:32:29 2024 +0100
+
+    fixed cmd exe
+
+commit 3f88b6181d4af85be3bb889a16bd02a72c54ae01
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sat Nov 16 15:53:20 2024 +0100
+
+    hehe
+
+commit 631ce54c410e050ec2556bda9edc4e128875f5c6
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sat Nov 16 14:15:17 2024 +0100
+
+    playing around to fix signals but nope
+
+commit ce321f650865f5bede802b7491056cccb4fc2c69
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sat Nov 16 12:35:42 2024 +0100
+
+    added libft submodule
+
+commit d953f4e90fe5bfbfdeb114642dd21c21e48b150f
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sat Nov 16 12:35:05 2024 +0100
+
+    removed libft
+
+commit 1efe7fb9213707d54a11e8b2d3b7bd21aa0a3d4e
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sat Nov 16 12:28:31 2024 +0100
+
+    adding libft and fixed ctrl+z signal (added full libft, will do submodule)
+
+commit 02a3b165ec57e1a5c17a392b2e0c489bd7eab4a5
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Sat Nov 16 12:08:40 2024 +0100
+
+    gitignore nfs files
+
+commit 3e1548d01799ad75670a0ae6b684b4701d786540
+Author: Natalia Tsvetkova <ntsvetko@c2r4s3.42prague.com>
+Date:   Fri Nov 15 19:03:54 2024 +0100
+
+    signals
+
+commit 8eb40aad9ff32ba2d1219003e04ba24732a28b13
+Author: Natalia Tsvetkova <ntsvetko@c2r2s1.42prague.com>
+Date:   Tue Nov 12 20:10:29 2024 +0100
+
+    comments
+
+commit f95e0dda79c78fcb3302bfd79e2b5e7fe2000dba
+Author: Natalia Tsvetkova <ntsvetko@c2r2s1.42prague.com>
+Date:   Tue Nov 12 20:04:07 2024 +0100
+
+    redirs left
+
+commit e67b9af57bf77dcb140f1654cc4301cbab61b36e
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Wed Nov 6 11:44:46 2024 +0100
+
+    added gitignore
+
+commit 9168ca8083f88190feedfcafe510ecf4ce5c1aa2
+Merge: 95761e4 f19f10d
+Author: pibouill <pibouill@student.42prague.com>
+Date:   Tue Nov 5 18:12:55 2024 +0100
+
+    Merge branch 'main' of github.com:natttttttttttttt/minishell
+
+commit f19f10da8ab36782018e9773d6ff2e1998bc1e59
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Tue Nov 5 17:41:39 2024 +0100
+
+    Delete test.c
+
+commit 438726cb6fd45cbb50d47742f84ebe022c8f4860
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Tue Nov 5 17:41:28 2024 +0100
+
+    Delete 87B4A2F1-202F-4178-8791-33B47592481C.jpeg
+
+commit bc9058c9bb17e1e7010105d51c214c23af6f3325
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Tue Nov 5 17:41:05 2024 +0100
+
+    Delete a
+
+commit d588195c4b01f268f3cb392b45ebb1b8328aa57d
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Tue Nov 5 17:40:57 2024 +0100
+
+    Delete s
+
+commit 0ba4c6bd72db970a37a5fbef0081b53c4d873986
+Author: Natalia Tsvetkova <ntsvetko@c2r1s2.42prague.com>
+Date:   Tue Nov 5 17:33:04 2024 +0100
+
+    env fix
+
+commit 95761e49e488de6e6bd73c49ad8025c6f51a7274
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Tue Nov 5 13:46:21 2024 +0100
+
+    Delete test.c
+
+commit c3f7eb0024b7b1edafb7b84dcbd9e00e55e51f95
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Tue Nov 5 13:46:06 2024 +0100
+
+    Delete s
+
+commit c7954689824064c61adfa097a5aaed3023fcd045
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Tue Nov 5 13:38:06 2024 +0100
+
+    Delete a
+
+commit 6f73f0a86b0318ad1d872fa6bf90d50954372683
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Tue Nov 5 13:37:48 2024 +0100
+
+    Delete 87B4A2F1-202F-4178-8791-33B47592481C.jpeg
+
+commit c9d366ad9d5ef2b4645d9dc3caefc8e26c23a02e
+Author: Natalia Tsvetkova <ntsvetko@c2r10s2.42prague.com>
+Date:   Sun Nov 3 21:39:55 2024 +0100
+
+    append
+
+commit b19c2f2493531473093fb0a188b163cbaeb687a9
+Author: Natalia Tsvetkova <ntsvetko@c2r2s3.42prague.com>
+Date:   Wed Oct 30 17:34:34 2024 +0100
+
+    output
+
+commit 3468725eb957100032fbdcb828212f82833a8760
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Fri Oct 25 09:46:35 2024 +0200
+
+    norm
+
+commit 2c40f9238600b089dcdc23e0776f33dcca0ddf25
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Wed Oct 23 10:00:17 2024 +0200
+
+    fixed? but exit codes
+
+commit 916a006ebd379311777ac3bd7ab15ab3e58a957b
+Author: Natalia Tsvetkova <ntsvetko@c2r2s5.42prague.com>
+Date:   Tue Oct 22 19:49:06 2024 +0200
+
+    cat <no | cat
+
+commit 3abdc9b3dfd363dd31b34bc05964c12468dfe72d
+Author: Natalia Tsvetkova <ntsvetko@c2r4s1.42prague.com>
+Date:   Tue Oct 15 18:17:54 2024 +0200
+
+    norm
+
+commit b8f865c429886120dd4e01421af6ab842e4ce04d
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Fri Oct 11 04:10:05 2024 +0200
+
+    Add files via upload
+
+commit 339ef22f6072a7150d2e0d7e2c12ad4a90d1e966
+Author: Natalia Tsvetkova <ntsvetko@c1r4s1.42prague.com>
+Date:   Thu Oct 10 18:59:56 2024 +0200
+
+    syntax err
+
+commit dbc62c528c4aed968d9ae1ab3692d3202210aab7
+Author: Natalia Tsvetkova <ntsvetko@c2r7s2.42prague.com>
+Date:   Mon Oct 7 19:27:04 2024 +0200
+
+    fixed  echo hi
+
+commit e5d8b4a9f4335562fcd49d48977685d4bb9427ba
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Sat Oct 5 21:58:34 2024 +0200
+
+    pizdec
+
+commit cf454a4dbb77d2967b37ab14335f77883f8793a6
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Fri Oct 4 23:04:03 2024 +0200
+
+    hell
+
+commit b1bc99289aca26dd404695816d2ba249dfa7cea1
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Thu Oct 3 21:50:20 2024 +0200
+
+    idk
+
+commit 0b3967d2d0f07175602ece642b86c1434f1f84bb
+Author: Natalia Tsvetkova <ntsvetko@c2r6s4.42prague.com>
+Date:   Thu Oct 3 18:06:49 2024 +0200
+
+    vars leaks fixed?
+
+commit 81d3f20d201bc9305012f812156fac93f87ec356
+Author: Natalia Tsvetkova <ntsvetko@c2r7s2.42prague.com>
+Date:   Tue Oct 1 18:01:14 2024 +0200
+
+    leaks
+
+commit 5bb1f2dcbf8cd96b3e6de323747e7d02934487b4
+Author: Natalia Tsvetkova <ntsvetko@c2r6s2.42prague.com>
+Date:   Mon Sep 30 14:39:52 2024 +0200
+
+    main norm
+
+commit a30436f424ab3a6375b23ed3e651abc3598d09cd
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Sat Sep 21 18:14:06 2024 +0200
+
+    idk
+
+commit 5d7b40b4d9c14ff019ef7754d23778d3d48df57a
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Wed Sep 18 16:04:53 2024 +0200
+
+    Delete .nfs0000000001c1174300000282
+
+commit 035677078114d15e5c06f727b8ecd8bd4d84c4ad
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Wed Sep 18 16:04:45 2024 +0200
+
+    Delete .vscode directory
+
+commit f3592e483b87aa00b5eeaf1b2ba3373e0a6a8c75
+Author: Natalia Tsvetkova <ntsvetko@c2r10s3.42prague.com>
+Date:   Wed Sep 18 16:02:07 2024 +0200
+
+    check >l >0
+
+commit 9a9cc8ddd74ee5f53859123551266b5970de800c
+Author: Natalia Tsvetkova <ntsvetko@c3r5s3.42prague.com>
+Date:   Tue Sep 17 17:05:59 2024 +0200
+
+    exit
+
+commit 29a2f7df2b2efce7c9017be1a9e245bdc14e7233
+Author: Natalia Tsvetkova <ntsvetko@c2r3s1.42prague.com>
+Date:   Mon Sep 16 18:13:41 2024 +0200
+
+    syntax
+
+commit 38e25c70028e9a01250aaa8b59606fcd15d2352a
+Author: Natalia Tsvetkova <ntsvetko@c2r3s1.42prague.com>
+Date:   Mon Sep 16 18:11:33 2024 +0200
+
+    syntax
+
+commit eb92d483beb10376049e837934110f2c1d08c8ea
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Sat Sep 14 07:39:15 2024 +0200
+
+    tf are those leaks
+
+commit d444593c2ccd193b7d4dc865b1e70adff8716185
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Fri Sep 13 05:32:01 2024 +0200
+
+    quotes exit code + 0 recognition
+
+commit eb2fdfcd583921ea46708fcebd6d34dc419135f4
+Author: Natalia Tsvetkova <ntsvetko@c2r10s1.42prague.com>
+Date:   Thu Sep 12 20:27:58 2024 +0200
+
+    fixed export, check echo
+
+commit 4d96136409ad6aa3253c3ae17913c933286b8bed
+Author: Natalia Tsvetkova <ntsvetko@c2r9s1.42prague.com>
+Date:   Tue Sep 10 16:24:06 2024 +0200
+
+    on fire
+
+commit 45b792a8fb97451c802ec9881760622163268e12
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Tue Sep 10 10:01:44 2024 +0200
+
+    cd no args
+
+commit 5b0d1968833d2657d7f2c0d3fa8f18994a8a7419
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Tue Sep 10 07:33:43 2024 +0200
+
+    export unset fixed cd
+
+commit 6c843f7cef6928016733473fdc30085579ca2265
+Author: Natalia Tsvetkova <ntsvetko@c2r10s1.42prague.com>
+Date:   Mon Sep 9 18:09:44 2024 +0200
+
+    split
+
+commit ac37f7a568f23a015e34be4910091c7af0474c12
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Mon Sep 9 05:23:41 2024 +0200
+
+    export is fucked
+
+commit 25e1563d2d29b3937b1a17a76297a734cab1c476
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Sun Sep 8 05:50:27 2024 +0200
+
+    am i dumb with env
+
+commit 041709a366917112c07db792b89f709507e5ce2e
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Sat Sep 7 22:36:31 2024 +0200
+
+    pwd no pipe
+
+commit b5651ce6bec882bf4c29d1fb8888ec7879582f67
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Sat Sep 7 05:56:11 2024 +0200
+
+    cat cat ls
+
+commit 8eab08f894488b2dafcb927e76d8cf623bf38d0a
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Thu Sep 5 10:56:48 2024 +0200
+
+    idk
+
+commit cabf909a3a9e21b0969750905340d27d7f9fe21c
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Thu Sep 5 09:38:00 2024 +0200
+
+    wtf
+
+commit 84246e8144542d82eb69c38e8183528deefdbd75
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Thu Sep 5 02:04:36 2024 +0200
+
+    help
+
+commit dcc8df4744df3de0ffa6633b0832db76bd915ef8
+Author: Natalia Tsvetkova <ntsvetko@c3r3s2.42prague.com>
+Date:   Wed Sep 4 20:00:52 2024 +0200
+
+    im tired
+
+commit 29a5ff7ef37caaefda0e6ace923bb35677da301f
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Tue Sep 3 07:40:39 2024 +0200
+
+    IDK WHATEVER
+
+commit bfc30a86ec73e3ccdd806540989c2fbb74d372ef
+Author: Natalia Tsvetkova <ntsvetko@c3r3s2.42prague.com>
+Date:   Mon Sep 2 20:17:39 2024 +0200
+
+    cmd parsing
+
+commit e74992af259c859ee1ced6c56e0aa51ea7b8fb1f
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Sat Aug 31 20:12:55 2024 +0200
+
+    vars fixed, valgrind issues
+
+commit dc6130a724a1fb8406442f811ad15bee1d4b10ba
+Author: natttttttttttttt <ntsvetko@PRG6217.amust.local>
+Date:   Sat Aug 31 03:34:20 2024 +0200
+
+    quotes ok, vars NOT ok
+
+commit ad003e60a9a2c80bb227b89f88bd88db7d3f5dff
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Wed Aug 28 19:58:02 2024 +0200
+
+    Delete lst_utils.o
+
+commit e77c7f42a8afc15d95d9d8a45fe2eb874352db44
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Wed Aug 28 19:57:55 2024 +0200
+
+    Delete utils.o
+
+commit 3b3ef6c8b99ff01dd3e142287085bb3b4874f8a2
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Wed Aug 28 19:57:48 2024 +0200
+
+    Delete parsing.o
+
+commit e0bfaa689988dce70cc333f91929705d1e9c5614
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Wed Aug 28 19:57:40 2024 +0200
+
+    Delete main.o
+
+commit 692c6c95aadd8142b7a66a699a2c5de88be1c509
+Author: Natalia Tsvetkova <ntsvetko@c1r5s3.42prague.com>
+Date:   Wed Aug 28 19:56:48 2024 +0200
+
+    append and heredoc
+
+commit 007dbc15da5b1dc3013979630bca05f683d7d97b
+Author: natttttttttttttt <nat.ustinovaa@gmail.com>
+Date:   Tue Aug 27 00:45:24 2024 +0200
+
+    kinda parsing
+
+commit fe923d39a74606b79db55c9349f5d72a16e33546
+Author: natttttttttttttt <148636861+natttttttttttttt@users.noreply.github.com>
+Date:   Mon Aug 26 20:22:44 2024 +0200
+
+    Add files via upload
