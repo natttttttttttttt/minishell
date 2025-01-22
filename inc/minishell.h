@@ -98,9 +98,9 @@ typedef struct s_info
 	t_cmd	*cmds;
 	int		status;
 	int		i;
-}	t_info;
+}			t_info;
 
-typedef struct	s_exec_info
+typedef struct s_exec_info
 {
 	int		pipe_fd[2];
 	pid_t	pid;
@@ -144,7 +144,6 @@ void	exe_append(int *fd_out, char *str, int *exit_code, int *status);
 int		exe_pipe(int pipe_fd[2], int fd[2], t_cmd *cmd);
 void	prepare_exe(t_cmd *cmd, int status, t_info *info, int fd[2]);
 void	ft_execve(t_cmd *cmd, t_info *info, int pipe_fd[2]);
-/*void	execute_commands(t_cmd *cmd, t_info *info, int status, int i);*/
 void	execute_commands(t_cmd *cmd, t_info *info);
 //cmds
 int		find_heredoc(t_token *token);
@@ -160,7 +159,6 @@ char	*replace_env_vars(const char *txt, t_info info, int i, int start);
 char	*extract_variable(const char *txt, int *i);
 char	*append_env_value(char *s, char **env_val, int f);
 char	*append_substring(char *s, const char *txt, int start, int end);
-
 void	vars_to_value(t_token *lst, t_info info);
 //builtins
 int		is_builtin(t_cmd *cmd);
@@ -187,8 +185,6 @@ char	*ft_getenv(char **my_envp, char *var);
 void	update_env(char *var, char *value, char ***my_envp);
 //heredoc
 void	heredoc(char **dlmtr, t_info info);
-
-void	ft_signal_handler(int signal);
 //debug (DELETE later)
 void	print_command(t_cmd *cmd);
 void	print_list(t_token *lst);
