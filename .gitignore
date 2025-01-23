@@ -4,7 +4,8 @@ minishell
 *tags*
 .nfs*
 bin
+*.a
+
 # clangd stuff
 compile_commands.json
 .cache
-*.a

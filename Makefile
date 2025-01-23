@@ -114,7 +114,8 @@ minish: all
 
 val:
 	@make
-	@valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=suppress --show-leak-kinds=all --log-file="leaks" ./minishell
+	@rm -rf leaks.log
+	@valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=no_readline.supp --show-leak-kinds=all --log-file="leaks.log" ./minishell
 
 test:
 	@make re && cd minishell_tester && ./tester && cd ..

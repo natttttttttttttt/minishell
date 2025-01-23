@@ -12,6 +12,23 @@
 
 #include "../inc/minishell.h"
 
+static char	*handle_special_characters(const char *txt, int *i)
+{
+	if (txt[*i] == '\"' || txt[*i] == ' ' || txt[*i] == '?')
+	{
+		if (txt[*i] == '?')
+		{
+			(*i)++;
+			return (ft_strdup("$?"));
+		}
+		(*i)++;
+		return (ft_strdup("$"));
+	}
+	if (!txt[*i])
+		return (ft_strdup("$"));
+	return (NULL);
+}
+
 char	*extract_variable(const char *txt, int *i)
 {
 	int		start;
@@ -22,19 +39,12 @@ char	*extract_variable(const char *txt, int *i)
 		while (txt[*i] && (ft_isalnum(txt[*i]) || txt[*i] == '_'))
 			(*i)++;
 	if (*i == start)
-	{
-		if (txt[*i] == '\"')
-			return ((*i)++, ft_strdup("$"));
-		if (txt[*i] == ' ')
-			return ((*i)++, ft_strdup("$"));
-		if (txt[*i] == '?')
-			return ((*i)++, ft_strdup("$?"));
-		if (!txt[*i])
-			return (ft_strdup("$"));
-		return (NULL);
-	}
+		return (handle_special_characters(txt, i));
 	var = malloc(sizeof(char) * (*i - start + 1));
+	if (!var)
+		return (NULL);
 	ft_strncpy(var, txt + start, *i - start);
+	var[*i - start] = '\0';
 	if (txt[*i] == '\"')
 		(*i)++;
 	return (var);
@@ -48,13 +58,10 @@ void	vars_to_value(t_token *lst, t_info info)
 	{
 		if (lst->type == VAR)
 		{
-			if (lst->type != WORD)
-			{
-				s = replace_env_vars(lst->txt, info, 0, 0);
-				free(lst->txt);
-				lst->txt = s;
-				lst->type = WORD;
-			}
+			s = replace_env_vars(lst->txt, info, 0, 0);
+			free(lst->txt);
+			lst->txt = s;
+			lst->type = WORD;
 		}
 		lst = lst->next;
 	}
