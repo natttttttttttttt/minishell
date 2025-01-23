@@ -12,16 +12,15 @@
 
 #include "../inc/minishell.h"
 #include <stdio.h>
+#include <errno.h>
 
 int	pwd_builtin(void)
 {
-	char	*cwd;
+	char	cwd[PATH_MAX];
 
-	cwd = getcwd(NULL, 0);
-	if (cwd)
+	if (getcwd(cwd, sizeof(cwd)))
 	{
 		printf("%s\n", cwd);
-		free(cwd);
 		return (0);
 	}
 	else
@@ -30,6 +29,23 @@ int	pwd_builtin(void)
 		return (errno);
 	}
 }
+// int	pwd_builtin(void)
+// {
+// 	char	*cwd;
+//
+// 	cwd = getcwd(NULL, 0);
+// 	if (cwd)
+// 	{
+// 		printf("%s\n", cwd);
+// 		free(cwd);
+// 		return (0);
+// 	}
+// 	else
+// 	{
+// 		perror("pwd");
+// 		return (errno);
+// 	}
+// }
 
 void	exit_builtin(char **args, t_info *info)
 {
@@ -48,8 +64,7 @@ void	exit_builtin(char **args, t_info *info)
 			code = ft_atoi(args[1]);
 		else
 		{
-			printf("exit\n");
-			printf("exit: %s: numeric argument required\n", args[1]);
+			printf("exit\nexit: %s: numeric argument required\n", args[1]);
 			free_before_exit(info);
 			exit (2);
 		}
