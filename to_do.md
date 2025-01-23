@@ -6,7 +6,6 @@
 ==14415== Warning: invalid file descriptor -1 in syscall close()
 
 - fd still open when there are several redirs in one way but only when there is also a redir the other way (input output heredoc, input input output, input output output, etc) - i kinda fixed it in a very long and dumb way, didn't push that, will look for a better one
-minishell> cat < b << d >a
 ```
 ==17865==
 ==17865== FILE DESCRIPTORS: 4 open (3 std) at exit.
