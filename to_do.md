@@ -2,7 +2,7 @@
 
 - `> > > > >` -> prints error syntax token stuff several times and also breaks error code
 
-- if you do send random shit or invalid permission to < or >
+- if you send random shit or invalid permission to < or >
 ==14415== Warning: invalid file descriptor -1 in syscall close()
 
 - fd still open when there are several redirs in one way but only when there is also a redir the other way (input output heredoc, input input output, input output output, etc) - i kinda fixed it in a very long and dumb way, didn't push that, will look for a better one
