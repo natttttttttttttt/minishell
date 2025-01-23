@@ -21,8 +21,10 @@ void	free_token_lst(t_token *head)
 	while (node != NULL)
 	{
 		next = node->next;
-		free(node->txt);
+		if (node->txt)
+			free(node->txt);
 		free(node);
+		node = NULL;
 		node = next;
 	}
 }

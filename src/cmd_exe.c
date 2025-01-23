@@ -101,7 +101,11 @@ int	set_redirs(t_cmd *cmd, t_info *info, int fd[2])
 			exe_append(&fd[1], cmd->append[cmd->order->i_append++],
 				&(info->exit_code), &info->status);
 		else if (cmd->delimiter && (i + '0' == cmd->order->heredoc[0]))
+		{
+			if (cmd->input && fd[0])
+				close(fd[0]);
 			exe_heredoc(cmd->delimiter, info, &fd[0], &info->status);
+		}
 		i++;
 	}
 	return (info->status);

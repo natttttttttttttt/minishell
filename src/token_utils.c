@@ -50,7 +50,7 @@ void	tkn_heredoc(t_token **tokens, t_info *info, t_cmd **cmd, int *i)
 		add_cmd_arg(&((*cmd)->delimiter), (*tokens)->txt);
 	if (!(*cmd)->order->heredoc)
 	{
-		(*cmd)->order->heredoc = ft_strdup(ft_itoa(*i));
+		(*cmd)->order->heredoc = ft_itoa(*i);
 		(*i)++;
 	}
 }

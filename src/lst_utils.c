@@ -16,7 +16,7 @@ t_token	*lst_create(char *str, t_type type)
 {
 	t_token	*new;
 
-	new = (t_token *)malloc(sizeof(t_token));
+	new = malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);
 	new->txt = ft_strdup(str);
@@ -54,8 +54,9 @@ void	print_list(t_token *lst)
 {
 	t_token	*node;
 
-	node = lst;
-	while (node->type != DONE)
+	node = lst; 
+	
+	while (node->next)
 	{
 		printf("%s %i\n", (node->txt), node->type);
 		node = node->next;

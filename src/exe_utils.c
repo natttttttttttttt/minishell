@@ -23,6 +23,7 @@ void	exe_input(int *fd_in, char *str, int *exit_code, int *status)
 			*exit_code = 1;
 			*status = -1;
 		}
+		
 	}
 }
 
