@@ -21,9 +21,9 @@ void	fork_it(t_cmd *cmd, t_info *info,
 	{
 		perror("fork");
 		info->exit_code = errno;
-		if (exe_info->fd[0] != 0)
+		if (exe_info->fd[0] > 0)
 			close(exe_info->fd[0]);
-		if (exe_info->fd[1] != 1)
+		if (exe_info->fd[1] > 1)
 			close(exe_info->fd[1]);
 		return ;
 	}
@@ -55,9 +55,9 @@ void	do_exe(t_exec_info *exe_info, t_cmd *cmd, t_info *info, struct sigaction
 	}
 	else
 		fork_it(cmd, info, exe_info, sa);
-	if (exe_info->fd[0] != 0)
+	if (exe_info->fd[0] > 0)
 		close(exe_info->fd[0]);
-	if (exe_info->fd[1] != 1)
+	if (exe_info->fd[1] > 1)
 		close(exe_info->fd[1]);
 	if (cmd->next)
 	{

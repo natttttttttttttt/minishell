@@ -16,12 +16,9 @@ void	tkn_input(t_token **tokens, t_info *info, t_cmd **cmd, int *i)
 {
 	syntax_error((*tokens)->next->type != WORD, info);
 	(*tokens) = (*tokens)->next;
-	if (!find_heredoc(*tokens) || !(*cmd)->delimiter)
-	{
-		if ((*tokens) && (*tokens)->type == WORD)
-			add_cmd_arg(&((*cmd)->input), (*tokens)->txt);
-		fix_order(&((*cmd)->order->input), i);
-	}
+	if ((*tokens) && (*tokens)->type == WORD)
+		add_cmd_arg(&((*cmd)->input), (*tokens)->txt);
+	fix_order(&((*cmd)->order->input), i);
 }
 
 void	tkn_output(t_token **tokens, t_info *info, t_cmd **cmd, int *i)

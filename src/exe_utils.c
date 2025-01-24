@@ -16,6 +16,8 @@ void	exe_input(int *fd_in, char *str, int *exit_code, int *status)
 {
 	if (*status != -1)
 	{
+		if (*fd_in > 0)
+			close(*fd_in);
 		*fd_in = open(str, O_RDONLY);
 		if (*fd_in == -1)
 		{
@@ -23,7 +25,6 @@ void	exe_input(int *fd_in, char *str, int *exit_code, int *status)
 			*exit_code = 1;
 			*status = -1;
 		}
-		
 	}
 }
 
@@ -31,6 +32,8 @@ void	exe_heredoc(char **str, t_info *info, int *fd_in, int *status)
 {
 	if (*status != -1)
 	{
+		if (*fd_in > 0)
+			close(*fd_in);
 		heredoc(str, *info);
 		*fd_in = open("heredoc.tmp", O_RDONLY);
 		unlink("heredoc.tmp");
@@ -48,6 +51,8 @@ void	exe_output(int *fd_out, char *str, int *exit_code, int *status)
 {
 	if (*status != -1)
 	{
+		if (*fd_out > 1)
+			close(*fd_out);
 		*fd_out = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (*fd_out == -1)
 		{
@@ -62,6 +67,8 @@ void	exe_append(int *fd_out, char *str, int *exit_code, int *status)
 {
 	if (*status != -1)
 	{
+		if (*fd_out > 1)
+			close(*fd_out);
 		*fd_out = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (*fd_out == -1)
 		{

@@ -12,22 +12,6 @@
 
 #include "../inc/minishell.h"
 
-int	find_heredoc(t_token *token)
-{
-	t_token	*current;
-
-	current = token;
-	// this was segaulting
-	// current = token->next;
-	while (current->type != DONE)
-	{
-		if (current->type == 7)
-			return (1);
-		current = current->next;
-	}
-	return (0);
-}
-
 t_order	*order_new(void)
 {
 	t_order	*order;
