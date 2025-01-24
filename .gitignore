@@ -5,6 +5,7 @@ minishell
 .nfs*
 bin
 *.a
+*.log
 
 # clangd stuff
 compile_commands.json

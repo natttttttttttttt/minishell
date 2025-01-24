@@ -16,7 +16,9 @@ int	find_heredoc(t_token *token)
 {
 	t_token	*current;
 
-	current = token->next;
+	current = token;
+	// this was segaulting
+	// current = token->next;
 	while (current->type != DONE)
 	{
 		if (current->type == 7)

@@ -24,6 +24,8 @@ void	syntax_error(int check, t_info *info)
 
 void	check_tkn(t_token **tokens, t_info *info, t_cmd **cmd, int *i)
 {
+	if ((*tokens) == NULL)
+		return ;
 	if ((*tokens)->type == WORD)
 		add_cmd_arg(&((*cmd)->args), (*tokens)->txt);
 	else if ((*tokens)->type == INPUT)
@@ -45,7 +47,11 @@ static t_cmd	*do_cmd_new(t_token *tokens, t_cmd **cmd, t_info *info)
 	head = NULL;
 	*cmd = cmd_new();
 	head = *cmd;
-	syntax_error(tokens->type == PIPE, info);
+	if (tokens->type == PIPE)
+	{
+		syntax_error(1, info);
+		return (NULL);
+	}
 	return (head);
 }
 
