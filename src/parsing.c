@@ -24,6 +24,8 @@ char	*deal_with_quotes(char *s, int q, int i)
 	else if (q == 2 && ft_strchr(s, '$'))
 		l--;
 	res = malloc(l + 1);
+	if (!res)
+		return (NULL);
 	j = 0;
 	while (s[i])
 	{

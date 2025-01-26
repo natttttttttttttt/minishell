@@ -21,6 +21,8 @@ static char	*append_substr_norm(char *copy, const char *txt, int start, int end)
 	if (ft_strchr(copy, '\"') && ft_strchr(copy, '\"') <= &txt[end])
 	{
 		tmp = malloc(sizeof(char) * (end - start));
+		if (!tmp)
+			return (NULL);
 		while (start + 1 <= end)
 		{
 			if (txt[start] == '\"')
@@ -33,6 +35,8 @@ static char	*append_substr_norm(char *copy, const char *txt, int start, int end)
 	else
 	{
 		tmp = malloc(sizeof(char) * (end - start + 1));
+		if (!tmp)
+			return (NULL);
 		ft_strncpy(tmp, txt + start, end - start);
 	}
 	return (tmp);

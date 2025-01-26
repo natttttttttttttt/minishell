@@ -38,6 +38,8 @@ char	*copy_word(char *str, int i, int start)
 	int		j;
 
 	word = malloc(sizeof(char) * (i - start + 1));
+	if (!word)
+		return (NULL);
 	j = 0;
 	while (start < i)
 		word[j++] = str[start++];
