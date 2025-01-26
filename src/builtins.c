@@ -29,23 +29,6 @@ int	pwd_builtin(void)
 		return (errno);
 	}
 }
-// int	pwd_builtin(void)
-// {
-// 	char	*cwd;
-//
-// 	cwd = getcwd(NULL, 0);
-// 	if (cwd)
-// 	{
-// 		printf("%s\n", cwd);
-// 		free(cwd);
-// 		return (0);
-// 	}
-// 	else
-// 	{
-// 		perror("pwd");
-// 		return (errno);
-// 	}
-// }
 
 void	exit_builtin(char **args, t_info *info)
 {
@@ -91,13 +74,13 @@ int	env_builtin(char **my_envp, int fd_out)
 int	echo_builtin(char **args, int fd_out)
 {
 	int	i;
-	int	n;
+	int	nl_flag;
 
 	i = 1;
-	n = 1;
+	nl_flag = 1;
 	if (args[i] && ft_strncmp(args[i], "-n", 3) == 0)
 	{
-		n = 0;
+		nl_flag = 0;
 		i++;
 	}
 	while (args[i])
@@ -107,7 +90,7 @@ int	echo_builtin(char **args, int fd_out)
 			write(fd_out, " ", 1);
 		i++;
 	}
-	if (n)
+	if (nl_flag)
 		write(fd_out, "\n", 1);
 	return (0);
 }
