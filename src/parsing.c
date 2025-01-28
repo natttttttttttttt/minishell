@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:09:37 by pibouill          #+#    #+#             */
-/*   Updated: 2024/12/06 14:10:05 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:00:04 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,22 @@
 char	*deal_with_quotes(char *s, int q, int i)
 {
 	char	*res;
-	int		l;
+	char	*dollar;
+	char	*quote;
 	int		j;
+	int		len;
 
-	l = ft_strlen(s);
-	if (q == 1 || (q == 2 && !(ft_strchr(s, '$'))))
-		l = l - 2;
-	else if (q == 2 && ft_strchr(s, '$'))
-		l--;
-	res = malloc(l + 1);
+	len = ft_strlen(s);
+	dollar = ft_strchr(s, '$');
+	quote = ft_strchr(s, '\"');
+	len = calculate_new_length(q, len, dollar);
+	res = malloc(len + 1);
+	j = 0;
 	if (!res)
 		return (NULL);
-	j = 0;
 	while (s[i])
 	{
-		if ((q == 1 && s[i] == '\'')
-			|| ((q == 2 && s[i] == '\"') && (ft_strchr(s, '$') > &s[i]))
-			|| (q == 2 && (((ft_strchr(s, '$'))
-						&& (ft_strchr(s, '\"') == &s[i]))
-					|| (!(ft_strchr(s, '$')) && s[i] == '\"'))))
+		if (should_skip(s[i], q, dollar, quote))
 			i++;
 		else
 			res[j++] = s[i++];

@@ -29,6 +29,22 @@ static char	*handle_special_characters(const char *txt, int *i)
 	return (NULL);
 }
 
+int	copy_without_quotes(char *tmp, const char *txt, int start, int end)
+{
+	int	i;
+	int	current;
+
+	i = 0;
+	current = start;
+	while (current < end)
+	{
+		if (txt[current] != '\"')
+			tmp[i++] = txt[current];
+		current++;
+	}
+	return (i);
+}
+
 char	*extract_variable(const char *txt, int *i)
 {
 	int		start;

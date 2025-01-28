@@ -23,14 +23,7 @@ static char	*append_substr_norm(char *copy, const char *txt, int start, int end)
 		tmp = malloc(sizeof(char) * (end - start));
 		if (!tmp)
 			return (NULL);
-		while (start + 1 <= end)
-		{
-			if (txt[start] == '\"')
-				start++;
-			else
-				tmp[i++] = txt[start++];
-		}
-		tmp[i] = '\0';
+		i = copy_without_quotes(tmp, txt, start, end);
 	}
 	else
 	{
@@ -38,7 +31,9 @@ static char	*append_substr_norm(char *copy, const char *txt, int start, int end)
 		if (!tmp)
 			return (NULL);
 		ft_strncpy(tmp, txt + start, end - start);
+		i = end - start;
 	}
+	tmp[i] = '\0';
 	return (tmp);
 }
 

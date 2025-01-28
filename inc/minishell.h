@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:34:38 by pibouill          #+#    #+#             */
-/*   Updated: 2025/01/14 14:39:08 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/01/28 11:58:58 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,9 @@ void	sig_handl_child(int signal);
 // utils
 int		parsing_ok(char *str);
 void	syntax_error(int check, t_info *info);
+int		copy_without_quotes(char *tmp, const char *txt, int start, int end);
+bool	should_skip(char c, int q, char *dollar, char *quote);
+int		calculate_new_length(int q, int orig_len, char *dollar_pos);
 
 // token utils
 void	tkn_input(t_token **tokens, t_info *info, t_cmd **cmd, int *i);

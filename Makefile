@@ -6,7 +6,7 @@
 #    By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/07 11:07:00 by pibouill          #+#    #+#              #
-#    Updated: 2025/01/14 13:40:32 by pibouill         ###   ########.fr        #
+#    Updated: 2025/01/28 11:59:09 by pibouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ SRC_FILES	:=		builtins\
 					main\
 					parsing\
 					parsing_utils\
+					parsing_utils_2\
 					unset_builtin\
 					utils\
 					print_stuff\
