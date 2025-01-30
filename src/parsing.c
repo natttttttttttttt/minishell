@@ -12,6 +12,48 @@
 
 #include "../inc/minishell.h"
 
+char	*mixed_quotes(char *s)
+{
+	char	*res;
+	int		i;
+	int		j;
+	int		v;
+
+	i = 0;
+	j = 0;
+	v = 0;
+	res = malloc(ft_strlen(s) + 1);
+	while (s[i])
+	{
+		while (s[i] != '\'' && s[i] != '\"')
+			res[j++] = s[i++];
+		if  (s[i] == '\"')
+		{
+			i++;
+			while (s[i] != '\"')
+			{
+				if (s[i] == '$')
+					v = 1;
+				res[j++] = s[i++];
+			}
+			if (v)
+				res[j++] = s[i++];
+			else
+				i++;
+			v = 0;
+		}
+		if  (s[i] == '\'')
+		{
+			i++;
+			while (s[i] != '\'')
+				res[j++] = s[i++];
+			i++;
+		}
+	}
+	res[j] = '\0';
+	return (res);
+}
+
 char	*deal_with_quotes(char *s, int q, int i)
 {
 	char	*res;
@@ -20,22 +62,27 @@ char	*deal_with_quotes(char *s, int q, int i)
 	int		j;
 	int		len;
 
-	len = ft_strlen(s);
-	dollar = ft_strchr(s, '$');
-	quote = ft_strchr(s, '\"');
-	len = calculate_new_length(q, len, dollar);
-	res = malloc(len + 1);
-	j = 0;
-	if (!res)
-		return (NULL);
-	while (s[i])
-	{
-		if (should_skip(s[i], q, dollar, quote))
-			i++;
-		else
-			res[j++] = s[i++];
+	if (q == 3)
+		res = mixed_quotes(s);
+	else
+	{	
+		len = ft_strlen(s);
+		dollar = ft_strchr(s, '$');
+		quote = ft_strchr(s, '\"');
+		len = calculate_new_length(q, len, dollar);
+		res = malloc(len + 1);
+		j = 0;
+		if (!res)
+			return (NULL);
+		while (s[i])
+		{
+			if (should_skip(s[i], q, dollar, quote))
+				i++;
+			else
+				res[j++] = s[i++];
+		}
+		res[j] = '\0';
 	}
-	res[j] = '\0';
 	return (res);
 }
 
@@ -57,7 +104,12 @@ void	find_quotes(char *str, int *i, int *quotes, t_info *info)
 		while (str[*i] && str[*i] != '\'')
 			(*i)++;
 		if (str[*i] != '\0')
-			*quotes = 1;
+		{
+			if (*quotes == 2 || *quotes == 3)
+				*quotes = 3;
+			else
+				*quotes = 1;
+		}
 		else
 			quotes_err(quotes, info, 1);
 	}
@@ -67,7 +119,12 @@ void	find_quotes(char *str, int *i, int *quotes, t_info *info)
 		while (str[*i] && str[*i] != '\"')
 			(*i)++;
 		if (str[*i] != '\0')
-			*quotes = 2;
+				{
+			if (*quotes == 1 || *quotes == 3)
+				*quotes = 3;
+			else
+				*quotes = 2;
+		}
 		else
 			quotes_err(quotes, info, 2);
 	}

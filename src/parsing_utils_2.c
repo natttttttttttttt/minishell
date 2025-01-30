@@ -32,7 +32,7 @@ int	calculate_new_length(int q, int orig_len, char *dollar_pos)
 ** Determines if current character should be skipped in quote processing
 ** q: 1 for single quotes, 2 for double quotes
 ** dollar_pos: position of $ in string, NULL if not present
-** quote: position of current quote being processed
+** quote: position of current quote being processe
 */
 bool	should_skip(char c, int q, char *dollar_pos, char *quote)
 {
