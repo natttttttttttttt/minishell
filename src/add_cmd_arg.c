@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-static void	init_new_arg(char ***arr, char *arg)
+void	init_new_arg(char ***arr, char *arg)
 {
 	(*arr) = (char **)malloc(sizeof(char *) * 2);
 	if (!(*arr))

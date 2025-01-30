@@ -39,9 +39,12 @@ char	*deal_with_quotes(char *s, int q, int i)
 	return (res);
 }
 
-void	quotes_err(int *quotes, t_info *info)
+void	quotes_err(int *quotes, t_info *info, int q)
 {
-	printf("unexpected EOF while looking for matching \'\n");
+	if (q == 1)
+		printf("unexpected EOF while looking for matching \'\n");
+	else
+		printf("unexpected EOF while looking for matching \"\n");
 	info->exit_code = 2;
 	*quotes = -1;
 }
@@ -56,7 +59,7 @@ void	find_quotes(char *str, int *i, int *quotes, t_info *info)
 		if (str[*i] != '\0')
 			*quotes = 1;
 		else
-			quotes_err(quotes, info);
+			quotes_err(quotes, info, 1);
 	}
 	else if (str[*i] == '\"')
 	{
@@ -66,7 +69,7 @@ void	find_quotes(char *str, int *i, int *quotes, t_info *info)
 		if (str[*i] != '\0')
 			*quotes = 2;
 		else
-			quotes_err(quotes, info);
+			quotes_err(quotes, info, 2);
 	}
 }
 

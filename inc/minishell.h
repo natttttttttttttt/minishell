@@ -147,6 +147,7 @@ void	ft_execve(t_cmd *cmd, t_info *info, int pipe_fd[2]);
 void	execute_commands(t_cmd *cmd, t_info *info);
 //cmds
 void	fix_order(char **s, int *i);
+void	init_new_arg(char ***arr, char *arg);
 t_cmd	*cmd_new(void);
 t_cmd	*parse_tokens(t_token *tokens, t_info *info);
 void	add_cmd_arg(char ***arr, char *arg);

@@ -1,7 +1,8 @@
-- `echo $>` -> breaks the exit codes -> cmd_lst is empty afterwards from what i understood
-
-- `> > > > >` -> prints error syntax token stuff several times and also breaks error code
 
 ## NEW
 
-- when we have a trailing '<' segfault -> looking into it
+- check export please
+
+- norminette cmd_to_path(too long) and export (just small things) and anything i touched tbh
+
+- quotes need to be redone, i'm on it but not sure if i'll finish before leaving

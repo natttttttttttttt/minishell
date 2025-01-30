@@ -66,6 +66,8 @@ void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 
 	while (cmd_lst)
 	{
+		if (!cmd_lst->args)
+			add_cmd_arg(&(cmd_lst->args), "\0");
 		if (cmd_lst->args[0][0] == '\0' && cmd_lst->args[1])
 			del_arg(cmd_lst->args);
 		if (cmd_lst->args && cmd_lst->args[0][0] != '\0')
