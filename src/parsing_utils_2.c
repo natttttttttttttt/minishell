@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:58:10 by pibouill          #+#    #+#             */
-/*   Updated: 2025/02/05 15:34:09 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:45:17 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	add_var(int *i, char *s, t_info *info, char **buf)
 
 char	*handle_quotes(char *s, int *i, int *q)
 {
-	while ((s[*i] == '\'' && *q != 2) || (s[*i] == '"' && *q != 1))
+	while ((s[*i] == '\'' && *q != 2) || (s[*i] == '\"' && *q != 1))
 	{
 		*q = q_mode(*q, s[*i]);
 		(*i)++;
