@@ -47,20 +47,17 @@ char	*copy_word(char *str, int i, int start)
 	return (word);
 }
 
-void	save_word(t_token **lst, char *word, int q)
+void	save_word(t_token **lst, char *word, t_info *info)
 {
 	char	*tmp;
 
-	tmp = deal_with_quotes(word, q, 0);
-	if (ft_strchr(word, '$') && q != 1)
-		lst_add_back(lst, lst_create(tmp, VAR));
-	else
-		lst_add_back(lst, lst_create(tmp, WORD));
+	tmp = deal_with_quotes(word, info);
+	lst_add_back(lst, lst_create(tmp, WORD));
 	free (word);
 	free(tmp);
 }
 
-void	handle_separator(char *str, int *i, int *quotes, t_token **lst)
+void	handle_separator(char *str, int *i, t_token **lst, t_info *info)
 {
 	int	sep;
 
@@ -68,10 +65,7 @@ void	handle_separator(char *str, int *i, int *quotes, t_token **lst)
 	if (!sep)
 		return ;
 	if (i[0] != i[1])
-	{
-		save_word(lst, copy_word(str, i[0], i[1]), *quotes);
-		*quotes = 0;
-	}
+		save_word(lst, copy_word(str, i[0], i[1]), info);
 	if (sep != SPACES)
 		lst_add_back(lst, lst_create(NULL, sep));
 	if (sep == HEREDOC || sep == APPEND)
@@ -79,9 +73,9 @@ void	handle_separator(char *str, int *i, int *quotes, t_token **lst)
 	i[1] = i[0] + 1;
 }
 
-void	finalize_tokens(char *str, int *i, int quotes, t_token **lst)
+void	finalize_tokens(char *str, int *i, t_token **lst, t_info *info)
 {
 	if (i[0] != i[1])
-		save_word(lst, copy_word(str, i[0], i[1]), quotes);
+		save_word(lst, copy_word(str, i[0], i[1]), info);
 	lst_add_back(lst, lst_create(NULL, DONE));
 }

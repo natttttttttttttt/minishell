@@ -16,7 +16,7 @@ void	write_heredoc_line(int fd, char *line, t_info info)
 {
 	char	*s;
 
-	s = replace_env_vars(line, info, 0, 0);
+	s = deal_with_quotes(line, &info);
 	write(fd, s, ft_strlen(s));
 	write(fd, "\n", 1);
 	free(line);

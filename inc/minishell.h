@@ -129,11 +129,11 @@ void	ft_strncpy(char *dest, const char *src, int size);
 //parsing
 char	*copy_word(char *str, int i, int start);
 int		not_words(char *str, int i);
-void	handle_separator(char *str, int *i, int *quotes, t_token **lst);
-void	finalize_tokens(char *str, int *i, int quotes, t_token **lst);
-void	save_word(t_token **lst, char *word, int q);
+void	handle_separator(char *str, int *i, t_token **lst, t_info *info);
+void	finalize_tokens(char *str, int *i, t_token **lst, t_info *info);
+void	save_word(t_token **lst, char *word, t_info *info);
 int		save_tokens(char *str, t_token **lst, t_info *info);
-char	*deal_with_quotes(char *s, int q, int i);
+char	*deal_with_quotes(char *s, t_info *info);
 //exe
 void	ft_wait(pid_t pid, int status, t_info *info);
 int		set_redirs(t_cmd *cmd, t_info *info, int fd[2]);

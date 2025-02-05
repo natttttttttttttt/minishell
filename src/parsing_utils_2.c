@@ -12,36 +12,106 @@
 
 #include "../inc/minishell.h"
 
-/*
-** Calculates adjusted string length after quote processing
-** q: 1 for single quotes, 2 for double quotes
-** orig_len: length of input string
-** dollar_pos: position of $ in string, NULL if not present
-** return: adjusted length after accounting for quotes to be removed 
-*/
-int	calculate_new_length(int q, int orig_len, char *dollar_pos)
+int q_mode(int q, char c)
 {
-	if (q == 1 || (q == 2 && !dollar_pos))
-		return (orig_len - 2);
-	else if (q == 2 && dollar_pos)
-		return (orig_len - 1);
-	return (orig_len);
+    if (c == '\'')
+    {
+        if (q == 2)
+            return (2);
+        else if (q == 0)
+                return (1);
+        else if (q == 1)
+                return (0);
+    }
+    else if (c == '\"')
+    {
+        if (q == 1)
+            return (1);
+        else if (q == 0)
+                return (2);
+        else if (q == 2)
+                return (0);
+    }
+	return (q);
 }
 
-/*
-** Determines if current character should be skipped in quote processing
-** q: 1 for single quotes, 2 for double quotes
-** dollar_pos: position of $ in string, NULL if not present
-** quote: position of current quote being processe
-*/
-bool	should_skip(char c, int q, char *dollar_pos, char *quote)
+void    add_buf(char **buf, char c)
 {
-	if (q == 1 && c == '\'')
-		return (true);
-	if (q == 2 && c == '\"')
-	{
-		if (!dollar_pos || dollar_pos > quote || *quote == c)
-			return (true);
-	}
-	return (false);
+    char    *tmp;
+    int     i;
+
+    if (!buf)
+        *buf = ft_strdup("\0");
+    tmp = ft_strdup(*buf);
+    i = 0;
+    free(*buf);
+    *buf = malloc(ft_strlen(tmp) + 2);
+    while (i < ft_strlen(tmp))
+    {
+        (*buf)[i] = tmp[i];
+        i++;
+    }
+    (*buf)[i] = c;
+    (*buf)[i + 1] = '\0';
+    free(tmp);
+}
+
+void add_var(int *i, char *s, t_info *info, char **buf, int j)
+{
+    char *var;
+    char *env;
+
+    var = NULL;
+    env = NULL;
+    if (s[*i] && s[*i] == '?')
+    {
+        env = ft_itoa(info->exit_code);
+        (*i)++;
+    }
+    else if (s[*i] && !ft_isdigit(s[*i]))
+    {
+        while (ft_isalnum(s[*i]) || s[*i] == '_')
+            add_buf(&var, s[(*i)++]);
+        if (var)
+        {
+            env = ft_strdup(ft_getenv(info->my_envp, var));
+            free(var);
+        }
+    }
+    else 
+        add_buf(buf, '$');
+    while (env && env[j])
+            add_buf(buf, env[j++]);
+    if (env)
+        free(env);
+}
+
+char    *deal_with_quotes(char *s, t_info *info)
+{
+    char *buf;
+    int i;
+    int q;
+
+    buf = ft_strdup("");
+    q = 0;
+    i = 0;
+    while (s[i])
+    {
+        while ((s[i] == '\'' && q != 2) || (s[i] == '\"' && q != 1))
+        {
+            q = q_mode(q, s[i]);
+            i++;
+        }
+        if (s[i] && s[i] == '$' && q != 1)
+        {
+			i++;
+			add_var(&i, s, info, &buf, 0);
+		}
+        else if (s[i])
+        {    
+			add_buf(&buf, s[i]);
+        	i++;
+		}
+    }
+	return (buf);
 }

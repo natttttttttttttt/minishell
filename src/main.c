@@ -34,7 +34,6 @@ static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 	if (save_tokens(info->input, &token_lst, info))
 	{
 		info->tokens = token_lst;
-		vars_to_value(token_lst, *info);
 		cmd_lst = parse_tokens(token_lst, info);
 		info->cmds = cmd_lst;
 		if (cmd_lst)
