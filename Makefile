@@ -63,8 +63,6 @@ SRC_FILES	:=		builtins\
 					unset_builtin\
 					utils\
 					print_stuff\
-					vars\
-					vars_utils\
 					free_utils\
 					update_env\
 					add_cmd_arg\
