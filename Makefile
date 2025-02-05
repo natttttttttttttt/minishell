@@ -6,7 +6,7 @@
 #    By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/07 11:07:00 by pibouill          #+#    #+#              #
-#    Updated: 2025/01/28 11:59:09 by pibouill         ###   ########.fr        #
+#    Updated: 2025/02/05 15:43:23 by pibouill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC_FILES	:=		builtins\
 					cd_builtin\
 					cmd_exe\
 					cmd_to_path\
+					cmd_to_path_utils\
 					cmds\
 					cmds_utils\
 					envp\
@@ -60,6 +61,7 @@ SRC_FILES	:=		builtins\
 					parsing\
 					parsing_utils\
 					parsing_utils_2\
+					parsing_utils_3\
 					unset_builtin\
 					utils\
 					print_stuff\

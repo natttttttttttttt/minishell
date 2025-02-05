@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 11:15:22 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/24 12:10:09 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:46:27 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <dirent.h>
 #include <unistd.h>
 
-void	do_close_dir(DIR *dir, t_cmd *cmd_lst, t_info *info)
+static void	do_close_dir(DIR *dir, t_cmd *cmd_lst, t_info *info)
 {
 	closedir(dir);
 	if (ft_strchr(cmd_lst->args[0], '/'))
@@ -31,12 +31,10 @@ void	do_close_dir(DIR *dir, t_cmd *cmd_lst, t_info *info)
 	cmd_lst->args[0] = ft_strdup("");
 }
 
-static void	cmd_not_found(t_cmd *cmd_lst, t_info *info)
+static void	handle_directory_case(DIR *dir, t_cmd *cmd_lst, t_info *info)
 {
-	printf("%s: command not found\n", cmd_lst->args[0]);
-	info->exit_code = 127;
-	free(cmd_lst->args[0]);
-	cmd_lst->args[0] = ft_strdup("");
+	if (dir != NULL)
+		do_close_dir(dir, cmd_lst, info);
 }
 
 static void	not_possible(t_info *info, t_cmd *cmd_lst)
@@ -50,43 +48,31 @@ static void	not_possible(t_info *info, t_cmd *cmd_lst)
 	cmd_lst->args[0] = ft_strdup("");
 }
 
-static void	possible(t_cmd *cmd_lst, t_info *info)
+static void	process_command(t_cmd *cmd_lst, t_info *info)
 {
-	char	*tmp;
+	DIR	*dir;
 
-	tmp = NULL;
-	tmp = cmd_lst->args[0];
-	cmd_lst->args[0] = get_cmd(info, tmp);
-	free(tmp);
+	if (!is_builtin(cmd_lst))
+	{
+		dir = opendir(cmd_lst->args[0]);
+		if ((ft_strchr(cmd_lst->args[0], '/'))
+			&& (errno == ENOENT || errno == EACCES))
+			not_possible(info, cmd_lst);
+		else
+		{
+			handle_directory_case(dir, cmd_lst, info);
+			handle_path_checks(cmd_lst, info);
+		}
+	}
 }
 
 void	cmd_to_path(t_cmd *cmd_lst, t_info *info)
 {
-	DIR		*dir;
-
 	while (cmd_lst)
 	{
-		if (!cmd_lst->args)
-			add_cmd_arg(&(cmd_lst->args), "\0");
-		if (cmd_lst->args[0][0] == '\0' && cmd_lst->args[1])
-			del_arg(cmd_lst->args);
+		handle_empty_args(cmd_lst);
 		if (cmd_lst->args && cmd_lst->args[0][0] != '\0')
-		{
-			if (!is_builtin(cmd_lst))
-			{
-				dir = opendir(cmd_lst->args[0]);
-				if ((ft_strchr(cmd_lst->args[0], '/'))
-					&& (errno == ENOENT || errno == EACCES))
-					not_possible(info, cmd_lst);
-				else if (dir != NULL)
-					do_close_dir(dir, cmd_lst, info);
-				else if ((access(cmd_lst->args[0], F_OK) == 0)
-					&& !(ft_strchr(cmd_lst->args[0], '/')))
-					cmd_not_found(cmd_lst, info);
-				else if (access(cmd_lst->args[0], X_OK) != 0)
-					possible(cmd_lst, info);
-			}
-		}
+			process_command(cmd_lst, info);
 		cmd_lst = cmd_lst->next;
 	}
 }

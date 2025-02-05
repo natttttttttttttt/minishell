@@ -6,30 +6,31 @@
 /*   By: ntsvetko <ntsvetko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 13:01:34 by pibouill          #+#    #+#             */
-/*   Updated: 2024/11/25 17:05:11 by ntsvetko         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:45:48 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-void	print_string_array(char **arr)
-{
-	if (arr == NULL) {
-		printf("NULL\n");
-		return;
-	}
-	for (int i = 0; arr[i] != NULL; i++) {
-		printf("%s ", arr[i]);
-	}
-	printf("\n");
 
-}
+// void	print_string_array(char **arr)
+// {
+// 	if (arr == NULL) {
+// 		printf("NULL\n");
+// 		return;
+// 	}
+// 	for (int i = 0; arr[i] != NULL; i++) {
+// 		printf("%s ", arr[i]);
+// 	}
+// 	printf("\n");
+//
+// }
 
-char **split_export(char *arg)
+char	**split_export(char *arg)
 {
 	char	**split;
-	int 	i;
+	int		i;
 
-	split = malloc(sizeof(char*) * 3);
+	split = malloc(sizeof(char *) * 3);
 	split[0] = NULL;
 	split[1] = NULL;
 	split[2] = NULL;
@@ -37,7 +38,7 @@ char **split_export(char *arg)
 	if (arg[0] == '=' || !ft_strchr(arg, '='))
 	{
 		split[0] = ft_strdup(arg);
-		return(split);
+		return (split);
 	}
 	split[0] = malloc(ft_strchr(arg, '=') - arg + 1);
 	while (*arg != '=')
@@ -48,7 +49,7 @@ char **split_export(char *arg)
 		split[1] = malloc(ft_strlen(arg) + 1);
 		ft_strncpy(split[1], arg, ft_strlen(arg));
 	}
-	return(split);
+	return (split);
 }
 
 void	free_split(char **split)

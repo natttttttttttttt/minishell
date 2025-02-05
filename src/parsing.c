@@ -6,53 +6,11 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 14:09:37 by pibouill          #+#    #+#             */
-/*   Updated: 2025/01/28 12:00:04 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:44:24 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-char	*mixed_quotes(char *s)
-{
-	char	*res;
-	int		i;
-	int		j;
-	int		v;
-
-	i = 0;
-	j = 0;
-	v = 0;
-	res = malloc(ft_strlen(s) + 1);
-	while (s[i])
-	{
-		while (s[i] != '\'' && s[i] != '\"')
-			res[j++] = s[i++];
-		if  (s[i] == '\"')
-		{
-			i++;
-			while (s[i] != '\"')
-			{
-				if (s[i] == '$')
-					v = 1;
-				res[j++] = s[i++];
-			}
-			if (v)
-				res[j++] = s[i++];
-			else
-				i++;
-			v = 0;
-		}
-		if  (s[i] == '\'')
-		{
-			i++;
-			while (s[i] != '\'')
-				res[j++] = s[i++];
-			i++;
-		}
-	}
-	res[j] = '\0';
-	return (res);
-}
 
 void	quotes_err(t_info *info, char c)
 {

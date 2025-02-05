@@ -6,112 +6,84 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 11:58:10 by pibouill          #+#    #+#             */
-/*   Updated: 2025/01/28 12:11:01 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:34:09 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int q_mode(int q, char c)
+char	*get_env_var(char *s, int *i, t_info *info)
 {
-    if (c == '\'')
-    {
-        if (q == 2)
-            return (2);
-        else if (q == 0)
-                return (1);
-        else if (q == 1)
-                return (0);
-    }
-    else if (c == '\"')
-    {
-        if (q == 1)
-            return (1);
-        else if (q == 0)
-                return (2);
-        else if (q == 2)
-                return (0);
-    }
-	return (q);
+	char	*var;
+	char	*env;
+
+	var = NULL;
+	env = NULL;
+	if (s[*i] && s[*i] == '?')
+	{
+		env = ft_itoa(info->exit_code);
+		(*i)++;
+	}
+	else if (s[*i] && !ft_isdigit(s[*i]))
+	{
+		while (ft_isalnum(s[*i]) || s[*i] == '_')
+			add_buf(&var, s[(*i)++]);
+		if (var)
+		{
+			env = ft_strdup(ft_getenv(info->my_envp, var));
+			free(var);
+		}
+	}
+	return (env);
 }
 
-void    add_buf(char **buf, char c)
+void	add_var(int *i, char *s, t_info *info, char **buf)
 {
-    char    *tmp;
-    int     i;
+	char	*env;
+	int		j;
 
-    if (!buf)
-        *buf = ft_strdup("\0");
-    tmp = ft_strdup(*buf);
-    i = 0;
-    free(*buf);
-    *buf = malloc(ft_strlen(tmp) + 2);
-    while (i < ft_strlen(tmp))
-    {
-        (*buf)[i] = tmp[i];
-        i++;
-    }
-    (*buf)[i] = c;
-    (*buf)[i + 1] = '\0';
-    free(tmp);
+	env = get_env_var(s, i, info);
+	j = 0;
+	if (!env)
+		add_buf(buf, '$');
+	while (env && env[j])
+		add_buf(buf, env[j++]);
+	if (env)
+		free(env);
 }
 
-void add_var(int *i, char *s, t_info *info, char **buf, int j)
+char	*handle_quotes(char *s, int *i, int *q)
 {
-    char *var;
-    char *env;
-
-    var = NULL;
-    env = NULL;
-    if (s[*i] && s[*i] == '?')
-    {
-        env = ft_itoa(info->exit_code);
-        (*i)++;
-    }
-    else if (s[*i] && !ft_isdigit(s[*i]))
-    {
-        while (ft_isalnum(s[*i]) || s[*i] == '_')
-            add_buf(&var, s[(*i)++]);
-        if (var)
-        {
-            env = ft_strdup(ft_getenv(info->my_envp, var));
-            free(var);
-        }
-    }
-    else 
-        add_buf(buf, '$');
-    while (env && env[j])
-            add_buf(buf, env[j++]);
-    if (env)
-        free(env);
+	while ((s[*i] == '\'' && *q != 2) || (s[*i] == '"' && *q != 1))
+	{
+		*q = q_mode(*q, s[*i]);
+		(*i)++;
+	}
+	return (s);
 }
 
-char    *deal_with_quotes(char *s, t_info *info)
+char	*deal_with_quotes(char *s, t_info *info)
 {
-    char *buf;
-    int i;
-    int q;
+	char	*buf;
+	int		i;
+	int		q;
 
-    buf = ft_strdup("");
-    q = 0;
-    i = 0;
-    while (s[i])
-    {
-        while ((s[i] == '\'' && q != 2) || (s[i] == '\"' && q != 1))
-        {
-            q = q_mode(q, s[i]);
-            i++;
-        }
-        if (s[i] && s[i] == '$' && q != 1)
-        {
+	buf = ft_strdup("");
+	q = 0;
+	i = 0;
+	while (s[i])
+	{
+		handle_quotes(s, &i, &q);
+		if (s[i] && s[i] == '$' && q != 1)
+		{
 			i++;
-			add_var(&i, s, info, &buf, 0);
+			add_var(&i, s, info, &buf);
 		}
-        else if (s[i])
-        {    
+		else if (s[i])
+		{
 			add_buf(&buf, s[i]);
-        	i++;
+			i++;
 		}
-    }
+	}
 	return (buf);
 }

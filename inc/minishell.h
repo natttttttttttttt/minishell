@@ -6,7 +6,7 @@
 /*   By: pibouill <pibouill@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 13:34:38 by pibouill          #+#    #+#             */
-/*   Updated: 2025/01/28 11:58:58 by pibouill         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:43:12 by pibouill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,12 +128,14 @@ int		ft_strncmp(char *str1, char *str2, size_t n);
 void	ft_strncpy(char *dest, const char *src, int size);
 //parsing
 char	*copy_word(char *str, int i, int start);
+int		q_mode(int q, char c);
 int		not_words(char *str, int i);
 void	handle_separator(char *str, int *i, t_token **lst, t_info *info);
 void	finalize_tokens(char *str, int *i, t_token **lst, t_info *info);
 void	save_word(t_token **lst, char *word, t_info *info);
 int		save_tokens(char *str, t_token **lst, t_info *info);
 char	*deal_with_quotes(char *s, t_info *info);
+void	add_buf(char **buf, char c);
 //exe
 void	ft_wait(pid_t pid, int status, t_info *info);
 int		set_redirs(t_cmd *cmd, t_info *info, int fd[2]);
@@ -153,6 +155,9 @@ t_cmd	*parse_tokens(t_token *tokens, t_info *info);
 void	add_cmd_arg(char ***arr, char *arg);
 void	cmd_to_path(t_cmd *cmd_lst, t_info *info);
 void	del_arg(char **args);
+void	handle_empty_args(t_cmd *cmd_lst);
+void	handle_path_checks(t_cmd *cmd_lst, t_info *info);
+
 //vars
 int		valid_var_name(char *s);
 char	*replace_env_vars(const char *txt, t_info info, int i, int start);
