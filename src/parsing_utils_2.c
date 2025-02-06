@@ -12,78 +12,67 @@
 
 #include "../inc/minishell.h"
 
-char	*get_env_var(char *s, int *i, t_info *info, char **buf)
+
+void do_env(char **env, char **buf)
 {
-	char	*var;
-	char	*env;
+	int	j;
 
-	var = NULL;
-	env = NULL;
-	if (s[*i] && s[*i] == '?')
-	{
-		env = ft_itoa(info->exit_code);
-		(*i)++;
-	}
-	else if (s[*i] && !ft_isdigit(s[*i]))
-	{
-		while (ft_isalnum(s[*i]) || s[*i] == '_')
-			add_buf(&var, s[(*i)++]);
-		if (var)
-		{
-			env = ft_strdup(ft_getenv(info->my_envp, var));
-			free(var);
-		}
-	}
-	else
-		add_buf(buf, '$');
-	return (env);
+	j = 0;
+	while (*env && (*env)[j])
+            add_buf(buf, (*env)[j++]);
+	if (*env)
+        free(*env);
 }
-
 void	add_var(int *i, char *s, t_info *info, char **buf)
 {
-	char	*env;
-	int		j;
+    char	*var;
+    char	*env;
 
-	env = get_env_var(s, i, info, buf);
-	j = 0;
-	while (env && env[j])
-		add_buf(buf, env[j++]);
-	if (env)
-		free(env);
+    var = NULL;
+    env = NULL;
+    if (s[*i] && s[*i] == '?')
+    {
+        env = ft_itoa(info->exit_code);
+        (*i)++;
+    }
+    else if (s[*i] && (ft_isalnum(s[*i]) || s[*i] == '_') && !ft_isdigit(s[*i]))
+    {
+		while (ft_isalnum(s[*i]) || s[*i] == '_')
+            add_buf(&var, s[(*i)++]);
+        if (var)
+        {
+            env = ft_strdup(ft_getenv(info->my_envp, var));
+            free(var);
+        }
+    }
+    else 
+        add_buf(buf, '$');
+    do_env(&env, buf);
 }
 
-char	*handle_quotes(char *s, int *i, int *q)
+char    *deal_with_quotes(char *s, t_info *info)
 {
-	while ((s[*i] == '\'' && *q != 2) || (s[*i] == '\"' && *q != 1))
-	{
-		*q = q_mode(*q, s[*i]);
-		(*i)++;
-	}
-	return (s);
-}
+    char	*buf;
+    int		i;
+    int		q;
 
-char	*deal_with_quotes(char *s, t_info *info)
-{
-	char	*buf;
-	int		i;
-	int		q;
-
-	buf = ft_strdup("");
-	q = 0;
-	i = 0;
-	while (s[i])
-	{
-		handle_quotes(s, &i, &q);
-		if (s[i] && s[i] == '$' && q != 1)
-		{
-			i++;
+    buf = ft_strdup("");
+    q = 0;
+    i = 0;
+    while (s[i])
+    {
+        while ((s[i] == '\'' && q != 2) || (s[i] == '"' && q != 1))
+            q = q_mode(q, s[i++]);
+        if (s[i] && s[i] == '$' && q != 1)
+        {
+			i++; 
 			add_var(&i, s, info, &buf);
 		}
-		else if (s[i])
-		{
+        else if (s[i])
+        {    
 			add_buf(&buf, s[i]);
-			i++;
+        	i++;
 		}
-	}
+    }
 	return (buf);
 }
