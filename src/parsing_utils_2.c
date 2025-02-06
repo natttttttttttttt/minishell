@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-char	*get_env_var(char *s, int *i, t_info *info)
+char	*get_env_var(char *s, int *i, t_info *info, char **buf)
 {
 	char	*var;
 	char	*env;
@@ -34,6 +34,8 @@ char	*get_env_var(char *s, int *i, t_info *info)
 			free(var);
 		}
 	}
+	else
+		add_buf(buf, '$');
 	return (env);
 }
 
@@ -42,10 +44,8 @@ void	add_var(int *i, char *s, t_info *info, char **buf)
 	char	*env;
 	int		j;
 
-	env = get_env_var(s, i, info);
+	env = get_env_var(s, i, info, buf);
 	j = 0;
-	if (!env)
-		add_buf(buf, '$');
 	while (env && env[j])
 		add_buf(buf, env[j++]);
 	if (env)

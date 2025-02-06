@@ -31,11 +31,11 @@ static void	do_close_dir(DIR *dir, t_cmd *cmd_lst, t_info *info)
 	cmd_lst->args[0] = ft_strdup("");
 }
 
-static void	handle_directory_case(DIR *dir, t_cmd *cmd_lst, t_info *info)
-{
-	if (dir != NULL)
-		do_close_dir(dir, cmd_lst, info);
-}
+// static void	handle_directory_case(DIR *dir, t_cmd *cmd_lst, t_info *info)
+// {
+// 	if (dir != NULL)
+// 		do_close_dir(dir, cmd_lst, info);
+// }
 
 static void	not_possible(t_info *info, t_cmd *cmd_lst)
 {
@@ -58,11 +58,10 @@ static void	process_command(t_cmd *cmd_lst, t_info *info)
 		if ((ft_strchr(cmd_lst->args[0], '/'))
 			&& (errno == ENOENT || errno == EACCES))
 			not_possible(info, cmd_lst);
+		else if (dir != NULL)
+			do_close_dir(dir, cmd_lst, info);
 		else
-		{
-			handle_directory_case(dir, cmd_lst, info);
 			handle_path_checks(cmd_lst, info);
-		}
 	}
 }
 

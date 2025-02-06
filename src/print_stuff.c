@@ -24,7 +24,6 @@
 // 	printf("\n");
 // }
 
-// Function to print the contents of a t_cmd structure
 // void	print_command(t_cmd *cmd)
 // {
 // 	if (cmd == NULL)
