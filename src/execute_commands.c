@@ -17,6 +17,7 @@ void	fork_it(t_cmd *cmd, t_info *info,
 	t_exec_info *exe_info, struct sigaction sa)
 {
 	exe_info->pid = fork();
+	(void)sa;
 	if (exe_info->pid == -1)
 	{
 		perror("fork");
@@ -27,12 +28,17 @@ void	fork_it(t_cmd *cmd, t_info *info,
 			close(exe_info->fd[1]);
 		return ;
 	}
-	signal(SIGINT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, SIG_IGN);
 	if (exe_info->pid == 0)
 	{
-		sa.sa_flags = SA_RESTART;
-		sigemptyset(&sa.sa_mask);
-		sigaction(SIGINT, &sa, NULL);
+		// sa.sa_flags = 0;
+		// sigemptyset(&sa.sa_mask);
+		// sa.sa_handler = SIG_DFL;
+		// sigaction(SIGINT, &sa, NULL);
+		// sigaction(SIGQUIT, &sa, NULL);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		prepare_exe(cmd, info->status, info, exe_info->fd);
 		ft_execve(cmd, info, exe_info->pipe_fd);
 	}
@@ -75,11 +81,13 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 	exe_info.pid = -1;
 	exe_info.fd[0] = 0;
 	sa.sa_handler = SIG_DFL;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	while (cmd != NULL)
 	{
 		do_exe(&exe_info, cmd, info, sa);
 		cmd = cmd->next;
 	}
 	ft_wait(exe_info.pid, info->status, info);
-	signal(SIGINT, ft_signal_handler);
+	setup_signals();
 }

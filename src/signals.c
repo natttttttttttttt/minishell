@@ -14,33 +14,31 @@
 
 extern int	g_sigflag;
 
-void	setup_signals(void)
+void ft_signal_handler(int signal)
 {
-	struct sigaction	sa;
+    g_sigflag = signal;
+    if (signal == SIGINT)
+    {
+        write(1, "\n", 1);
+        rl_replace_line("", 0);
+        rl_on_new_line();
+        rl_redisplay();
+    }
+}
 
+void setup_signals(void)
+{
+    struct sigaction sa;
+
+    // sa.sa_handler = sigquit_handler;
+    sa.sa_flags = 0;
+    sigemptyset(&sa.sa_mask);
 	sa.sa_handler = ft_signal_handler;
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGINT, &sa, NULL);
-	signal(SIGINT, ft_signal_handler);
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+	{
+		perror("error setting sigquit_handler");
+		exit(EXIT_FAILURE);
+	}
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
-}
-
-void	sig_handl_child(int signal)
-{
-	if (signal == SIGINT)
-		exit(130);
-}
-
-void	ft_signal_handler(int signal)
-{
-	g_sigflag = signal;
-	if (signal == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
 }
