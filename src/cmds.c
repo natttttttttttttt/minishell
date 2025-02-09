@@ -16,7 +16,8 @@ void	syntax_error(int check, t_info *info)
 {
 	if (check)
 	{
-		printf("syntax error near unexpected token\n");
+		if (info->err == 0)
+			printf("syntax error near unexpected token\n");
 		info->exit_code = 2;
 		info->err = 1;
 	}
