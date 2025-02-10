@@ -20,7 +20,7 @@ void	sig_handl_child(int signal);
 int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 {
 	if (is_builtin(cmd) == BUILTIN_PWD)
-		return (pwd_builtin());
+		return (pwd_builtin(fd_out));
 	else if (is_builtin(cmd) == BUILTIN_CD)
 		return (cd_builtin(cmd->args, info));
 	else if (is_builtin(cmd) == BUILTIN_EXIT)

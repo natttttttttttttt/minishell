@@ -173,7 +173,7 @@ int		echo_builtin(char **args, int fd_out);
 int		env_builtin(char **my_env, int fd_out);
 void	exit_builtin(char **args, t_info *info);
 int		export_builtin(char **args, t_info *info, int i);
-int		pwd_builtin(void);
+int		pwd_builtin(int fd_out);
 int		unset_builtin(char **args, t_info *info, int i, int j);
 void	handle_not_builtin(t_cmd *cmd_lst, t_info *info);
 char	*get_cmd(t_info *info, char *cmd);

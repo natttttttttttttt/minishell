@@ -63,7 +63,6 @@ void	do_exe(t_exec_info *exe_info, t_cmd *cmd, t_info *info, struct sigaction
 		close(exe_info->pipe_fd[1]);
 		exe_info->fd[0] = exe_info->pipe_fd[0];
 	}
-	// cmd = cmd->next;
 }
 
 void	execute_commands(t_cmd *cmd, t_info *info)

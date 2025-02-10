@@ -48,20 +48,6 @@ int	cd_to_oldpwd(t_info *info)
 	return (0);
 }
 
-// https://shorturl.at/zINwb
-void	update_pwd_env(char *oldpwd, char *newpwd, char ***envp)
-{
-	if (!ft_getenv(*envp, "OLDPWD"))
-		update_env("OLDPWD", oldpwd, envp);
-	else
-		update_env("OLDPWD", oldpwd, envp);
-	update_env("PWD", newpwd, envp);
-	// maybe just: 
-	// update_env("PWD", newpwd, envp);
-	// update_env("OLDPWD", oldpwd, envp);
-	// ?
-}
-
 int	cd_builtin(char **args, t_info *info)
 {
 	char	oldpwd[PATH_MAX];
@@ -79,6 +65,7 @@ int	cd_builtin(char **args, t_info *info)
 		return (perror("cd"), 1);
 	if (getcwd(newpwd, PATH_MAX) == NULL)
 		return (perror("getcwd"), 1);
-	update_pwd_env(oldpwd, newpwd, &info->my_envp);
+	update_env("PWD", newpwd, &info->my_envp);
+	update_env("OLDPWD", oldpwd, &info->my_envp);
 	return (0);
 }

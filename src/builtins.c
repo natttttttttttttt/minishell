@@ -14,13 +14,14 @@
 #include <stdio.h>
 #include <errno.h>
 
-int	pwd_builtin(void)
+int	pwd_builtin(int fd_out)
 {
 	char	cwd[PATH_MAX];
 
 	if (getcwd(cwd, sizeof(cwd)))
 	{
-		printf("%s\n", cwd);
+		write(fd_out, cwd, ft_strlen(cwd));
+		write(fd_out, "\n", 1);
 		return (0);
 	}
 	else

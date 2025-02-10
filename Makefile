@@ -115,7 +115,10 @@ minish: all
 val:
 	@make
 	@rm -rf leaks.log
+	@echo "$(PREFIX)Deleting leaks.log..."
+	@echo "$(PREFIX)Running valgrind..."
 	@valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=no_readline.supp --show-leak-kinds=all --log-file="leaks.log" ./minishell
+	@echo "$(PREFIX)Valgrind done. Check leaks.log for more information."
 
 test:
 	@make re && cd minishell_tester && ./tester && cd ..
