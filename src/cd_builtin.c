@@ -56,6 +56,10 @@ void	update_pwd_env(char *oldpwd, char *newpwd, char ***envp)
 	else
 		update_env("OLDPWD", oldpwd, envp);
 	update_env("PWD", newpwd, envp);
+	// maybe just: 
+	// update_env("PWD", newpwd, envp);
+	// update_env("OLDPWD", oldpwd, envp);
+	// ?
 }
 
 int	cd_builtin(char **args, t_info *info)
