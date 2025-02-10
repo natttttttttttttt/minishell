@@ -28,15 +28,8 @@ void	fork_it(t_cmd *cmd, t_info *info,
 			close(exe_info->fd[1]);
 		return ;
 	}
-	// signal(SIGQUIT, SIG_IGN);
-	// signal(SIGINT, SIG_IGN);
 	if (exe_info->pid == 0)
 	{
-		// sa.sa_flags = 0;
-		// sigemptyset(&sa.sa_mask);
-		// sa.sa_handler = SIG_DFL;
-		// sigaction(SIGINT, &sa, NULL);
-		// sigaction(SIGQUIT, &sa, NULL);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		prepare_exe(cmd, info->status, info, exe_info->fd);
@@ -70,7 +63,7 @@ void	do_exe(t_exec_info *exe_info, t_cmd *cmd, t_info *info, struct sigaction
 		close(exe_info->pipe_fd[1]);
 		exe_info->fd[0] = exe_info->pipe_fd[0];
 	}
-	cmd = cmd->next;
+	// cmd = cmd->next;
 }
 
 void	execute_commands(t_cmd *cmd, t_info *info)

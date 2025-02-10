@@ -20,12 +20,11 @@ LIB_DIR			:=	lib
 LIBFT_DIR		:=	libft
 LIBFT_INC		:=	-I ./libft/inc/
 BIN_DIR			:=	bin
-# LDFLAGS			:=	-lreadline -lncurses  
-# Thats the path to the readline library on OSX
-# will remove later
 READINC			:= -I /opt/homebrew/opt/readline/include
 LDFLAGS			:=	-lreadline -lncurses -L /opt/homebrew/opt/readline/lib
 LIBFT_CUT		:= $(shell echo $(LIBFT_DIR) | cut -c 4-)
+STATIC_ANALYZER	:=	scan-build --use-cc=clang -enable-checker alpha.core
+CLANG_TIDY		:=	clang-tidy --checks=clang-analyzer*,portability.* --warnings-as-errors=* --header-filter=.*
 
 ################################################################################
 ## COLORS
@@ -121,7 +120,19 @@ val:
 test:
 	@make re && cd minishell_tester && ./tester && cd ..
 
+analyze:
+	$(STATIC_ANALYZER) make
+	$(CLAING_TIDY) $(SRC) -- -Iinc -Ilibft/inc
+
+# static code analysis
+scan:
+	$(STATIC_ANALYZER) make
+
+# code quality check
+tidy:
+	$(CLANG_TIDY) $(SRC) -- -Iinc -Ilibft/inc
+
 ################################################################################
 ## PHONY
 
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re test analyze scan tidy

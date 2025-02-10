@@ -38,20 +38,21 @@ int	q_mode(int q, char c)
 void	add_buf(char **buf, char c)
 {
 	char	*tmp;
-	int		i;
+	int		len;
 
 	if (!buf)
-		*buf = ft_strdup("\0");
-	tmp = ft_strdup(*buf);
-	i = 0;
+		return ;
+	if (!*buf)
+		*buf = ft_strdup("");
+	if (!*buf)
+		return ;
+	len = ft_strlen(*buf);
+	tmp = malloc(len + 2);
+	if (!tmp)
+		return ;
+	ft_strlcpy(tmp, *buf, len + 1);
+	tmp[len] = c;
+	tmp[len + 1] = '\0';
 	free(*buf);
-	*buf = malloc(ft_strlen(tmp) + 2);
-	while (i < ft_strlen(tmp))
-	{
-		(*buf)[i] = tmp[i];
-		i++;
-	}
-	(*buf)[i] = c;
-	(*buf)[i + 1] = '\0';
-	free(tmp);
+	*buf = tmp;
 }

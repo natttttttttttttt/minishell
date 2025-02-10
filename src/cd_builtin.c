@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+#include <linux/limits.h>
 
 char	*change_dir(char **args, t_info *info)
 {
@@ -47,6 +48,7 @@ int	cd_to_oldpwd(t_info *info)
 	return (0);
 }
 
+// https://shorturl.at/zINwb
 void	update_pwd_env(char *oldpwd, char *newpwd, char ***envp)
 {
 	if (!ft_getenv(*envp, "OLDPWD"))
@@ -58,8 +60,8 @@ void	update_pwd_env(char *oldpwd, char *newpwd, char ***envp)
 
 int	cd_builtin(char **args, t_info *info)
 {
-	char	*oldpwd;
-	char	*newpwd;
+	char	oldpwd[PATH_MAX];
+	char	newpwd[PATH_MAX];
 	char	*dir;
 
 	dir = change_dir(args, info);
@@ -67,12 +69,12 @@ int	cd_builtin(char **args, t_info *info)
 		return (1);
 	if (*dir == '-')
 		return (cd_to_oldpwd(info));
-	oldpwd = getcwd(NULL, 0);
+	if (getcwd(oldpwd, PATH_MAX) == NULL)
+		return (perror("getcwd"), 1);
 	if (chdir(dir) != 0)
-		return (free(oldpwd), perror("cd"), 1);
-	newpwd = getcwd(NULL, 0);
-	if (!newpwd)
-		return (free(oldpwd), perror("getcwd"), 1);
+		return (perror("cd"), 1);
+	if (getcwd(newpwd, PATH_MAX) == NULL)
+		return (perror("getcwd"), 1);
 	update_pwd_env(oldpwd, newpwd, &info->my_envp);
-	return (free(oldpwd), free(newpwd), 0);
+	return (0);
 }

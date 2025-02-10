@@ -12,12 +12,20 @@
 
 #include "../inc/minishell.h"
 
+void	*safe_return(void *ptr)
+{
+	if (ptr == NULL)
+		perror("malloc");
+	return (ptr);
+}
+
 char	*create_env_string(char *var, char *value)
 {
 	char	*s;
 	int		i;
 
-	s = malloc(sizeof(char) * (ft_strlen(var) + ft_strlen(value) + 2));
+	s = safe_return(malloc(sizeof(char)
+				* (ft_strlen(var) + ft_strlen(value) + 2)));
 	if (!s)
 		return (NULL);
 	i = 0;
@@ -76,10 +84,10 @@ void	update_env(char *var, char *value, char ***my_envp)
 	else
 	{
 		new_envp = create_new_envp(*my_envp, s);
+		free(s);
 		if (!new_envp)
 			return ((void)perror("malloc"));
 		free(*my_envp);
 		*my_envp = new_envp;
-		free(s);
 	}
 }
