@@ -16,9 +16,10 @@ int	g_sigflag = 0;
 
 static void	info_init(t_info *info, char **envp)
 {
+	g_sigflag = 0;
 	info->input = NULL;
 	info->my_envp = copy_envp(envp);
-	info->env_path = NULL; 
+	info->env_path = NULL;
 	info->paths = NULL;
 	info->exit_code = 0;
 	info->err = 0;
@@ -70,7 +71,6 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	g_sigflag = 0;
 	token_lst = NULL;
 	info_init(&info, envp);
 	setup_signals();

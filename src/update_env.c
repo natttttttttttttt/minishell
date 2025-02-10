@@ -25,7 +25,7 @@ char	*create_env_string(char *var, char *value)
 	int		i;
 
 	s = malloc(sizeof(char)
-				* (ft_strlen(var) + ft_strlen(value) + 2));
+			* (ft_strlen(var) + ft_strlen(value) + 2));
 	if (!s)
 		return (NULL);
 	i = 0;

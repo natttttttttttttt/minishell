@@ -12,41 +12,6 @@
 
 #include "../inc/minishell.h"
 
-// create helper function that does what the while loop does in get_cmd
-// char	*get_cmd(t_info *info, char *cmd)
-// {
-// 	char	*try;
-// 	char	*tmp;
-// 	int		i;
-//
-// 	i = 0;
-// 	while (info->paths[i])
-// 	{
-// 		tmp = ft_strjoin(info->paths[i], "/");
-// 		if (!tmp)
-// 			return (perror("Alloc failed for tmp"), ft_strdup(""));
-// 		try = ft_strjoin(tmp, cmd);
-// 		if (!try)
-// 			return (perror("Alloc failed for try"), ft_strdup(""));
-// 		if (access(try, X_OK) == 0)
-// 			return (free(tmp), try);
-// 		free(try);
-// 		free(tmp);
-// 		i++;
-// 	}
-// 	if (!ft_strncmp("./", cmd, 2) && access(cmd, X_OK) != 0)
-// 	{
-// 		perror(cmd);
-// 		info->exit_code = 126;
-// 	}
-// 	else
-// 	{
-// 		printf("%s: command not found\n", cmd);
-// 		info->exit_code = 127;
-// 	}
-// 	return (ft_strdup(""));
-// }
-
 char	*join_path_and_cmd(char *path, char *cmd)
 {
 	char	*tmp;
@@ -98,7 +63,7 @@ char	*get_cmd(t_info *info, char *cmd)
 		free_arr(info->paths);
 	info->env_path = ft_getenv(info->my_envp, "PATH");
 	if (!info->env_path)
-		return(handle_command_error(info, cmd), ft_strdup(""));
+		return (handle_command_error(info, cmd), ft_strdup(""));
 	info->paths = ft_split(info->env_path, ':');
 	while (info->paths && info->paths[i])
 	{
