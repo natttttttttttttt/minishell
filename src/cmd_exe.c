@@ -17,14 +17,14 @@
 
 void	sig_handl_child(int signal);
 
-int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
+int	run_builtin(t_cmd *cmd, t_info *info, int fd_out, t_exec_info exe_info)
 {
 	if (is_builtin(cmd) == BUILTIN_PWD)
 		return (pwd_builtin(fd_out));
 	else if (is_builtin(cmd) == BUILTIN_CD)
 		return (cd_builtin(cmd->args, info));
 	else if (is_builtin(cmd) == BUILTIN_EXIT)
-		exit_builtin(cmd->args, info);
+		exit_builtin(cmd->args, info, exe_info);
 	else if (is_builtin(cmd) == BUILTIN_ENV)
 		return (env_builtin(info->my_envp, fd_out), fd_out);
 	else if (is_builtin(cmd) == BUILTIN_EXPORT)
@@ -42,7 +42,7 @@ void	ft_execve(t_cmd *cmd, t_info *info, t_exec_info exe_info)
 		close(exe_info.pipe_fd[0]);
 	if (is_builtin(cmd))
 	{
-		info->exit_code = run_builtin(cmd, info, 1);
+		info->exit_code = run_builtin(cmd, info, 1, exe_info);
 		free_before_exit(info, exe_info);
 		exit(info->exit_code);
 	}

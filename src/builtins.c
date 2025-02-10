@@ -31,7 +31,7 @@ int	pwd_builtin(int fd_out)
 	}
 }
 
-void	exit_builtin(char **args, t_info *info)
+void	exit_builtin(char **args, t_info *info, t_exec_info exe_info)
 {
 	int	code;
 
@@ -41,7 +41,7 @@ void	exit_builtin(char **args, t_info *info)
 		if (args[2] != NULL)
 		{
 			printf("exit: too many arguments\n");
-			free_before_exit(info);
+			free_before_exit(info, exe_info);
 			exit (1);
 		}
 		if (all_digits(args[1]))
@@ -49,12 +49,12 @@ void	exit_builtin(char **args, t_info *info)
 		else
 		{
 			printf("exit\nexit: %s: numeric argument required\n", args[1]);
-			free_before_exit(info);
+			free_before_exit(info, exe_info);
 			exit (2);
 		}
 	}
 	printf("exit\n");
-	free_before_exit(info);
+	free_before_exit(info, exe_info);
 	exit(code);
 }
 

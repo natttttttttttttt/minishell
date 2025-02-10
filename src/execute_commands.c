@@ -48,7 +48,8 @@ void	do_exe(t_exec_info *exe_info, t_cmd *cmd, t_info *info, struct sigaction
 	if (is_builtin(cmd) && cmd->next == NULL && cmd->prev == NULL)
 	{
 		if (info->status != -1)
-			info->exit_code = run_builtin(cmd, info, exe_info->fd[1]);
+			info->exit_code = run_builtin(cmd, info, exe_info->fd[1],
+					*exe_info);
 	}
 	else
 		fork_it(cmd, info, exe_info, sa);

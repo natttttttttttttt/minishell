@@ -166,11 +166,11 @@ char	*append_substring(char *s, const char *txt, int start, int end);
 void	vars_to_value(t_token *lst, t_info info);
 //builtins
 int		is_builtin(t_cmd *cmd);
-int		run_builtin(t_cmd *cmd, t_info *info, int fd_out);
+int		run_builtin(t_cmd *cmd, t_info *info, int fd_out, t_exec_info exe_info);
 int		cd_builtin(char **args, t_info *info);
 int		echo_builtin(char **args, int fd_out);
 int		env_builtin(char **my_env, int fd_out);
-void	exit_builtin(char **args, t_info *info);
+void	exit_builtin(char **args, t_info *info, t_exec_info exe_info);
 int		export_builtin(char **args, t_info *info, int i);
 int		pwd_builtin(int fd_out);
 int		unset_builtin(char **args, t_info *info, int i, int j);
