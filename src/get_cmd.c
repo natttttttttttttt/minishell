@@ -94,7 +94,13 @@ char	*get_cmd(t_info *info, char *cmd)
 	int		i;
 
 	i = 0;
-	while (info->paths[i])
+	if (info->paths)
+		free_arr(info->paths);
+	info->env_path = ft_getenv(info->my_envp, "PATH");
+	if (!info->env_path)
+		return(handle_command_error(info, cmd), ft_strdup(""));
+	info->paths = ft_split(info->env_path, ':');
+	while (info->paths && info->paths[i])
 	{
 		try = join_path_and_cmd(info->paths[i], cmd);
 		if (!try)

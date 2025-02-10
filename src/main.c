@@ -18,8 +18,8 @@ static void	info_init(t_info *info, char **envp)
 {
 	info->input = NULL;
 	info->my_envp = copy_envp(envp);
-	info->env_path = getenv("PATH");
-	info->paths = ft_split(info->env_path, ':');
+	info->env_path = NULL; 
+	info->paths = NULL;
 	info->exit_code = 0;
 	info->err = 0;
 	info->tokens = NULL;
@@ -85,7 +85,9 @@ int	main(int argc, char **argv, char **envp)
 			parse_and_exe(&info, cmd_lst, token_lst);
 		}
 	}
-	free_arr(info.paths);
-	free_arr(info.my_envp);
+	if (info.paths)
+		free_arr(info.paths);
+	if (info.my_envp)
+		free_arr(info.my_envp);
 	return (0);
 }

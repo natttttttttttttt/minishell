@@ -43,6 +43,8 @@ char	**create_filtered_env(char **old_env, char **args,
 	{
 		if (!should_remove_var(old_env[i], args))
 			new_env[j++] = old_env[i];
+		else
+			free(old_env[i]);
 		i++;
 	}
 	new_env[j] = NULL;

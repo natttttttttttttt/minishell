@@ -66,7 +66,8 @@ void	free_arr(char **arr)
 	{
 		while (arr && arr[i])
 		{
-			free(arr[i]);
+			if (arr[i])
+				free(arr[i]);
 			i++;
 		}
 		free(arr);
