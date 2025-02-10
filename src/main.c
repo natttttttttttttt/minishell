@@ -25,7 +25,6 @@ static void	info_init(t_info *info, char **envp)
 	info->tokens = NULL;
 	info->cmds = NULL;
 	info->status = 0;
-	info->i = 0;
 }
 
 static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
@@ -34,13 +33,11 @@ static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 	if (save_tokens(info->input, &token_lst, info))
 	{
 		info->tokens = token_lst;
-		//print_list(token_lst);
 		cmd_lst = parse_tokens(token_lst, info);
 		info->cmds = cmd_lst;
 		if (cmd_lst)
 		{
 			cmd_to_path(cmd_lst, info);
-		//	print_command(cmd_lst);
 			execute_commands(cmd_lst, info);
 			free_command_list(&cmd_lst);
 		}

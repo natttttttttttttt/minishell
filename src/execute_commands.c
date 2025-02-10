@@ -32,8 +32,8 @@ void	fork_it(t_cmd *cmd, t_info *info,
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		prepare_exe(cmd, info->status, info, exe_info->fd);
-		ft_execve(cmd, info, exe_info->pipe_fd);
+		prepare_exe(cmd, info->status, info, *exe_info);
+		ft_execve(cmd, info, *exe_info);
 	}
 }
 
@@ -41,11 +41,9 @@ void	do_exe(t_exec_info *exe_info, t_cmd *cmd, t_info *info, struct sigaction
 		sa)
 {
 	exe_info->fd[1] = 1;
-	info->i = 0;
 	info->status = 0;
 	set_redirs(cmd, info, exe_info->fd);
-	info->i = exe_pipe(exe_info->pipe_fd, exe_info->fd, cmd);
-	if (info->i)
+	if (exe_pipe(exe_info->pipe_fd, exe_info->fd, cmd))
 		return ;
 	if (is_builtin(cmd) && cmd->next == NULL && cmd->prev == NULL)
 	{
@@ -72,6 +70,8 @@ void	execute_commands(t_cmd *cmd, t_info *info)
 
 	exe_info.pid = -1;
 	exe_info.fd[0] = 0;
+	exe_info.pipe_fd[0] = 0;
+	exe_info.pipe_fd[1] = 0;
 	sa.sa_handler = SIG_DFL;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);

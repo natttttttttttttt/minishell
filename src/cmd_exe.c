@@ -36,47 +36,47 @@ int	run_builtin(t_cmd *cmd, t_info *info, int fd_out)
 	return (0);
 }
 
-void	ft_execve(t_cmd *cmd, t_info *info, int pipe_fd[2])
+void	ft_execve(t_cmd *cmd, t_info *info, t_exec_info exe_info)
 {
 	if (cmd->next)
-		close(pipe_fd[0]);
+		close(exe_info.pipe_fd[0]);
 	if (is_builtin(cmd))
 	{
 		info->exit_code = run_builtin(cmd, info, 1);
-		free_before_exit(info);
+		free_before_exit(info, exe_info);
 		exit(info->exit_code);
 	}
 	else
 	{
 		execve(cmd->args[0], cmd->args, info->my_envp);
 		perror("execve");
-		free_before_exit(info);
+		free_before_exit(info, exe_info);
 		exit(errno);
 	}
 }
 
-void	prepare_exe(t_cmd *cmd, int status, t_info *info, int fd[2])
+void	prepare_exe(t_cmd *cmd, int status, t_info *info, t_exec_info exe_info)
 {
 	if (!cmd->args || cmd->args[0][0] == '\0' || status == -1)
 	{
-		free_before_exit(info);
+		free_before_exit(info, exe_info);
 		exit(info->exit_code);
 	}
-	if (fd[0] > 0)
+	if (exe_info.fd[0] > 0)
 	{
-		if (dup2(fd[0], 0) == -1)
+		if (dup2(exe_info.fd[0], 0) == -1)
 		{
 			perror("dup2");
-			free_before_exit(info);
+			free_before_exit(info, exe_info);
 			exit(errno);
 		}
 	}
-	if (fd[1] > 1)
+	if (exe_info.fd[1] > 1)
 	{
-		if (dup2(fd[1], 1) == -1)
+		if (dup2(exe_info.fd[1], 1) == -1)
 		{
 			perror("dup2");
-			free_before_exit(info);
+			free_before_exit(info, exe_info);
 			exit (errno);
 		}
 	}

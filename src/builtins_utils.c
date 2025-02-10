@@ -52,8 +52,16 @@ int	valid_var_name(char *s)
 	return (1);
 }
 
-void	free_before_exit(t_info *info)
+void	free_before_exit(t_info *info, t_exec_info exe_info)
 {
+	if (exe_info.fd[0] > 0)
+		close(exe_info.fd[0]);
+	if (exe_info.fd[1] > 1)
+		close(exe_info.fd[1]);
+	if (exe_info.pipe_fd[0] > 0)
+		close(exe_info.pipe_fd[0]);
+	if (exe_info.pipe_fd[1] > 0)
+		close(exe_info.pipe_fd[1]);
 	free_command_list(&info->cmds);
 	free_token_lst(info->tokens);
 	free(info->input);

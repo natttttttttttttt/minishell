@@ -97,7 +97,6 @@ typedef struct s_info
 	t_token	*tokens;
 	t_cmd	*cmds;
 	int		status;
-	int		i;
 }			t_info;
 
 typedef struct s_exec_info
@@ -144,8 +143,8 @@ void	exe_heredoc(char **str, t_info *info, int *fd_in, int *status);
 void	exe_output(int *fd_out, char *str, int *exit_code, int *status);
 void	exe_append(int *fd_out, char *str, int *exit_code, int *status);
 int		exe_pipe(int pipe_fd[2], int fd[2], t_cmd *cmd);
-void	prepare_exe(t_cmd *cmd, int status, t_info *info, int fd[2]);
-void	ft_execve(t_cmd *cmd, t_info *info, int pipe_fd[2]);
+void	prepare_exe(t_cmd *cmd, int status, t_info *info, t_exec_info exe_info);
+void	ft_execve(t_cmd *cmd, t_info *info, t_exec_info exe_info);
 void	execute_commands(t_cmd *cmd, t_info *info);
 //cmds
 void	fix_order(char **s, int *i);
@@ -181,7 +180,7 @@ char	*get_cmd(t_info *info, char *cmd);
 void	free_arr(char **arr);
 void	free_command_list(t_cmd **head);
 void	free_token_lst(t_token *head);
-void	free_before_exit(t_info *info);
+void	free_before_exit(t_info *info, t_exec_info exe_info);
 void	free_order(t_order *order);
 //envp
 char	**copy_envp(char **envp);
