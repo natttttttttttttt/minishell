@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+#define PROMPT "\033[0;35mminishell\033[1;36m> \033[0m"
 
 int	g_sigflag = 0;
 
@@ -26,6 +27,14 @@ static void	info_init(t_info *info, char **envp)
 	info->tokens = NULL;
 	info->cmds = NULL;
 	info->status = 0;
+}
+
+static void	cleanup_info(t_info *info)
+{
+	if (info->paths)
+		free_arr(info->paths);
+	if (info->my_envp)
+		free_arr(info->my_envp);
 }
 
 static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
@@ -72,22 +81,22 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	token_lst = NULL;
+	cmd_lst = NULL;
 	info_init(&info, envp);
 	setup_signals();
 	while (1)
 	{
-		info.input = readline("\033[0;35mminishell\033[1;36m> \033[0m");
+		info.input = readline(PROMPT);
+		if (!info.input)
+		{
+			write(1, "exit\n", 5);
+			break ;
+		}
 		if (1 == flag_and_input_check(&info))
 			break ;
-		else if (parsing_ok(info.input))
-		{
-			cmd_lst = NULL;
+		if (parsing_ok(info.input))
 			parse_and_exe(&info, cmd_lst, token_lst);
-		}
 	}
-	if (info.paths)
-		free_arr(info.paths);
-	if (info.my_envp)
-		free_arr(info.my_envp);
+	cleanup_info(&info);
 	return (0);
 }
