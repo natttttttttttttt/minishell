@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+#define PROMPT "\033[0;35mminishell\033[1;36m> \033[0m"
 
 int	g_sigflag = 0;
 
@@ -76,7 +77,12 @@ int	main(int argc, char **argv, char **envp)
 	setup_signals();
 	while (1)
 	{
-		info.input = readline("\033[0;35mminishell\033[1;36m> \033[0m");
+		info.input = readline(PROMPT);
+		if (!info.input)
+		{
+			write(1, "exit\n", 5);
+			break ;
+		}
 		if (1 == flag_and_input_check(&info))
 			break ;
 		else if (parsing_ok(info.input))
