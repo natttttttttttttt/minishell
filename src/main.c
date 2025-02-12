@@ -29,6 +29,14 @@ static void	info_init(t_info *info, char **envp)
 	info->status = 0;
 }
 
+static void	cleanup_info(t_info *info)
+{
+	if (info->paths)
+		free_arr(info->paths);
+	if (info->my_envp)
+		free_arr(info->my_envp);
+}
+
 static void	parse_and_exe(t_info *info, t_cmd *cmd_lst, t_token *token_lst)
 {
 	add_history(info->input);
@@ -73,6 +81,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	token_lst = NULL;
+	cmd_lst = NULL;
 	info_init(&info, envp);
 	setup_signals();
 	while (1)
@@ -85,15 +94,9 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (1 == flag_and_input_check(&info))
 			break ;
-		else if (parsing_ok(info.input))
-		{
-			cmd_lst = NULL;
+		if (parsing_ok(info.input))
 			parse_and_exe(&info, cmd_lst, token_lst);
-		}
 	}
-	if (info.paths)
-		free_arr(info.paths);
-	if (info.my_envp)
-		free_arr(info.my_envp);
+	cleanup_info(&info);
 	return (0);
 }
